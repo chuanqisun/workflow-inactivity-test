@@ -1,0 +1,46 @@
+name: Build site on schedule or main branch update
+
+on:
+  push:
+    branches:
+      - main
+
+  schedule:
+    # Adjust refresh schedule here. By default, it runs once per day.
+    # Syntax reference: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
+    # Recommended tool: https://crontab.guru/
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+    # Do not run inside the starter kit template
+    if: ${{ github.repository != 'osmoscraft/osmosfeed-starter-kit' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      # Create github page on first run. Additional runs have no effect
+      - name: ensure GitNub Pages
+        run: |
+          curl --location --request POST 'https://api.github.com/repos/${{ github.repository }}/pages' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --header 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{"source":{"branch":"main","path":"/docs"}}'
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - run: npm install
+      - run: npm list --depth=3
+      - run: npm run build
+        env:
+          # The token allows build script to read repo metadata via github API
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: commit build output
+        if: success()
+        run: |
+          git config --global user.email "no-reply@osmosfeed.org"
+          git config --global user.name "osmosfeed bot"
+          git add -A
+          git commit -m "Workflow update"
+          git push
