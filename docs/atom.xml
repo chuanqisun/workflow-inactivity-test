@@ -4,10 +4,188 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-06-28T02:01:04.141Z</updated>
+   <updated>2022-06-29T02:05:17.576Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.13">osmosfeed</generator>
  
+     <entry>
+       <title>Help Shape the Future of CSS-Tricks!</title>
+         <link href="https://css-tricks.com/help-shape-the-future-of-css-tricks/"/>
+       <updated>2022-06-28T19:52:48.000Z</updated>
+       <content type="text">Hey, so it’s been a minute since we announced that CSS-Tricks is now part of the DigitalOcean family. Things are pretty much business as usual and hopefully it feels that way to you, too. Now that we’re getting settled, we’re eager to start poking at the future of this site.
+ 
+ 
+ 
+ What sort of things are we poking at? Well, that’s where you come in. You see, there’s no shortage of ideas for CSS-Tricks, but we only want to work on things that continue to make CSS-Tricks one of the spots you come to time and again for all things front-end (including actual CSS tricks).
+ 
+ 
+ 
+ So, we put together a short little survey for you. Nothing crazy, just a few questions to help us vet those ideas and ultimately shape the future of CSS-Tricks.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Take the survey!
+ 
+ 
+ 
+ 
+ Thanks so much for your help! And while I have you, thanks for continuing to hang with us. In the seven years I’ve been working here at CSS-Tricks, I know this site wouldn’t even be here today without y’all. Here’s to the future of CSS-Tricks and learning together!
+ 
+ 
+ 
+ 
+ CSS-Tricks Newsletter
+ 
+ 
+ 
+ Oh, and one more update for all of you who miss the newsletter: it will be back! But we had to drop a ton of you off the list (seriously, like 80% of all subscribers) to be compliant with legal stuff that’s over my head. No worries, though, because you can re-subscribe right down here with your email address.
+ 
+ 
+ Help Shape the Future of CSS-Tricks! originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
+     <entry>
+       <title>My Dumbest CSS Mistakes</title>
+         <link href="https://css-tricks.com/my-dumbest-css-mistakes/"/>
+       <updated>2022-06-28T15:10:31.000Z</updated>
+       <content type="text">We all make mistakes in our code. It happens! I know if I had one of those “Days Since Last Mistake” signs hanging over my desk, a big ol’ goose egg would be hovering above me all the time. It doesn’t have to be big mistakes, either. My clumsy self has committed small errors to repos ranging from typos all the way to complete npm module directories.
+ 
+ 
+ 
+ Whooooooops.
+ 
+ 
+ 
+ That’s one of the things I really love about CSS: it’s forgiving as heck. If it doesn’t understand a typo, it keeps looking up the cascade in search of a match. None of that stuff where one out of place characters breaks a site and takes no prisoners. But it’s still embarrassing when CSS mistakes pop up!
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Like this one I find myself making way more times than I’d like to admit:
+ 
+ 
+ 
+ .element {
+   display: flexbox; /* 🤦‍♂️ */
+ }
+ 
+ 
+ 
+ Or when I try setting a gradient without a background property:
+ 
+ 
+ 
+ .gradient {
+   linear-gradient(45deg, rgb(50% 100% 90%), rgb(62% 85% 93%));
+ }
+ 
+ 
+ 
+ I hate how close X and C are on a keyboard because I can’t count how many times I’m blazing through something and mistake px for pc units.
+ 
+ 
+ 
+ .element {
+   font-size: 16pc; /* I meant pixels! */
+ }
+ 
+ 
+ 
+ Another CSS mistake I catch every so often is one I know many other folks make because I spot it too often in blog posts with code snippets:
+ 
+ 
+ 
+ // This is not a CSS comment.
+ .element {
+   /* This is a CSS comment. */
+ }
+ 
+ 
+ 
+ Have you ever forgotten to use var() around a CSS variable? I sure have.
+ 
+ 
+ 
+ .element {
+   color: --primary-color;
+ }
+ 
+ 
+ 
+ Speaking of CSS variables, naming them is hard (like everything else) and I often use some incorrect version of a variable that I named!
+ 
+ 
+ 
+ :root {
+   --color-primary: #FF5722;
+   --color-secondary: #3E2723;
+ }
+ 
+ /* Much later on... */
+ 
+ .element {
+   color: var(--primary-color); /* 🙃 */
+ }
+ 
+ 
+ 
+ Yes, I have indeed copied a snippet of CSS before only to have fancy quotes get in the way of making it work:
+ 
+ 
+ 
+ .element::before {
+   content: “”; /* Should be &quot;&quot; */
+ }
+ 
+ 
+ 
+ And, yes, I have spent way too long figuring out those quotes were the culprit.
+ 
+ 
+ 
+ Looking at that last one reminds me that I sometimes forget to set the content property when I’m working with ::before or ::after. Which reminds me of how I’ve forgotten to set an element’s position before trying to offset it or change its z-index. Seriously, these things happen!
+ 
+ 
+ 
+ It’s hard talking about mistakes
+ 
+ 
+ 
+ Have you ever finished reading some blog post sharing some amazing trick and felt some sort of Imposter Syndrome? I think that’s largely because blog posts often mask the real work — and failures — that go into amazing tricks. As someone who reads posts like that for a living, I can tell you that many, if not the vast majority, go through many rounds of editing where potentially embarrassing mistakes are weeded out and smoothed over.
+ 
+ 
+ 
+ Even those ridiculously awesome articles have to fail before they get all those ooooos and ahhhhhs.
+ 
+ 
+ 
+ The same is true of any app, website, demo, or whatever you happen to come across. The chances any of them came out perfect the first time is next to nothin’.
+ 
+ 
+ 
+ But if I’m being totally honest with you, I’m often more amazed (and interested) in the journey it takes to accomplish something, warts and all. The journey is a glimpse into what it’s like to think like a front-end developer. That’s where real (and most valuable) learning happens.
+ 
+ 
+ 
+ And all of this is merely building up to what I really want to ask…
+ 
+ 
+ 
+ What are your dumbest CSS mistakes?
+ 
+ 
+ 
+ C’mon, we all know you’ve made some! Let us learn from them!
+ 
+ My Dumbest CSS Mistakes originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Great (and Free!) Web Development Books You Can Get Online</title>
          <link href="https://css-tricks.com/web-development-books-you-can-get-for-free/"/>
@@ -498,7 +676,9 @@
  
  
  
+ 
  Article series
+ 
  
  
  Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The Bars — you are hereSingle Element Loaders: Going 3D — coming July 1
@@ -525,7 +705,9 @@
  It might seem like that at first glance! But all of them rely on the same code structure and we only update a few values to create variations. That’s all the power of CSS. We don’t learn how to create one loader, but we learn different techniques that allow us to create as much loader as we want using merely the same code structure.
  
  
+ 
  Let’s make some bars!
+ 
  
  
  We start by defining the dimensions for them using width (or height) with aspect-ratio to maintain proportion:
@@ -567,7 +749,9 @@
  Like the other articles in this series, we are going to deal with a lot of background trickery. So, if you ever feel like we’re jumping around too fast or feel you need a little more detail, please do check those out. You can also read my Stack Overflow answer where I give a detailed explanation on how all this works.
  
  
+ 
  Animating the bars
+ 
  
  
  We either animate the element’s size or position to create the bar loader. Let’s animate the size by defining the following animation keyframes:
@@ -657,7 +841,9 @@
  Expect for the last two examples in that demo, all of the bar loaders use the same underlying markup and styles and different combinations of animations. Open the code and try to visualize each frame independently; you’ll see how relatively trivial it is to make dozens — if not hundreds — of variations.
  
  
+ 
  Getting fancy
+ 
  
  
  Did you remember the mask trick we did with the dot loaders in the second article of this series? We can do the same here!
@@ -691,7 +877,9 @@
  Gradients to create the shapes (dots or bars or maybe something else)Animating background-size and/or background-position to create the loader animationAdding mask to add a touch of colors
  
  
+ 
  Rounding the bars
+ 
  
  
  Let’s try something different this time where we can round the edges of our bars.
@@ -818,7 +1006,9 @@
  CodePen Embed Fallback
  
  
+ 
  Wrapping up
+ 
  
  
  I hope so far you are feeling super encouraged by all the powers you have to make complex-looking loading animations. All we need is one element, either gradients or pseudos to draw the bars, then some keyframes to move things around. That’s the entire recipe for getting an endless number of possibilities, so go out and starting cooking up some neat stuff!
@@ -837,7 +1027,9 @@
  
  
  
+ 
  Article series
+ 
  
  
  Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The Bars — you are hereSingle Element Loaders: Going 3D — coming July 1
@@ -860,7 +1052,9 @@
  
  
  
+ 
  Importing external stylesheets
+ 
  
  
  As the name suggests, React can import CSS files. The process is similar to how we link up CSS file in the HTML &lt;head&gt;:
@@ -898,7 +1092,9 @@
  In this example, a CSS file is imported into an App.js from the /Components/css folder.
  
  
+ 
  Write inline styles
+ 
  
  
  You may be used to hearing that inline styling isn’t all that great for maintainability and whatnot, but there are definitely situations (here’s one!) where it makes sense. And maintainability is less of an issue in React, as the CSS often already sits inside the same file anyway.
@@ -954,7 +1150,9 @@
  Note that curly brackets are used when referencing styles rather than the quotation marks we’d normally use in plain HTML.
  
  
+ 
  Use CSS Modules
+ 
  
  
  CSS Modules… what the heck happened to those, right? They have the benefit of locally scoped variables and can be used right alongside React. But what are they, again, exactly?
@@ -1001,7 +1199,9 @@
  export default App;
  
  
+ 
  Use styled-components
+ 
  
  
  Have you used styled-components? It’s quite popular and allows you to build custom components using actual CSS in your JavaScript. A styled-component is basically a React component with — get ready for it — styles. Some of the features include unique class names, dynamic styling and better management of the CSS as each component has its own separate styles.
@@ -1046,7 +1246,9 @@
  The above Wrapper component will be rendered as a div that contains those styles.
  
  
+ 
  Conditional styling
+ 
  
  
  One of the advantages of styled-components is that the components themselves are functional, as in you can use props within the CSS. This opens the door up to conditional statements and changing styles based on a state or prop.
@@ -1068,7 +1270,9 @@
  In inline if statements, we use a ? instead of the usual if/else syntax. The else part is after the semicolon. And remember to always call or use the state after it has been initialized. In that last demo, for example, the state should be above the Wrapper component’s styles.
  
  
+ 
  Happy React styling!
+ 
  
  
  That’s a wrap, folks! We looked at a handful of different ways to write styles in a React application. And it’s not like one is any better than the rest; the approach you use depends on the situation, of course. Hopefully now you’ve got a good understanding of them and know that you have a bunch of tools in your React styling arsenal.
@@ -1091,7 +1295,9 @@
  
  
  
+ 
  Article series
+ 
  
  
  Single Element Loaders: The SpinnerSingle Element Loaders: The Dots — you are hereSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — coming July 1
@@ -1110,7 +1316,9 @@
  That example of a loader up above is made with a single div element, a few CSS declarations, and no pseudo-elements. I am combining two techniques using CSS background and mask. And when we’re done, we’ll see how animating a background gradient helps create the illusion of each dot changing colors as they move up and down in succession.
  
  
+ 
  The background animation
+ 
  
  
  Let’s start with the background animation:
@@ -1181,7 +1389,9 @@
  CodePen Embed Fallback
  
  
+ 
  The loader dots
+ 
  
  
  If you followed along with the first article in this series, I bet you know what comes next: CSS masks! What makes masks so great is that they let us sort of “cut out” parts of a background in the shape of another element. So, in this case, we want to make a few dots, show the background gradients through the dots, and cut out any parts of the background that are not part of a dot.
@@ -1262,7 +1472,9 @@
  CodePen Embed Fallback
  
  
+ 
  Dot loader variations
+ 
  
  
  The CSS variable we made in the last example makes it all that much easier to swap in new colors and create more variations of the same loader. For example, different colors and sizes:
@@ -1336,7 +1548,9 @@
  Oh, and take note how this demo uses CSS Grid. This allows us to leverage the grid’s default stretch alignment so that both pseudo-elements cover the whole area of their parent. No need for sizing! Push the around a little with translate() and we’re all set.
  
  
+ 
  More examples!
+ 
  
  
  Just to drive the point home, I want to leave you with a bunch of additional examples that are really variations of what we’ve looked at. As you view the demos, you’ll see that the approaches we’ve covered here are super flexible and open up tons of design possibilities.
@@ -1362,14 +1576,18 @@
  CodePen Embed Fallback
  
  
+ 
  Next up…
+ 
  
  
  OK, so we covered dot loaders in this article and spinners in the last one. In the next article of this four-part series, we’ll turn our attention to another common type of loader: the bars. We’ll take a lot of what we learned so far and see how we can extend them to create yet another single element loader with as little code and as much flexibility as possible.
  
  
  
+ 
  Article series
+ 
  
  
  Single Element Loaders: The SpinnerSingle Element Loaders: The Dots — you are hereSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — coming July 1
@@ -1412,7 +1630,9 @@
  This time, however, the rounding effect is applied to elements along both the vertical and horizontal axes on a grid. You don’t have to have read my last article on checkbox styling for this since I’m going to cover everything you need to know here. But if you’re interested in a slimmed down take on what we’re doing in this article, then that one is worth checking out.
  
  
+ 
  Before we start…
+ 
  
  
  It’ll be useful for you to take note of a few things. For example, I’m using static HTML and CSS in my demo for the sake of simplicity. Depending on your application you might have to generate the grid and the items in it dynamically. I’m leaving out practical checks for accessibility in order to focus on the effect, but you would definitely want to consider that sort of thing in a production environment.
@@ -1426,7 +1646,9 @@
  Hence, whatever layout standard you might want to use in your application, make sure the pseudos can still be targeted in CSS and ensure the layout stays in tact across different browsers and screens.
  
  
+ 
  Let’s get started now
+ 
  
  
  As you may have noticed in the earlier demo, checking and unchecking a checkbox element modifies the design of the boxes, depending on the selection state of the other checkboxes around it. This is possible because I styled each box using the pseudo-elements of its adjacent elements instead of its own element.
@@ -1440,7 +1662,9 @@
  
  
  
+ 
  Here’s the base code
+ 
  
  
  The markup is pretty straightforward:
@@ -1524,7 +1748,9 @@
  }
  
  
+ 
  Styling the :checked state
+ 
  
  
  Now comes styling the checkboxes when they are in a :checked state. First, let’s give them a color, say a limegreen background:
@@ -1650,7 +1876,9 @@
  CodePen Embed Fallback
  
  
+ 
  Putting it to use
+ 
  
  
  What we just looked at is the general principle and logic behind the design. Again, how useful it is in your application will depend on the grid design.
@@ -1696,7 +1924,9 @@
  
  
  
+ 
  Yes, IndieWeb is confusing.
+ 
  
  
  David had actually helped someone get their WordPress site all set up with IndieWeb powers. That person, too, was struggling to understand how the various pieces fit together. So, David already had this top of mind when Miriam and I were writing.
@@ -1722,7 +1952,9 @@
  If that sorta sounds like pingbacks, well, it sorta is. But much more robust and maintained.
  
  
+ 
  It’s different (and perhaps easier) to implement IndieWeb features on WordPress than it is a static site.
+ 
  
  
  The big difference is that WordPress provides a lot of the requirements needed to do IndieWeb-y things. I like how David explains it:
@@ -1740,7 +1972,9 @@
  David’s post is 100% focused on the WordPress implementation. Your mileage may vary, but you will certainly walk away with a better idea of what protocols are available and how they fit together after reading his post — and hopefully this one as well.
  
  
+ 
  The IndieWeb WordPress plugin establishes your identity.
+ 
  
  
  
@@ -1811,7 +2045,9 @@
  The plugin isn’t doing the sending, receiving, or parsing. Instead, it provides a WordPress site with a way to verify your identity in the markup.
  
  
+ 
  Not all WordPress themes support Microformats
+ 
  
  
  
@@ -1833,7 +2069,9 @@
  According to David, the next major release of the Webmention plugin will likely include smarter ways of detecting content and images it can use and formatting them for Microformats2 support.
  
  
+ 
  Webmentions send and receive notifications.
+ 
  
  
  
@@ -1855,7 +2093,9 @@
  So, the Webmention plugin is communicating notifications. Meanwhile, another plugin called Semantic Linkbacks is what handles the data. And what the heck are Semantic Linkbacks?
  
  
+ 
  Semantic Linkbacks fetch and handle data.
+ 
  
  
  
@@ -1885,7 +2125,9 @@
  That’s certainly nice as it taps into the WordPress REST API for the JSON response and formats that for display.
  
  
+ 
  Brid.gy is a service to help display interactions.
+ 
  
  
  A Webmention can be an interaction, say someone likes your post on Twitter or retweets it.
@@ -1907,7 +2149,9 @@
  What Brid.gy has done is essentially implement the APIs for Twitter, Facebook, Instagram, and others, so that when it detects that a post in those services that interacts with your syndicated post, a Webmention is sent to your site and goes through the process of publishing on your own site.
  
  
+ 
  There’s so much more!
+ 
  
  
  Quick hits:
@@ -1917,7 +2161,9 @@
  IndieAuth: This is a protocol based on OAuth 2. The plugin establishes an endpoint in the WordPress REST API that can be used to authenticate your identity through your own self-hosted site — essentially your own Google sign-in button but without establishing that endpoint yourself or needing to rely on a separate hosted API.Micropub: For those who use WordPress but prefer a different editor can install the Micropub plugin. This adds an endpoint that allows you to publish content to your site and using a Micropub-supported editor create items in a Microformats2 feed, giving you way more options for writing content outside of the WordPress Block Editor.Simple Location: David wrote this plugin and I was super impressed when he demoed it for me. The idea is it pulls in data from your current location that can used for everything from displaying the weather at the time you wrote a post, to creating an entire archive of posts on an embedded map based on the post location. I’d honestly love to see something like this baked directly into WordPress.
  
  
+ 
  The updated flow
+ 
  
  
  I attempted to make an illustration that outlines the various pieces in my last post, but let’s try again with an updated understanding of what’s happening:
@@ -1927,7 +2173,9 @@
  (Full size)
  
  
+ 
  Is this all making sense?
+ 
  
  
  High fives to David for both reaching out and taking the time to show me what it looks like to implement IndieWeb on WordPress. I can’t claim I fully understand all the nuances, but I at least feel like I have a decent grasp of the pieces — the philosophy, protocols, and tech — that are required to make it happen.
@@ -1953,7 +2201,9 @@
  
  
  
+ 
  Google Docs Drawing
+ 
  
  
  The drawing function in Google Docs allows you to add illustrations to your pages. You can add custom shapes, charts, graphs, infographics, and text boxes to your document with the built-in drawing tool.
@@ -1963,7 +2213,9 @@
  
  
  
+ 
  Sketching with Google Docs
+ 
  
  
  Although it is simple to add a graphic to your Google Docs, the procedure is not totally visible. Here’s how:
@@ -2005,7 +2257,9 @@
  5 . When finished, click the Save and close button. You can click on the “File” toolbar displayed on the top of your screen to download your document.
  
  
+ 
  Features
+ 
  
  
  CostFree.CLI? GUI? Online?Online.Requires an Account?Yes, a Google account is required.Collaborative Editing?Yes, with Google Drive sharing.Import SQLNot Applicable.Export SQLNot Applicable.Export Formats.doc, .pdf, .rtf, .odt, .txt, .html, .epubGenerate Shareable URLYes.
@@ -2015,7 +2269,9 @@
  Google Docs offers amazing convenience. However, diagramming databases is not something it was intended for. You may find yourself frustrated with redrawing arrows and relationships if you are making frequent edits to your model.
  
  
+ 
  Graphviz
+ 
  
  
  Graphviz is a free graph visualization software that allows us to express information diagrammatically.
@@ -2029,7 +2285,9 @@
  Graphviz implements the DOT language. The DOT language is an abstract grammar that makes use of terminals, non terminals, parentheses, square brackets, and vertical bars. More information about the DOT language can be found in its documentation.
  
  
+ 
  Features
+ 
  
  
  CostFree.CLI? GUI? Online?CLI.Visual Studio Code, Eclipse, and Notepad++.Graphical Interfaces.Requires an Account?No.Collaborative Editing?Not Applicable.Import SQLYes, using SQL Graphviz.Export SQLYes, using SQL Graphviz.Export Formats.gif, .png, .jpeg, .json, .pdf and moreGenerate Shareable URLNot Applicable.
@@ -2039,7 +2297,9 @@
  Graphviz has an impressive and supportive community. However, a high level of SQL support is only available when you install additional third-party software. This overhead may make it less approachable to users that are not comfortable setting up their computer to support these tools.
  
  
+ 
  ERDPlus
+ 
  
  
  ERDPlus is a database modeling tool that allows you to create Entity Relationship Diagrams, Relational Schemas, Star Schemas, and SQL DDL statements.
@@ -2053,7 +2313,9 @@
  It includes a brief guide on how to create your ER diagrams, which is especially useful for beginners. You can also easily convert your created ER diagrams to relation schemas.
  
  
+ 
  Features
+ 
  
  
  CostFree.CLI? GUI? Online?Online.Requires an Account?Not required, but recommended for saving.Collaborative Editing?Not Applicable.Import SQLNo.Export SQLYes, with the support of SQL DDL statements.Export Formats.pngGenerate Shareable URLNot Applicable.
@@ -2063,7 +2325,9 @@
  ERDPlus is suited for SQL. It does lack additional export formats and ability to share with teams, but these features are not necessary with import and export.
  
  
+ 
  Diagrams.net
+ 
  
  
  Diagrams.net (previously Draw.io) is a free online diagramming tool that can be used to create flowcharts, UML diagrams, database models, and other types of diagrams.
@@ -2073,7 +2337,9 @@
  
  
  
+ 
  Features
+ 
  
  
  CostFree.CLI? GUI? Online?Desktop and Online.Requires an Account?Not required, but recommended for saving.Collaborative Editing?Sharing requires Google Drive or OneDrive.Import SQLYes.Export SQLNo.Export Formats.png, .jpeg, .svg, .pdf, .html and more.Generate Shareable URLYes, export as URL an option.
@@ -2083,7 +2349,9 @@
  Diagrams.net is designed to support many different workflows. Its ability to easily integrate with third-party integrations such as Trello, Quip, Notion, and others distinguishes it from the other options. The ability to share and collaborate may make it work well for collaborative teams.
  
  
+ 
  Conclusion
+ 
  
  
  This article is based on using free database tools that could help visualize your ideas and their capabilities with limitations to great details on how to use these tools.
@@ -2118,7 +2386,9 @@
  
  
  
+ 
  Single-Element Loaders series:
+ 
  
  
  Single Element Loaders: The Spinner — you are hereSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — coming July 1
@@ -2133,7 +2403,9 @@
  CodePen Embed Fallback
  
  
+ 
  Here’s the approach
+ 
  
  
  A trivial implementation for this loader is to create one element for each bar wrapped inside a parent element (for nine total elements), then play with opacity and transform to get the spinning effect.
@@ -2175,7 +2447,9 @@
  }
  
  
+ 
  Let’s break that down
+ 
  
  
  At first glance, the code may look strange but you will see that it’s more simple than what you might think. The first step is to define the dimension of the element. In our case, it’s a 150px square. We can put aspect-ratio to use so the element stays square no matter what.
@@ -2280,7 +2554,9 @@
  CodePen Embed Fallback
  
  
+ 
  Setting opacity
+ 
  
  
  What we’re trying to do is create the impression that there is one bar that leaves a trail of fading bars behind it as it travels a circular path. What we need now is to play with the transparency of our bars to make that trail, which we are going to do with CSS mask combined with a conic-gradient as follows:
@@ -2310,7 +2586,9 @@
  In reality, each bar appears to fade because it’s masked by a gradient and falls between two semi-transparent colors. It’s hardly noticeable when this runs, so it’s sort of like being able to say that all the bars have the same color with a different level of opacity.
  
  
+ 
  The rotation
+ 
  
  
  Let’s apply a rotation animation to get our loader. Note, that we need a stepped animation and not a continuous one that’s why I am using steps(8). 8 is nothing but the number of the bars, so that value can be changed depending on how many bars are in use.
@@ -2367,7 +2645,9 @@
  Can you figure out the logic behind the code? Here is a hint: the opacity is no longer handled with a CSS mask but inside the gradient and is also using the opacity property.
  
  
+ 
  Why not dots instead?
+ 
  
  
  We can totally do that:
@@ -2417,7 +2697,9 @@
  CodePen Embed Fallback
  
  
+ 
  More loader examples
+ 
  
  
  Here is another idea for a spinner loader similar to the previous one.
@@ -2467,7 +2749,9 @@
  CodePen Embed Fallback
  
  
+ 
  Wrapping up
+ 
  
  
  See, there’s so much we can do in CSS with nothing but a single div, a couple of gradients, pseudo-elements, variables. It seems like we created a whole bunch of different spinning loaders, but they’re all basically the same thing with slight modifications.
@@ -2478,7 +2762,9 @@
  
  
  
+ 
  Single-Element Loaders series:
+ 
  
  
  Single Element Loaders: The Spinner — you are hereSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — coming July 1
@@ -2549,7 +2835,9 @@
  
  
  
+ 
  Create a functions folder locally
+ 
  
  
  DigitalOcean has a CLI that with a command that’ll scaffold things for us, so cd wherever you want to set things up and run:
@@ -2604,7 +2892,9 @@
  doctl serverless functions invoke sample/qr -p &quot;text:css-tricks.com&quot;
  
  
+ 
  Check the config file
+ 
  
  
  There is one extra step we need here. When the project was scaffolded, we got this little project.yml file and it configures the function with some information about it. This is what’s in there by default:
@@ -2634,7 +2924,9 @@
  See those highlighted lines? The packages: name property is where in the packages folder the function lives, which is a folder called sample in this case. The actions/ name property is the name of the function itself, which is the name of the file. It’s hello by default when we spin up the project, but we named ours qr.js, so we oughta change that line from hello to qr before moving on.
  
  
+ 
  Deploy the function
+ 
  
  
  We can do it straight from the command line! First, we connect to the DigitalOcean sandbox environment so we have a live URL for testing:
@@ -2666,7 +2958,9 @@
  Heck yeah! No more need to ship that entire package with the rest of the scripts! We can hit that URL and generate the QR code from there.
  
  
+ 
  Demo
+ 
  
  
  We fetch the API and that’s really all there is to it!
@@ -2696,7 +2990,9 @@
  As of now, the SSR story for web components is a bit lacking. Declarative shadow DOM (DSD) is how a web component is server-side rendered, but, as of this writing, it’s not integrated with your favorite application frameworks like Next, Remix or SvelteKit. If that’s a requirement for you, be sure to check the latest status of DSD. But otherwise, if SSR isn’t something you’re using, read on.
  
  
+ 
  First, some context
+ 
  
  
  Web Components are essentially HTML elements that you define yourself, like &lt;yummy-pizza&gt; or whatever, from the ground up. They’re covered all over here at CSS-Tricks (including an extensive series by Caleb Williams and one by John Rhea) but we’ll briefly walk through the process. Essentially, you define a JavaScript class, inherit it from HTMLElement, and then define whatever properties, attributes and styles the web component has and, of course, the markup it will ultimately render to your users.
@@ -2710,7 +3006,9 @@
  Web components particularly excel as leaf components. Leaf components are the last thing to be rendered in a component tree. These are the components which receive some props, and render some UI. These are not the components sitting in the middle of your component tree, passing data along, setting context, etc. — just pure pieces of UI that will look the same, no matter which JavaScript framework is powering the rest of the app.
  
  
+ 
  The web component we’re building
+ 
  
  
  Rather than build something boring (and common), like a button, let’s build something a little bit different. In my last post we looked at using blurry image previews to prevent content reflow, and provide a decent UI for users while our images load. We looked at base64 encoding a blurry, degraded versions of our images, and showing that in our UI while the real image loaded. We also looked at generating incredibly compact, blurry previews using a tool called Blurhash.
@@ -2728,7 +3026,9 @@
  Everything in this post will build vanilla web components without any tooling. That means the code will have a bit of boilerplate, but should be relatively easy to follow. Tools like Lit or Stencil are designed for building web components and can be used to remove much of this boilerplate. I urge you to check them out! But for this post, I’ll prefer a little more boilerplate in exchange for not having to introduce and teach another dependency.
  
  
+ 
  A simple counter component
+ 
  
  
  Let’s build the classic “Hello World” of JavaScript components: a counter. We’ll render a value, and a button that increments that value. Simple and boring, but it’ll let us look at the simplest possible web component.
@@ -2788,7 +3088,9 @@
  
  
  
+ 
  Adding real content
+ 
  
  
  Let’s add some useful, interactive content. We need a &lt;span&gt; to hold the current number value and a &lt;button&gt; to increment the counter. For now, we’ll create this content in our constructor and append it when the web component is actually in the DOM:
@@ -2863,7 +3165,9 @@
  Obviously this is not code you’d want to maintain at scale. Here’s a full working example if you’d like a closer look. As I’ve said, tools like Lit and Stencil are designed to make this simpler.
  
  
+ 
  Adding some more functionality
+ 
  
  
  This post is not a deep dive into web components. We won’t cover all the APIs and lifecycles; we won’t even cover shadow roots or slots. There’s endless content on those topics. My goal here is to provide a decent enough introduction to spark some interest, along with some useful guidance on actually using web components with the popular JavaScript frameworks you already know and love.
@@ -2916,7 +3220,9 @@
  Simple and humble.
  
  
+ 
  Using the counter component in Svelte
+ 
  
  
  Let’s use what we just made. We’ll go into our Svelte app component and add something like this:
@@ -3010,7 +3316,9 @@
  So why did I show you the manual way of setting the web component’s prop? Two reasons: it’s useful to understand how these things work and, a moment ago, I said this works for “pretty much” all JavaScript frameworks. But there’s one framework which, maddeningly, does not support web component prop setting like we just saw.
  
  
+ 
  React is a different beast
+ 
  
  
  
@@ -3066,13 +3374,17 @@
  As we discussed, coding this up manually for every web component property is simply not scalable. But all is not lost because we have a couple of options.
  
  
+ 
  Option 1: Use attributes everywhere
+ 
  
  
  We have attributes. If you clicked the React demo above, the increment prop wasn’t working, but the color correctly changed. Can’t we code everything with attributes? Sadly, no. Attribute values can only be strings. That’s good enough here, and we’d be able to get somewhat far with this approach. Numbers like increment can be converted to and from strings. We could even JSON stringify/parse objects. But eventually we’ll need to pass a function into a web component, and at that point we’d be out of options.
  
  
+ 
  Option 2: Wrap it
+ 
  
  
  There’s an old saying that you can solve any problem in computer science by adding a level of indirection (except the problem of too many levels of indirection). The code to set these props is pretty predictable and simple. What if we hide it in a library? The smart folks behind Lit have one solution. This library creates a new React component for you after you give it a web component, and list out the properties it needs. While clever, I’m not a fan of this approach.
@@ -3179,7 +3491,9 @@
  You could probably even write a single codemod to do that everywhere, and then delete &lt;WcWrapper&gt; altogether. Actually, scratch that: a global search and replace with a RegEx would probably work.
  
  
+ 
  The implementation
+ 
  
  
  I know, it seems like it took a journey to get here. If you recall, our original goal was to take the image preview code we looked at in my last post, and move it to a web component so it can be used in any JavaScript framework. React’s lack of proper interop added a lot of detail to the mix. But now that we have a decent handle on how to create a web component, and use it, the implementation will almost be anti-climactic.
@@ -3368,7 +3682,9 @@
  It’s a little bit more boilerplate than we’d need if we build this in a framework, but the upside is that we can re-use this in any framework we’d like — although React will need a wrapper for now, as we discussed.
  
  
+ 
  Odds and ends
+ 
  
  
  I’ve already mentioned Lit’s React wrapper. But if you find yourself using Stencil, it actually supports a separate output pipeline just for React. And the good folks at Microsoft have also created something similar to Lit’s wrapper, attached to the Fast web component library.
@@ -3378,7 +3694,9 @@
  As I mentioned, all frameworks not named React will handle setting web component properties for you. Just note that some have some special flavors of syntax. For example, with Solid.js, &lt;your-wc value&#x3D;{12}&gt; always assumes that value is a property, which you can override with an attr prefix, like &lt;your-wc attr:value&#x3D;{12}&gt;.
  
  
+ 
  Wrapping up
+ 
  
  
  Web components are an interesting, often underused part of the web development landscape. They can help reduce your dependence on any single JavaScript framework by managing your UI, or “leaf” components. While creating these as web components — as opposed to Svelte or React components — won’t be as ergonomic, the upside is that they’ll be widely reusable.
@@ -3591,7 +3909,9 @@
  &lt;div&gt;Twiddle Dum&lt;/div&gt;
  
  
+ 
  There’s gotta be more
+ 
  
  
  You’re all a smart bunch with great ideas. Have at it!
@@ -3635,13 +3955,17 @@
  
  
  
+ 
  Prerequisites
+ 
  
  
  The article assumes that readers have basic knowledge of WordPress full site editing (FSE) interface and block themes. The Block Editor Handbook and Full Site Editing website provide the most up-to-date tutorial guides to learn all FSE features, including block themes and patterns discussed in this article.
  
  
+ 
  Section 1: Evolving approaches to creating block patterns
+ 
  
  
  The initial approach to creating block patterns required the use of block pattern API either as a custom plugin or directly registered in the functions.php file to bundle with a block theme. The newly launched WordPress 6.0 introduced several new and enhanced features working with patterns and themes, including pattern registration via a /patterns folder and a page creation pattern modal.
@@ -3651,7 +3975,9 @@
  For background, let’s first briefly overview how the pattern registration workflow evolved from using the register pattern API to directly loading without registration.
  
  
+ 
  Use case example 1: Twenty Twenty-One
+ 
  
  
  The default Twenty Twenty-One theme (TT1) and TT1 Blocks theme (a sibling of TT1) showcase how block patterns can be registered in the theme’s functions.php. In the TT1 Blocks experimental-theme, this single block-pattern.php file containing eight block patterns is added to the functions.php as an include as shown here.
@@ -3743,7 +4069,9 @@
  Early adopters of block themes and Gutenberg plugin took advantage of patterns in classic themes as well. The default Twenty Twenty and my favorite Eksell themes (a demo site here) are good examples that showcase how pattern features can be added to classic themes.
  
  
+ 
  Use case example 2: Twenty Twenty-Two
+ 
  
  
  If a theme includes only a few patterns, the development and maintenance are fairly manageable. However, if a block theme includes many patterns, like in TT2 theme, then the pattern.php file becomes very large and hard to read. The default TT2 theme, which bundles more than 60 patterns, showcases a refactored pattern registration workflow structure that is easier to read and maintain.
@@ -3887,7 +4215,9 @@
  Now that patterns have become the integral part of block theme, many patterns are bundled in block themes — like Quadrat, Seedlet, Mayland, Zoologist, Geologist — following the workflow discussed above. Here is an example of the Quadrat theme /inc/patterns folder with a block-pattern registration file and list of files with content source and required pattern header within return array() function.
  
  
+ 
  Section 2: Creating and loading patterns without registration
+ 
  
  
  Please note that this feature requires the installation of WordPress 6.0 or Gutenberg plugin 13.0 or above in your site.
@@ -4006,7 +4336,9 @@
  Now, if we view the site’s footer part in a block editor or front-end of our site in a browser, the footer section is displayed.
  
  
+ 
  Pattern categories and types Registration (optional)
+ 
  
  
  To categorize block patterns, the pattern categories and types should be registered in theme’s functions.php file.
@@ -4059,7 +4391,9 @@
  This process greatly simplifies creating and displaying block patterns in block themes. It is available in WordPress 6.0 without using the Gutenberg plugin.
  
  
+ 
  Examples of themes without patterns registration
+ 
  
  
  Early adopters have already started using this feature in their block themes. A few examples of the themes, that are available from the theme directory, that load patterns without registration are listed below:
@@ -4069,7 +4403,9 @@
  Archeo – 12 patternsPendant – 13 patternsRemote – 11 patternsSkatepark – 10 patternsStewart – 17 patternsLivro – 16 patternsAvant-Garde – 14 patterns
  
  
+ 
  Section 3: Creating and using patterns with low-code
+ 
  
  
  The official patterns directory contains community-contributed creative designs, which can be copied and customized as desired to create content. Using patterns with a block editor has never been so easier!
@@ -4079,7 +4415,9 @@
  Any patterns from the ever-growing directory can also be added to block themes just by simple “copy and paste” or include in the theme.json file by referring to their directory pattern slug. Next, I will go through briefly how easily this can be accomplished with very limited coding.
  
  
+ 
  Adding and customizing patterns from patterns directory
+ 
  
  
  3.1: Copy pattern from directory into a page
@@ -4192,7 +4530,9 @@
  
  
  
+ 
  Registering patterns directly in theme.json file
+ 
  
  
  In WordPress 6.0, it is possible to register any desired patterns from the pattern directory with theme.json file with the following syntax. The 6.0 dev note states, “the patterns field is an array of [pattern slugs] from the Pattern Directory. Pattern slugs can be extracted by the [URL] in single pattern view at the Pattern Directory.”
@@ -4230,7 +4570,9 @@
  In this example, the pattern slug footer-section-design-with-3-column-description-social-media-contact-and-newsletter from the earlier example is registered via theme.json.
  
  
+ 
  Page creation pattern model
+ 
  
  
  As part of “building with patterns” initiatives, WordPress 6.0 offers a pattern modal option to theme authors to add page layout patterns into block theme, allowing site users to select page layout patterns (e.g., an about page, a contact page, a team page, etc.) while creating a page. The following is an example taken from the dev note:
@@ -4261,7 +4603,9 @@
  You can follow and participate in GitHub’s discussion from the links listed under the resource section below.
  
  
+ 
  Using patterns directory to build page
+ 
  
  
  Patterns from the directory can also be used to create the desired post or page layout, similar to page builders. The GutenbergHub team has created an experimental online page builder app using patterns directly from the directory (introductory video). Then the codes from the app can be copied and pasted in a site, which greatly simplifies the building complex page layout process without coding.
@@ -4271,7 +4615,9 @@
  In this short video, Jamie Marsland demonstrates (at 1:30) how the app can be used to create an entire page layout similar to page builder using desired page sections of the directory.
  
  
+ 
  Wrapping up
+ 
  
  
  Patterns allow users to recreate their commonly used content layout (e.g., hero page, call out, etc.) in any page and lower the barriers to presenting content in styles, which were previously not possible without coding skills. Just like the plugins and themes directories, the new patterns directory offers users options to use a wide range of patterns of their choices from the pattern directory, and write and display content in style.
@@ -4285,185 +4631,42 @@
  
  
  
+ 
  Resources
  
+ 
+ 
  WordPress 6.0
+ 
  
  
  WordPress 6.0 Field Guide (WordPress Core)Exploring WordPress 6.0: Style Variations, Block Locking UI, Writing Improvements – 22 min video (Anne McCarthy)WordPress 6.0 features in 4mins (Dave Smith)What’s New in WordPress 6.0: New Blocks, Style Switching, Template Editing, Webfonts API, and Much More (Kinsta)
  
  
+ 
  Creating patterns
+ 
  
  
  Introduction to block patterns (Full Site Editing)Introduction to Block Patterns video, 14 mins (Learn WordPress)Block Patterns (Block Editor Handbook)So you want to make block patterns? (WordPress Blog)How to create and share low-code Block Patterns in WordPress (GoDaddy)
  
  
+ 
  Patterns enhancement (GitHub)
+ 
  
  
  Building with Patterns #38529Patterns as Sectioning Elements #39281Add: Option to pick a pattern on page creation. #40034Block Patterns for page creation. #38787Add: Page start options (templates and patterns) #39147
  
  
+ 
  Blog articles
+ 
  
  
  Gutenberg Patterns: The Future of Page Building in WordPress (Rich Tabor)Using Block Patterns to speed up WordPress site builds (GoDaddy)Block Patterns Will Change Everything (WP Tavern)
  
  How to Create Block Theme Patterns in WordPress 6.0 originally published on CSS-Tricks. You should get the newsletter.</content>
-     </entry>
-     <entry>
-       <title>SPAs, Shared Element Transitions, and Re-Evaluating Technology</title>
-         <link href="https://css-tricks.com/spas-shared-element-transitions-and-re-evaluating-technology/"/>
-       <updated>2022-06-01T14:12:25.000Z</updated>
-       <content type="text">Nolan Lawson sparked some discussion when he described a noticeable shift away from single-page applications (SPAs):
- 
- 
- 
- Hip new frameworks like Astro, Qwik, and Elder.js are touting their MPA [multi-page application] with “0kB JavaScript by default.” Blog posts are making the rounds listing all the challenges with SPAs: history, focus management, scroll restoration, Cmd/Ctrl-click, memory leaks, etc. Gleeful potshots are being taken against SPAs.I think what’s less discussed, though, is how the context has changed in recent years to give MPAs more of an upper hand against SPAs.
- 
- 
- 
- It seems a number of folks really clung to that first part because Nolan published a follow-up to clarify that SPAs are far from doomed:
- 
- 
- 
- [T]he point of my post wasn’t to bury SPAs and dance on their grave. I think SPAs are great, I’ve worked on many of them, and I think they have a bright future ahead of them. My main point was: if the only reason you’re using an SPA is because “it makes navigations faster,” then maybe it’s time to re-evaluate that.
- 
- 
- 
- And there’s good reason he says that. In fact, the first article specifically points to work being done on Shared Element Transitions. If they move forward, we’ll have an API for animating/transitioning/sizing/positioning elements on page entrance and exist. Jake Archibald demonstrated how it works at Google I/O 2022 and the video is a gem.
- 
- 
- 
- 
- 
- 
- 
- If you’re wondering how one page can transition into another, the browser takes screenshots of the outgoing page and the incoming page, then transitions between those. So, it’s not so much one page becoming another as much as it is the browser holding onto two images so it can animate one in while the other animates out. Jake says what’s happening behind the scene is a DOM structure is created out of pseudo-elements containing the page images:
- 
- 
- 
- &lt;transition-container&gt;
-   &lt;image-wrapper&gt;
-     &lt;outgoing-image /&gt;
-     &lt;incoming-image /&gt;
-   &lt;/&gt;
- &lt;/&gt;
- 
- 
- 
- We can “screenshot” a specific element if we want to isolate it and apply a different animation from the rest of the page:
- 
- 
- 
- .site-header {
-   page-transition-tag: site-header;
-   contain: paint;
- }
- 
- 
- 
- And we get pseudo-elements we can hook into and assign custom @keyframe animations:
- 
- 
- 
- &lt;!-- ::page-transition&#x3D;container(root)  --&gt;
- &lt;transition-container&gt;
-   &lt;!-- ::page-transition-image-wrapper(root)  --&gt;
-   &lt;image-wrapper&gt;
-     &lt;!-- ::page-transition-outgoing-image(root) --&gt;
-     &lt;outgoing-image /&gt;
-     &lt;!-- ::page-transition-incoming-image(root) --&gt;
-     &lt;incoming-image /&gt;
-   &lt;/&gt;
- &lt;/&gt;
- 
- 
- 
- Dang, that’s clever as heck!
- 
- 
- 
- It’s also proof in the pudding of just how much HTML, CSS, and JavaScript continue to evolve and improve. So much so that Jeremy Keith suggests it’s high time we re-evaluate our past judgment of some technologies:
- 
- 
- 
- If you weren’t aware of changes over the past few years, it would be easy to still think that single page apps offer some unique advantages that in fact no longer hold true. […] But developers remain suspicious, still prefering to trust third-party libraries over native browser features. They made a decision about those libraries in the past. They evaluated the state of browser support in the past. I wish they would re-evaluate those decisions.
- 
- 
- 
- The ingredients for SPAs specifically:
- 
- 
- 
- In recent years in particular it feels like the web has come on in leaps and bounds: service workers, native JavaScript APIs, and an astonishing boost in what you can do with CSS. Most important of all, the interoperability between browsers is getting better and better. Universal support for new web standards arrives at a faster rate than ever before.
- 
- 
- 
- HTML, CSS, and JavaScript: it’s still the best cocktail in town. Even if it takes a minute for it to catch up.
- 
- SPAs, Shared Element Transitions, and Re-Evaluating Technology originally published on CSS-Tricks. You should get the newsletter.</content>
-     </entry>
-     <entry>
-       <title>Just How Long Should Alt Text Be?</title>
-         <link href="https://css-tricks.com/just-how-long-should-alt-text-be/"/>
-       <updated>2022-05-27T14:25:39.000Z</updated>
-       <content type="text">I teach a class over at the local college here in Long Beach and a majority of the content is hosted on the Canvas LMS so students can access it online. And, naturally, I want the content to be as accessible as possible, so thank goodness Canvas has a11y tooling built right into it.
- 
- 
- 
- But it ain’t all that rosy. It makes assumptions like all other a11y tooling and adheres to guidelines that were programmed into it. It’s not like the WCAG is baked right in and updated when it updates.
- 
- 
- 
- 
- 
- 
- 
- The reason this is even on my mind is that Jeremy yesterday described his love for writing image descriptions:
- 
- 
- 
- I enjoy writing alt text. I recently described how I updated my posting interface here on my own site to put a textarea for alt text front and centre for my notes with photos. Since then I’ve been enjoying the creative challenge of writing useful—but also evocative—alt text.
- 
- 
- 
- I buy into that! Writing alt text is a challenge that requires a delicate dance between the technical and the creative. It’s both an opportunity to make content more accessible and enhance the user experience.
- 
- 
- 
- One of those programmed guidelines in the Canvas tool is a cap of 120 characters on alt text. Why 120? I dunno, I couldn’t find any supporting guideline or rule for that exact number. One answer is that screen readers stop announcing text after 125 characters, but that’s apparently untrue, at least today. The general advice for how long alt text should be comes in varying degrees:
- 
- 
- 
- Jake Archibald talks of length in terms of emotion. Detail is great, but too much detail might distort the focal point, which makes total sense.Dave sees them as short, succinct paragraphs.Carrie Fisher suggests a 150-character limit not because screen readers will truncate them but more as a mental note that maybe things are getting too descriptive.Daniel Göransson says in this 2017 guide that it comes down to context and knowing when certain details of an image are worth additional explanation. But he generally errs on the side of conciseness.
- 
- 
- 
- So, how long should alt text be? The general consensus here is that there is no hard limit, but more of a contextual awareness of what purpose the image serves and adapting to it accordingly.
- 
- 
- 
- Which gets me back to Jeremy’s article. He was writing alt text for a group of speaker headshots and realized the text was all starting to sound the same. He paused, thought about the experience, compared it to the experience of a sighted user, and created parity between them:
- 
- 
- 
- The more speakers were added to the line-up, the more I felt like I was repeating myself with the alt text. […] The experience of a sighted person looking at a page full of speakers is that after a while the images kind of blend together. So if the alt text also starts to sound a bit repetitive after a while, maybe that’s not such a bad thing. A screen reader user would be getting an equivalent experience.
- 
- 
- 
- I dig that. So if you’re looking for a hard and fast rule on character counts, sorry to disappoint. Like so many other things, context is king and that’s the sort of thing that can’t be codified, or even automated for that matter.
- 
- 
- 
- And while we’re on the topic, just noticed that Twitter has UI to display alt text:
- 
- 
- 
- Now if only there was more contrast between that text and the background… a11y is hard.
- 
- Just How Long Should Alt Text Be? originally published on CSS-Tricks. You should get the newsletter.</content>
      </entry>
  
  </feed>
