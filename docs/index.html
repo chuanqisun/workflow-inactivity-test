@@ -14,8 +14,325 @@
   <body>
     <header>
       osmosfeed starter test 3
-      <time datetime="2022-06-29T02:05:17.576Z">2022-06-29T02:05:17.576Z</time>
+      <time datetime="2022-06-30T02:05:29.213Z">2022-06-30T02:05:29.213Z</time>
     </header>
+      <section class="">
+        <h2 class="">
+          <time class="" data-offset-date=2022-06-29 datetime="2022-06-29T12:55:44.000Z">2022-06-29</time>
+        </h2>
+        <ul class="">
+            <li class="">
+              <section class="">
+                <h3 class="">CSS-Tricks</h3>
+                <a class="" href=""></a>
+                <section class="">
+                    <article>
+                        <h4 class="">
+                          <a class="" href="">How I Chose an Animation Library for My Solitaire Game</a>
+                        </h4>
+                        <span>There is an abundance of both CSS and JavaScript libraries for animation libraries out there. So many, in fact, that choosing the right one for your project can seem impossible. That’s the situation I faced when I decided to build an online Solitaire game. I knew I’d need an animation library, but which was the right one to choose?
+
+
+
+In this article, I’ll go through which considerations I made, what to look out for and present you with some of the most popular libraries available. I’ll go through some real-world examples with you to illustrate my points, and in the end, hopefully, you’ll be better equipped than me when I first had to choose an animation library.
+
+
+
+
+
+
+
+Your mileage with this advice may vary, of course. Everything I’m sharing here is specific to a thing I wanted to build. Your project may have completely different requirements and priorities and that’s OK. I think what’s important here is getting a first-hand account of thinking like a front-end developer with a particular goal.
+
+
+
+Speaking of which, I do consider myself a front-end developer but my background is super heavy in design. So I know code, but not to the extent of someone who is a JavaScript engineer. Just wanted to clear that up because experience can certainly impact the final decision.
+
+
+
+Here’s the goal
+
+
+
+Before we get into any decision-making let’s take a look at the sorts of animations I needed to make in this CSS-Tricks-ified version of the game:
+
+
+
+
+  
+    @media (max-width: 800px) {
+      #solitaire_embed &gt; div {
+        padding-bottom: 90% !important; /* Change aspect ratio on mobile */
+      }
+    }
+    @media (max-width: 568px) {
+      #solitaire_embed &gt; div {
+        padding-bottom: 100% !important; /* Change aspect ratio on mobile */
+      }
+    }
+    @media (max-width: 414px) {
+      #solitaire_embed &gt; div {
+        padding-bottom: 120% !important; /* Change aspect ratio on mobile */
+      }
+    }
+  
+  
+    
+    
+  
+
+
+
+
+Pretty sweet, right? There’s nothing exactly trivial about these animations. There’s a lot going on — sometimes simultaneously — and a lot to orchestrate. Plus, a majority of the animations are triggered by user interactions. So, that left me with a few priorities heading into my decision:
+
+
+
+Smooth animations: The way animations are applied can have a big impact on whether they run smoothly, or display a little choppiness.Performance: Adopting any library is going to add weight to a project and I wanted my game to be as lean as possible.Convenience: I wanted a nice, clean syntax that makes it easier to write and manage the animations. I’d even trade a little extra convenience for a small performance cost if it allows me to write better, more maintainable code. Again, this bodes well for a designer-turned-developer.Browser support: Of course I wanted my game to work on any modern browser using some form of progressive enhancement to prevent completely borking legacy browsers. Plus, I definitely wanted  some future-proofing.
+
+
+
+That’s what I took with me as I went in search of the right tool for this particular job.
+
+
+
+Choosing between CSS or JavaScript animation libraries
+
+
+
+The first thing I considered when choosing an animation library was whether to go with a CSS or JavaScript-based library. There are lots of great CSS libraries, many of them with excellent performance which was a high priority for me. I was looking to do some heavy-duty animations, like the  ability to sequence animations and get callbacks on animation completion. That’s all totally possible with pure CSS — still, it’s a lot less smooth than what most JavaScript libraries offer.
+
+
+
+Let’s see how a simple sequenced animation looks in CSS and compare it to jQuery, which has plenty of built-in animation helpers:
+
+
+
+CodePen Embed Fallback
+
+
+
+The animations look the same but are created differently. To make the CSS animation, first, we have to define the keyframe animation in our CSS and attach it to a class:
+
+
+
+.card.move {
+  animation : move 2s;
+}
+
+@keyframes move {
+  0% { left: 0 }
+  50% { left: 100px }
+  100% { left: 0 }
+}
+
+
+
+We then execute the animation using JavaScript and listen for a CSS callback on the element:
+
+
+
+var cardElement &#x3D; document.getElementsByClassName(&quot;card&quot;)[0];
+var statusElement &#x3D; document.getElementsByClassName(&quot;status&quot;)[0];
+
+cardElement.classList.add(&quot;move&quot;);
+statusElement.innerHTML &#x3D; &quot;Animating&quot;
+
+var animationEndCallback &#x3D; function() {
+  cardElement.classList.remove(&quot;move&quot;);
+  statusElement.innerHTML &#x3D; &quot;Inactive&quot;
+}
+
+cardElement.addEventListener(&quot;webkitAnimationEnd&quot;, animationEndCallback);
+cardElement.addEventListener(&quot;oAnimationEnd&quot;, animationEndCallback); 
+cardElement.addEventListener(&quot;antionend&quot;, animationEndCallback);
+
+
+
+Having things happen in different places might be fine in a simple example like this, but it can become very confusing once things get a bit more complex. 
+
+
+
+Compare this to how the animation is done with jQuery:
+
+
+
+$(&quot;.status&quot;).text(&quot;Animating&quot;)
+$( &quot;.card&quot; ).animate({
+  left: &quot;100px&quot;
+}, 1000);
+$( &quot;.card&quot; ).animate({
+  left: 0
+}, 1000, function() {
+  $(&quot;.status&quot;).text(&quot;Inactive&quot;)
+});
+
+
+
+Here, everything happens in the same place, simplifying things should the animations grow more complex in the future.
+
+
+
+It seemed clear that a JavaScript library was the right way to go, but which was the right one to choose for my Solitaire game? I mean, jQuery is great and still widely used even today, but that’s not something I want to hang my hat on. There are plenty of JavaScript animation libraries, so I wanted to consider something built specifically to handle the type of heavy animations I had in mind.
+
+
+
+Choosing a JavaScript animation library
+
+
+
+It quickly became apparent to me that there’s no lack of JavaScript animation libraries and new, exciting technologies. They all have benefits and drawbacks, so let’s go through some of the ones I considered and why.
+
+
+
+The Web Animations API is one such case that might replace many JavaScript animation libraries in the future. With it, you’ll be able to create complex staggered animations without loading any external libraries and with the same performance as CSS animations. The only drawback is that not all browsers support it yet. 
+
+
+
+The &lt;canvas&gt; element presents another exciting opportunity. In it, we can animate things with JavaScript, as we would with the DOM, but the animation is rendered as raster, which means we can make some high-performance animations. The only drawback is that the canvas element is essentially rendered as an image in the DOM, so if we’re looking for pixel-perfection, we might be out of luck. As someone acutely in tune with design, this was a dealbreaker for me.
+
+
+
+I needed something tried and tested, so I knew I probably had to go with one of the many JavaScript libraries. I started looking at libraries and narrowed my choices to Anime.js and GSAP. They both seemed to handle complex animations well and had excellent notes on performance. Anime is a well-maintained library with over 42.000 stars on GitHub, while GSAP is a super popular, battle-tested library with a thriving community.
+
+
+
+An active community was critical to me since I needed a place to ask for help, and I didn’t want to use a library that might later be abandoned. I considered this as part of my convenience requirements.
+
+
+
+Sequencing animations and callbacks
+
+
+
+Once I had my choices narrowed down, the next step was to implement a complex animation using my two libraries. A recurrent animation in a solitaire game is that of a card moving somewhere and then turning over, so let’s see how that looks:
+
+
+
+CodePen Embed Fallback
+
+
+
+Both animations look great! They’re smooth, and implementing both of them was pretty straightforward. Both libraries had a timeline function that made creating sequences a breeze. This is how the implementation looks in AnimeJS:
+
+
+
+var timeline &#x3D; anime.timeline({
+  begin: function() {
+    $(&quot;.status&quot;).text(&quot;Animating&quot;)
+  },
+  complete: function() {
+    $(&quot;.status&quot;).text(&quot;Inactive&quot;)
+  }
+});
+
+timeline.add({
+  targets: &#x27;.card&#x27;,
+  left: [0, 300],
+  easing: &#x27;easeInOutSine&#x27;,
+  duration: 500
+}).add({
+  targets: &#x27;.card .back&#x27;,
+  rotateY: [0, 90],
+  easing: &#x27;easeInSine&#x27;,
+  duration: 200
+}).add({
+  targets: &#x27;.card .front&#x27;,
+  rotateY: [-90, 0],
+  easing: &#x27;easeOutSine&#x27;,
+  duration: 200
+})
+
+
+
+Anime’s timeline() function comes built-in with callbacks on beginning and ending the animation, and creating the sequence is as easy as appending the sequential animations. First, I move the card, then I turn my back-image 90 degrees, so it goes out of view, and then I turn my front-image 90 degrees, so it comes into view.
+
+
+
+The same implementation using GSAP’s timeline() function looks very similar:
+
+
+
+var timeline &#x3D; gsap.timeline({
+  onStart: function() {
+    $(&quot;.status&quot;).text(&quot;Animating&quot;)
+  },
+  onComplete: function() {
+    $(&quot;.status&quot;).text(&quot;Inactive&quot;)
+  }
+});
+
+timeline.fromTo(&quot;.card&quot;, {
+  left: 0
+}, {
+  duration: 0.5,
+  left: 300
+}).fromTo(&quot;.card .back&quot;, {
+  rotationY: 0
+}, {
+  rotationY: 90,
+  ease: &quot;power1.easeIn&quot;,
+  duration: 0.2
+}).fromTo(&quot;.card .front&quot;, {
+  rotationY: -90
+}, {
+  rotationY: 0,
+  ease: &quot;power1.easeOut&quot;,
+  duration: 0.2
+})
+
+
+
+Decision time
+
+
+
+The main difference between Anime and GSAP appears to be the syntax, where GSAP might be a little more elaborate. I was stuck with two great libraries that had very similar functionality, were able to deal with complex animation, and had a thriving community. It seemed like I had a tie race!
+
+
+
+PriorityAnimeGSAPSmooth animations✅✅Performance✅✅Convenience✅✅Browser support✅✅
+
+
+
+So, what made me choose one library over the other?
+
+
+
+I was very concerned about how the library would act under pressure. Having laggy animations in a game like Solitaire can greatly impact how fun it is to play the game. I knew I wouldn’t be able to fully see how the library performed before I created the game. Luckily, GSAP had made a stress test that compared different animation libraries to each other, including Anime.
+
+
+
+CodePen Embed Fallback
+
+
+
+Looking at that, GSAP certainly looked to be the superior library for dealing with loads of complex animations. GSAP was giving me upwards of 26 frames per second on a heavy animation that Anime was only able to top out at 19.  After reading up on GSAP more and looking into their forums, it became clear that performance was of the highest priority to the guys behind GSAP.
+
+
+
+And even though both GSAP and Anime have been around a while, Anime’s repo has been sitting somewhat dormant a couple of years while GSAP had made commits in the past couple of months.
+
+
+
+I ended up using GSAP and haven’t regretted my decision!
+
+
+
+How about you? Does any of this square with how you evaluate and compare front-end tooling? Are there other priorities you might have considered (e.g. accessibility, etc.) in a project like this? Or do you have a project where you had to pare down your choices from a bunch of different options? Please share in the comments because I’d like to know! 
+
+
+
+Oh, and if you want to see how it looks when animating a whole deck of cards, you can head over to my site and play a game of Solitaire. Have fun!
+
+How I Chose an Animation Library for My Solitaire Game originally published on CSS-Tricks. You should get the newsletter.</span>
+                        </a>
+                    </article>
+                </section>
+              </section>
+            </li>
+        </ul>
+      </section>
       <section class="">
         <h2 class="">
           <time class="" data-offset-date=2022-06-28 datetime="2022-06-28T19:52:48.000Z">2022-06-28</time>
@@ -38,7 +355,7 @@ What sort of things are we poking at? Well, that’s where you come in. You see,
 
 
 
-So, we put together a short little survey for you. Nothing crazy, just a few questions to help us vet those ideas and ultimately shape the future of CSS-Tricks.
+So, we put together a short little survey for you. Nothing intense, just a few questions to help us vet those ideas and ultimately shape the future of CSS-Tricks.
 
 
 
@@ -4135,775 +4452,9 @@ Please Give Me Some Space originally published on CSS-Tricks. You should get the
             </li>
         </ul>
       </section>
-      <section class="">
-        <h2 class="">
-          <time class="" data-offset-date=2022-06-01 datetime="2022-06-01T15:30:15.000Z">2022-06-01</time>
-        </h2>
-        <ul class="">
-            <li class="">
-              <section class="">
-                <h3 class="">CSS-Tricks</h3>
-                <a class="" href=""></a>
-                <section class="">
-                    <article>
-                        <h4 class="">
-                          <a class="" href="">How to Create Block Theme Patterns in WordPress 6.0</a>
-                        </h4>
-                        <span>Block patterns, also frequently referred to as sections, were introduced in WordPress 5.5 to allow users to build and share predefined block layouts in the pattern directory. The directory is the home of a wide range of curated patterns designed by the WordPress community. These patterns are available in simple copy and paste format, require no coding knowledge and thus are a big time saver for users.
-
-
-
-Despite many articles on patterns, there is a lack of comprehensive and up-to-date articles on pattern creation covering the latest enhanced features. This article aims to fill the gap with a focus on the recent enhanced features like creating patterns without registration and offer an up-to-date step-by-step guide to create and use them in block themes for novices and experienced authors.
-
-
-
-
-
-
-
-Since the launch of WordPress 5.9 and the Twenty Twenty-Two (TT2) default theme, the use of block patterns in block themes has proliferated. I have been a big fan of block patterns and have created and used them in my block themes.
-
-
-
-The new WordPress 6.0 offers three major patterns feature enhancements to authors:
-
-
-
-Allowing pattern registration through /patterns folder (similar to /parts, /templates, and /styles registration).Registering patterns from the public patterns directory using the theme.json.Adding patterns that can be offered to the user when creating a new page.
-
-
-
-In an introductory Exploring WordPress 6.0 video, Automattic product liaison Ann McCathy highlights some newly enhanced patterns features (starting at 15:00) and discusses future patterns enhancement plans — which include patterns as sectioning elements, providing options to pick pattern on page creation, integrating pattern directory search, and more.
-
-
-
-
-
-
-
-
-
-Prerequisites
-
-
-
-The article assumes that readers have basic knowledge of WordPress full site editing (FSE) interface and block themes. The Block Editor Handbook and Full Site Editing website provide the most up-to-date tutorial guides to learn all FSE features, including block themes and patterns discussed in this article.
-
-
-
-Section 1: Evolving approaches to creating block patterns
-
-
-
-The initial approach to creating block patterns required the use of block pattern API either as a custom plugin or directly registered in the functions.php file to bundle with a block theme. The newly launched WordPress 6.0 introduced several new and enhanced features working with patterns and themes, including pattern registration via a /patterns folder and a page creation pattern modal.
-
-
-
-For background, let’s first briefly overview how the pattern registration workflow evolved from using the register pattern API to directly loading without registration.
-
-
-
-Use case example 1: Twenty Twenty-One
-
-
-
-The default Twenty Twenty-One theme (TT1) and TT1 Blocks theme (a sibling of TT1) showcase how block patterns can be registered in the theme’s functions.php. In the TT1 Blocks experimental-theme, this single block-pattern.php file containing eight block patterns is added to the functions.php as an include as shown here.
-
-
-
-A custom block pattern needs to be registered using the register_block_pattern function, which receives two arguments — title (name of the patterns) and properties (an array describing properties of the pattern).
-
-
-
-Here is an example of registering a simple “Hello World” paragraph pattern from this Theme Shaper article:
-
-
-
-register_block_pattern(
-    &#x27;my-plugin/hello-world&#x27;,
-    array(
-        &#x27;title&#x27;   &#x3D;&gt; __( &#x27;Hello World&#x27;, &#x27;my-plugin&#x27; ),
-        &#x27;content&#x27; &#x3D;&gt; &quot;&lt;!-- wp:paragraph --&gt;\n&lt;p&gt;Hello World&lt;/p&gt;\n&lt;!-- /wp:paragraph --&gt;&quot;,
-    )
-);
-
-
-
-After registration, the register_block_pattern() function should be called from a handler attached to the init hook as described here.
-
-
-
- function my_plugin_register_my_patterns() {
-    register_block_pattern( ... );
-  }
-
-  add_action( &#x27;init&#x27;, &#x27;my_plugin_register_my_patterns&#x27; );
-
-
-
-Once block patterns are registered they are visible in the block editor. More detailed documentation is found in this Block Pattern Registration.
-
-
-
-Block pattern properties
-
-
-
-In addition to required title and content properties, the block editor handbook lists the following optional pattern properties:
-
-
-
-title (required): A human-readable title for the pattern.content (required): Block HTML Markup for the pattern.description (optional): A visually hidden text used to describe the pattern in the inserter. A description is optional but it is strongly encouraged when the title does not fully describe what the pattern does. The description will help users discover the pattern while searching.categories (optional): An array of registered pattern categories used to group block patterns. Block patterns can be shown on multiple categories. A category must be registered separately in order to be used here.keywords (optional): An array of aliases or keywords that help users discover the pattern while searching.viewportWidth (optional): An integer specifying the intended width of the pattern to allow for a scaled preview of the pattern in the inserter.blockTypes (optional): An array of block types that the pattern is intended to be used with. Each value needs to be the declared block’s name.inserter (optional): By default, all patterns will appear in the inserter. To hide a pattern so that it can only be inserted programmatically, set the inserter to false.
-
-
-
-The following is an example of a quote pattern plugin code snippets taken from the WordPress blog.
-
-
-
-/*
-Plugin Name: Quote Pattern Example Plugin
-*/
-
-register_block_pattern(
-    &#x27;my-plugin/my-quote-pattern&#x27;,
-     array(
-      &#x27;title&#x27;       &#x3D;&gt; __( &#x27;Quote with Avatar&#x27;, &#x27;my-plugin&#x27; ),
-      &#x27;categories&#x27;  &#x3D;&gt; array( &#x27;text&#x27; ),
-      &#x27;description&#x27; &#x3D;&gt; _x( &#x27;A big quote with an avatar&quot;.&#x27;, &#x27;Block pattern description&#x27;, &#x27;my-plugin&#x27; ),
-      &#x27;content&#x27;     &#x3D;&gt; &#x27;&lt;!-- wp:group --&gt;&lt;div class&#x3D;&quot;wp-block-group&quot;&gt;&lt;div class&#x3D;&quot;wp-block-group__inner-container&quot;&gt;&lt;!-- wp:separator {&quot;className&quot;:&quot;is-style-default&quot;} --&gt;&lt;hr class&#x3D;&quot;wp-block-separator is-style-default&quot;/&gt;&lt;!-- /wp:separator --&gt;&lt;!-- wp:image {&quot;align&quot;:&quot;center&quot;,&quot;id&quot;:553,&quot;width&quot;:150,&quot;height&quot;:150,&quot;sizeSlug&quot;:&quot;large&quot;,&quot;linkDestination&quot;:&quot;none&quot;,&quot;className&quot;:&quot;is-style-rounded&quot;} --&gt;&lt;div class&#x3D;&quot;wp-block-image is-style-rounded&quot;&gt;&lt;figure class&#x3D;&quot;aligncenter size-large is-resized&quot;&gt;&lt;img src&#x3D;&quot;https://blockpatterndesigns.mystagingwebsite.com/wp-content/uploads/2021/02/StockSnap_HQR8BJFZID-1.jpg&quot; alt&#x3D;&quot;&quot; class&#x3D;&quot;wp-image-553&quot; width&#x3D;&quot;150&quot; height&#x3D;&quot;150&quot;/&gt;&lt;/figure&gt;&lt;/div&gt;&lt;!-- /wp:image --&gt;&lt;!-- wp:quote {&quot;align&quot;:&quot;center&quot;,&quot;className&quot;:&quot;is-style-large&quot;} --&gt;&lt;blockquote class&#x3D;&quot;wp-block-quote has-text-align-center is-style-large&quot;&gt;&lt;p&gt;&quot;Contributing makes me feel like I\&#x27;m being useful to the planet.&quot;&lt;/p&gt;&lt;cite&gt;— Anna Wong, &lt;em&gt;Volunteer&lt;/em&gt;&lt;/cite&gt;&lt;/blockquote&gt;&lt;!-- /wp:quote --&gt;&lt;!-- wp:separator {&quot;className&quot;:&quot;is-style-default&quot;} --&gt;&lt;hr class&#x3D;&quot;wp-block-separator is-style-default&quot;/&gt;&lt;!-- /wp:separator --&gt;&lt;/div&gt;&lt;/div&gt;&lt;!-- /wp:group --&gt;&#x27;,
-      )
-);
-
-
-
-Using patterns in a template file
-
-
-
-Once patterns are created, they can be used in a theme template file with the following block markup:
-
-
-
-&lt;!-- wp:pattern {&quot;slug&quot;:&quot;prefix/pattern-slug&quot;} /--&gt;
-
-
-
-An example from this GitHub repository shows the use of “footer-with-background” pattern slug with “tt2gopher” prefix in TT2 Gopher blocks theme.
-
-
-
-Early adopters of block themes and Gutenberg plugin took advantage of patterns in classic themes as well. The default Twenty Twenty and my favorite Eksell themes (a demo site here) are good examples that showcase how pattern features can be added to classic themes.
-
-
-
-Use case example 2: Twenty Twenty-Two
-
-
-
-If a theme includes only a few patterns, the development and maintenance are fairly manageable. However, if a block theme includes many patterns, like in TT2 theme, then the pattern.php file becomes very large and hard to read. The default TT2 theme, which bundles more than 60 patterns, showcases a refactored pattern registration workflow structure that is easier to read and maintain.
-
-
-
-Taking examples from the TT2 theme, let’s briefly discuss how this simplified workflow works.
-
-
-
-2.1: Registering Patterns Categories
-
-
-
-For demonstration purposes, I created a TT2 child theme and set it up on my local test site with some dummy content. Following TT2, I registered footer-with-background and added to the following pattern categories array list in its block-patterns.php file.
-
-
-
-/**
-* Registers block patterns and categories.
-*/
-function twentytwentytwo_register_block_patterns() {
-	$block_pattern_categories &#x3D; array(
-		&#x27;footer&#x27;   &#x3D;&gt; array( &#x27;label&#x27; &#x3D;&gt; __( &#x27;Footers&#x27;, &#x27;twentytwentytwo&#x27; ) ),
-		&#x27;header&#x27;   &#x3D;&gt; array( &#x27;label&#x27; &#x3D;&gt; __( &#x27;Headers&#x27;, &#x27;twentytwentytwo&#x27; ) ),
-		&#x27;pages&#x27;    &#x3D;&gt; array( &#x27;label&#x27; &#x3D;&gt; __( &#x27;Pages&#x27;, &#x27;twentytwentytwo&#x27; ) ),
-                // ...
-	);
-
-	/**
-	 * Filters the theme block pattern categories.
-	 */
-	$block_pattern_categories &#x3D; apply_filters( &#x27;twentytwentytwo_block_pattern_categories&#x27;, $block_pattern_categories );
-
-	foreach ( $block_pattern_categories as $name &#x3D;&gt; $properties ) {
-		if ( ! WP_Block_Pattern_Categories_Registry::get_instance()-&gt;is_registered( $name ) ) {
-			register_block_pattern_category( $name, $properties );
-		}
-	}
-
-	$block_patterns &#x3D; array(
-		&#x27;footer-default&#x27;,
-		&#x27;footer-dark&#x27;,
-		&#x27;footer-with-background&#x27;,
-		//...
-		&#x27;header-default&#x27;,
-		&#x27;header-large-dark&#x27;,
-		&#x27;header-small-dark&#x27;,
-		&#x27;hidden-404&#x27;,
-		&#x27;hidden-bird&#x27;,
-		//...
-	);
-
-	/**
-	 * Filters the theme block patterns.
-	 */
-	$block_patterns &#x3D; apply_filters( &#x27;twentytwentytwo_block_patterns&#x27;, $block_patterns );
-
-	foreach ( $block_patterns as $block_pattern ) {
-		$pattern_file &#x3D; get_theme_file_path( &#x27;/inc/patterns/&#x27; . $block_pattern . &#x27;.php&#x27; );
-
-		register_block_pattern(
-			&#x27;twentytwentytwo/&#x27; . $block_pattern,
-			require $pattern_file
-		);
-	}
-}
-add_action( &#x27;init&#x27;, &#x27;twentytwentytwo_register_block_patterns&#x27;, 9 );
-
-
-
-In this code example, each pattern listed in the $block_patterns &#x3D; array() is called by foreach() function which requires a patterns directory file with the listed pattern name in the array which we will add in the next step.
-
-
-
-2.2: Adding a pattern file to the /inc/patterns folder
-
-
-
-Next, we should have all the listed patterns files in the $block_patterns &#x3D; array(). Here is an example of one of the pattern files, footer-with-background.php:
-
-
-
-/**
- * Dark footer wtih title and citation
- */
-return array(
-	&#x27;title&#x27;      &#x3D;&gt; __( &#x27;Footer with background&#x27;, &#x27;twentytwentytwo&#x27; ),
-	&#x27;categories&#x27; &#x3D;&gt; array( &#x27;footer&#x27; ),
-	&#x27;blockTypes&#x27; &#x3D;&gt; array( &#x27;core/template-part/footer&#x27; ),
-  &#x27;content&#x27;    &#x3D;&gt; &#x27;&lt;!-- wp:group {&quot;align&quot;:&quot;full&quot;,&quot;style&quot;:{&quot;elements&quot;:{&quot;link&quot;:{&quot;color&quot;:{&quot;text&quot;:&quot;var:preset|color|background&quot;}}},&quot;spacing&quot;:{&quot;padding&quot;:{&quot;top&quot;:&quot;var(--wp--custom--spacing--small, 1.25rem)&quot;,&quot;bottom&quot;:&quot;var(--wp--custom--spacing--small, 1.25rem)&quot;}}},&quot;backgroundColor&quot;:&quot;background-header&quot;,&quot;textColor&quot;:&quot;background&quot;,&quot;layout&quot;:{&quot;inherit&quot;:true}} --&gt;
-      &lt;div class&#x3D;&quot;wp-block-group alignfull has-background-color has-background-header-background-color has-text-color has-background has-link-color&quot; style&#x3D;&quot;padding-top:var(--wp--custom--spacing--small, 1.25rem);padding-bottom:var(--wp--custom--spacing--small, 1.25rem)&quot;&gt;&lt;!-- wp:paragraph {&quot;align&quot;:&quot;center&quot;} --&gt;
-      &lt;p class&#x3D;&quot;has-text-align-center&quot;&gt;&#x27; .
-      sprintf(
-        /* Translators: WordPress link. */
-        esc_html__( &#x27;Proudly powered by %s&#x27;, &#x27;twentytwentytwo&#x27; ),
-        &#x27;&lt;a href&#x3D;&quot;&#x27; . esc_url( __( &#x27;https://wordpress.org&#x27;, &#x27;twentytwentytwo&#x27; ) ) . &#x27;&quot; rel&#x3D;&quot;nofollow&quot;&gt;WordPress&lt;/a&gt; | a modified TT2 theme.&#x27;
-      ) . &#x27;&lt;/p&gt;
-      &lt;!-- /wp:paragraph --&gt;&lt;/div&gt;
-          &lt;!-- /wp:group --&gt;&#x27;,
-);
-
-
-
-Let’s reference the pattern in the footer.html template part:
-
-
-
-&lt;!-- wp:template-part {&quot;slug&quot;:&quot;footer&quot;} /--&gt;
-
-
-
-This is similar to adding heading or footer parts in a template file.
-
-
-
-The patterns can similarly be added to the parts/footer.html template by modifying it to refer to slug of the theme’s pattern file (footer-with-background):
-
-
-
-&lt;!-- wp:pattern {&quot;slug&quot;:&quot;twentytwentytwo/footer-with-background&quot;} /--&gt;
-
-
-
-Now, if we visit the patterns inserter of the block editor, the Footer with background should be available for our use:
-
-
-
-
-
-
-
-The following screenshot shows the newly created footer with background pattern on the front-end.
-
-
-
-
-
-
-
-Now that patterns have become the integral part of block theme, many patterns are bundled in block themes — like Quadrat, Seedlet, Mayland, Zoologist, Geologist — following the workflow discussed above. Here is an example of the Quadrat theme /inc/patterns folder with a block-pattern registration file and list of files with content source and required pattern header within return array() function.
-
-
-
-Section 2: Creating and loading patterns without registration
-
-
-
-Please note that this feature requires the installation of WordPress 6.0 or Gutenberg plugin 13.0 or above in your site.
-
-
-
-This new WordPress 6.0 feature allows pattern registration via standard files and folders – /patterns, bringing similar conventions like /parts, /templates, and /styles.
-
-
-
-The process, as also described in this WP Tavern article, involves the following three steps:
-
-
-
-creating a patterns folder at the theme’s rootadding plugin style pattern headerpattern source content
-
-
-
-A typical pattern header markup, taken from the article is shown below:
-
-
-
-&lt;?php
-/**
-* Title: A Pattern Title
-* Slug: namespace/slug
-* Description: A human-friendly description.
-* Viewport Width: 1024
-* Categories: comma, separated, values
-* Keywords: comma, separated, values
-* Block Types: comma, separated, values
-* Inserter: yes|no
-*/
-?&gt;
-
-
-
-As described in the previous section, only Title and Slug fields are required and other fields are optional.
-
-
-
-Referencing examples from recently released themes, I refactored pattern registration in this TT2 Gopher Blocks demo theme, prepared for a previous article on the CSS-Tricks.
-
-
-
-In the following steps, let’s explore how a footer-with-background.php pattern registered with PHP and used in a footer.html template is refactored.
-
-
-
-2.1: Create a /patterns folder at the root of the theme
-
-
-
-The first step is to create a /patterns folder at TT2 Gopher theme’s root and move the footer-with-background.php pattern file to /patterns folder and refactor.
-
-
-
-2.2: Add pattern data to the file header
-
-
-
-Next, create the following pattern header registration fields.
-
-
-
-&lt;?php
-/**
-* Title: Footer with background
-* Slug: tt2gopher/footer-with-background
-* Categories: tt2gopher-footer
-* Viewport Width: 1280
-* Block Types: core/parts/footer
-* Inserter: yes
-*/
-?&gt;
-&lt;!-- some-block-content /--&gt;
-
-
-
-A pattern file has a top title field written as PHP comments. Followed by the block-content written in HTML format.
-
-
-
-2.3: Add Pattern Content to the file
-
-
-
-For the content section, let’s copy the code snippets within single quotes (e.g., &#x27;...&#x27;) from the content section of the footer-with-background and replace the &lt;!-- some-block-content /--&gt;:
-
-
-
-&lt;!-- wp:group {&quot;align&quot;:&quot;full&quot;,&quot;style&quot;:{&quot;elements&quot;:{&quot;link&quot;:{&quot;color&quot;:{&quot;text&quot;:&quot;var:preset|color|foreground&quot;}}},&quot;spacing&quot;:{&quot;padding&quot;:{&quot;top&quot;:&quot;35px&quot;,&quot;bottom&quot;:&quot;30px&quot;}}},&quot;backgroundColor&quot;:&quot;background-header&quot;,&quot;textColor&quot;:&quot;foreground&quot;,&quot;className&quot;:&quot;has-foreground&quot;,&quot;layout&quot;:{&quot;inherit&quot;:true}} --&gt;
-    &lt;div class&#x3D;&quot;wp-block-group alignfull has-foreground has-foreground-color has-background-header-background-color has-text-color has-background has-link-color&quot; style&#x3D;&quot;padding-top:35px;padding-bottom:30px&quot;&gt;&lt;!-- wp:paragraph {&quot;align&quot;:&quot;center&quot;,&quot;fontSize&quot;:&quot;small&quot;} --&gt;
-    &lt;p class&#x3D;&quot;has-text-align-center has-small-font-size&quot;&gt;Powered by WordPress | TT2 Gopher, a modified TT2 theme&lt;/p&gt;
-    &lt;!-- /wp:paragraph --&gt;&lt;/div&gt;
-&lt;!-- /wp:group --&gt;
-
-
-
-The entire code snippet of the patterns/footer-with-background.php file can be viewed here on the GitHub.
-
-
-
-Please note that the /inc/patterns and block-patterns.php are extras, not required in WordPress 6.0, and included only for demo purposes.
-
-
-
-2.4: Referencing the patterns slug in the template
-
-
-
-Adding the above refactored footer-with-background.php pattern to footer.html template is exactly the same as described in the previous section (Section 1, 2.2).
-
-
-
-Now, if we view the site’s footer part in a block editor or front-end of our site in a browser, the footer section is displayed.
-
-
-
-Pattern categories and types Registration (optional)
-
-
-
-To categorize block patterns, the pattern categories and types should be registered in theme’s functions.php file.
-
-
-
-Let’s consider an example of registering block pattern categories from the TT2 Gopher theme.
-
-
-
-After the registration, the patterns are displayed in the pattern inserter together with the core default patterns. To add theme specific category labels in the patterns inserter, we should modify the previous snippets by adding theme namespace:
-
-
-
-/**
-* Registers block categories, and type.
-*/
-
-function tt2gopher_register_block_pattern_categories() {
-
-$block_pattern_categories &#x3D; array(
-  &#x27;tt2gopher-header&#x27; &#x3D;&gt; array( &#x27;label&#x27; &#x3D;&gt; __( &#x27;TT2 Gopher - Headers&#x27;, &#x27;tt2gopher&#x27; ) ),
-  &#x27;tt2gopher-footer&#x27; &#x3D;&gt; array( &#x27;label&#x27; &#x3D;&gt; __( &#x27;TT2 Gopher - Footers&#x27;, &#x27;tt2gopher&#x27; ) ),
-  &#x27;tt2gopher-page&#x27; &#x3D;&gt; array( &#x27;label&#x27; &#x3D;&gt; __( &#x27;TT2 Gopher - Page&#x27;, &#x27;tt2gopher&#x27; ) ),
-  // ...
-);
-
-/**
-* Filters the theme block pattern categories.
-*/
-$block_pattern_categories &#x3D; apply_filters( &#x27;tt2gopher_block_pattern_categories&#x27;, $block_pattern_categories );
-
-foreach ( $block_pattern_categories as $name &#x3D;&gt; $properties ) {
-  if ( ! WP_Block_Pattern_Categories_Registry::get_instance()-&gt;is_registered( $name ) ) {
-    register_block_pattern_category( $name, $properties );
-  }
-}
-add_action( &#x27;init&#x27;, &#x27;tt2gopher_register_block_pattern_categories&#x27;, 9 );
-
-
-
-The footer-with-background pattern is visible in the patterns inserted with its preview (if selected):
-
-
-
-
-
-
-
-This process greatly simplifies creating and displaying block patterns in block themes. It is available in WordPress 6.0 without using the Gutenberg plugin.
-
-
-
-Examples of themes without patterns registration
-
-
-
-Early adopters have already started using this feature in their block themes. A few examples of the themes, that are available from the theme directory, that load patterns without registration are listed below:
-
-
-
-Archeo – 12 patternsPendant – 13 patternsRemote – 11 patternsSkatepark – 10 patternsStewart – 17 patternsLivro – 16 patternsAvant-Garde – 14 patterns
-
-
-
-Section 3: Creating and using patterns with low-code
-
-
-
-The official patterns directory contains community-contributed creative designs, which can be copied and customized as desired to create content. Using patterns with a block editor has never been so easier!
-
-
-
-Any patterns from the ever-growing directory can also be added to block themes just by simple “copy and paste” or include in the theme.json file by referring to their directory pattern slug. Next, I will go through briefly how easily this can be accomplished with very limited coding.
-
-
-
-Adding and customizing patterns from patterns directory
-
-
-
-3.1: Copy pattern from directory into a page
-
-
-
-Here, I am using this footer section pattern by FirstWebGeek from the patterns directory. Copied the pattern by selecting the “Copy Pattern” button and directly pasted it in a new page.
-
-
-
-3.2: Make desired customizations
-
-
-
-I made only a few changes to the color of the fonts and button background. Then copied the entire code from the code editor over to a clipboard.
-
-
-
-
-
-
-
-If you are not familiar with using the code editor, go to options (with three dots, top right), click the Code editor button, and copy the entire code from here.
-
-
-
-3.3: Create a new file in /patterns folder
-
-
-
-First, let’s create a new /patterns/footer-pattern-test.php file and add the required pattern header section. Then paste the entire code (step 3, above). The pattern is categorized in the footer area (lines: 5), we can view the newly added in the pattern inserter.
-
-
-
-&lt;?php
- /**
- * Title: Footer pattern from patterns library
- * Slug: tt2gopher/footer-pattern-test
- * Categories: tt2gopher-footer
- * Viewport Width: 1280
- * Block Types: core/template-part/footer
- * Inserter: yes
- */
-?&gt;
-
-&lt;!-- wp:group {&quot;align&quot;:&quot;full&quot;,&quot;style&quot;:{&quot;spacing&quot;:{&quot;padding&quot;:{&quot;top&quot;:&quot;100px&quot;,&quot;bottom&quot;:&quot;70px&quot;,&quot;right&quot;:&quot;30px&quot;,&quot;left&quot;:&quot;30px&quot;}}},&quot;backgroundColor&quot;:&quot;black&quot;,&quot;layout&quot;:{&quot;contentSize&quot;:&quot;1280px&quot;}} --&gt;
-&lt;div class&#x3D;&quot;wp-block-group alignfull has-black-background-color has-background&quot; style&#x3D;&quot;padding-top:100px;padding-right:30px;padding-bottom:70px;padding-left:30px&quot;&gt;&lt;!-- wp:columns --&gt;
-&lt;div class&#x3D;&quot;wp-block-columns&quot;&gt;&lt;!-- wp:column --&gt;
-&lt;div class&#x3D;&quot;wp-block-column&quot;&gt;&lt;!-- wp:heading {&quot;style&quot;:{&quot;typography&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontWeight&quot;:&quot;700&quot;,&quot;textTransform&quot;:&quot;uppercase&quot;}},&quot;textColor&quot;:&quot;cyan-bluish-gray&quot;} --&gt;
-&lt;h2 class&#x3D;&quot;has-cyan-bluish-gray-color has-text-color&quot; style&#x3D;&quot;font-style:normal;font-weight:700;text-transform:uppercase&quot;&gt;lorem&lt;/h2&gt;
-&lt;!-- /wp:heading --&gt;
-
-&lt;!-- wp:paragraph {&quot;style&quot;:{&quot;typography&quot;:{&quot;fontSize&quot;:&quot;16px&quot;}},&quot;textColor&quot;:&quot;cyan-bluish-gray&quot;} --&gt;
-&lt;p class&#x3D;&quot;has-cyan-bluish-gray-color has-text-color&quot; style&#x3D;&quot;font-size:16px&quot;&gt;One of the main benefits of using Lorem Ipsum is that it can be easily generated, and it takes the pressure off designers to create meaningful text. Instead, they can focus on crafting the best website data.&lt;/p&gt;
-&lt;!-- /wp:paragraph --&gt;
-
-&lt;!-- wp:social-links {&quot;iconColor&quot;:&quot;vivid-cyan-blue&quot;,&quot;iconColorValue&quot;:&quot;#0693e3&quot;,&quot;openInNewTab&quot;:true,&quot;className&quot;:&quot;is-style-logos-only&quot;,&quot;style&quot;:{&quot;spacing&quot;:{&quot;blockGap&quot;:{&quot;top&quot;:&quot;15px&quot;,&quot;left&quot;:&quot;15px&quot;}}}} --&gt;
-&lt;ul class&#x3D;&quot;wp-block-social-links has-icon-color is-style-logos-only&quot;&gt;&lt;!-- wp:social-link {&quot;url&quot;:&quot;#&quot;,&quot;service&quot;:&quot;facebook&quot;} /--&gt;
-
-&lt;!-- wp:social-link {&quot;url&quot;:&quot;#&quot;,&quot;service&quot;:&quot;twitter&quot;} /--&gt;
-
-&lt;!-- wp:social-link {&quot;url&quot;:&quot;#&quot;,&quot;service&quot;:&quot;instagram&quot;} /--&gt;
-
-&lt;!-- wp:social-link {&quot;url&quot;:&quot;#&quot;,&quot;service&quot;:&quot;linkedin&quot;} /--&gt;&lt;/ul&gt;
-&lt;!-- /wp:social-links --&gt;&lt;/div&gt;
-&lt;!-- /wp:column --&gt;
-
-&lt;!-- wp:column --&gt;
-&lt;div class&#x3D;&quot;wp-block-column&quot;&gt;&lt;!-- wp:heading {&quot;level&quot;:4,&quot;style&quot;:{&quot;typography&quot;:{&quot;textTransform&quot;:&quot;capitalize&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontWeight&quot;:&quot;700&quot;,&quot;fontSize&quot;:&quot;30px&quot;}},&quot;textColor&quot;:&quot;cyan-bluish-gray&quot;} --&gt;
-&lt;h4 class&#x3D;&quot;has-cyan-bluish-gray-color has-text-color&quot; style&#x3D;&quot;font-size:30px;font-style:normal;font-weight:700;text-transform:capitalize&quot;&gt;Contact Us&lt;/h4&gt;
-&lt;!-- /wp:heading --&gt;
-
-&lt;!-- wp:paragraph {&quot;style&quot;:{&quot;typography&quot;:{&quot;fontSize&quot;:&quot;16px&quot;,&quot;lineHeight&quot;:&quot;1.2&quot;}},&quot;textColor&quot;:&quot;cyan-bluish-gray&quot;} --&gt;
-&lt;p class&#x3D;&quot;has-cyan-bluish-gray-color has-text-color&quot; style&#x3D;&quot;font-size:16px;line-height:1.2&quot;&gt;123 BD Lorem, Ipsum&lt;br&gt;&lt;br&gt;+123-456-7890&lt;/p&gt;
-&lt;!-- /wp:paragraph --&gt;
-
-&lt;!-- wp:paragraph {&quot;style&quot;:{&quot;typography&quot;:{&quot;fontSize&quot;:&quot;16px&quot;,&quot;lineHeight&quot;:&quot;1&quot;}},&quot;textColor&quot;:&quot;cyan-bluish-gray&quot;} --&gt;
-&lt;p class&#x3D;&quot;has-cyan-bluish-gray-color has-text-color&quot; style&#x3D;&quot;font-size:16px;line-height:1&quot;&gt;sample@gmail.com&lt;/p&gt;
-&lt;!-- /wp:paragraph --&gt;
-
-&lt;!-- wp:paragraph {&quot;style&quot;:{&quot;typography&quot;:{&quot;fontSize&quot;:&quot;16px&quot;,&quot;lineHeight&quot;:&quot;1&quot;}},&quot;textColor&quot;:&quot;cyan-bluish-gray&quot;} --&gt;
-&lt;p class&#x3D;&quot;has-cyan-bluish-gray-color has-text-color&quot; style&#x3D;&quot;font-size:16px;line-height:1&quot;&gt;Opening Hours: 10:00 - 18:00&lt;/p&gt;
-&lt;!-- /wp:paragraph --&gt;&lt;/div&gt;
-&lt;!-- /wp:column --&gt;
-
-&lt;!-- wp:column --&gt;
-&lt;div class&#x3D;&quot;wp-block-column&quot;&gt;&lt;!-- wp:heading {&quot;level&quot;:4,&quot;style&quot;:{&quot;typography&quot;:{&quot;fontSize&quot;:&quot;30px&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontWeight&quot;:&quot;700&quot;,&quot;textTransform&quot;:&quot;capitalize&quot;}},&quot;textColor&quot;:&quot;cyan-bluish-gray&quot;} --&gt;
-&lt;h4 class&#x3D;&quot;has-cyan-bluish-gray-color has-text-color&quot; style&#x3D;&quot;font-size:30px;font-style:normal;font-weight:700;text-transform:capitalize&quot;&gt;Newsletter&lt;/h4&gt;
-&lt;!-- /wp:heading --&gt;
-
-&lt;!-- wp:paragraph {&quot;style&quot;:{&quot;typography&quot;:{&quot;fontSize&quot;:&quot;16px&quot;}},&quot;textColor&quot;:&quot;cyan-bluish-gray&quot;} --&gt;
-&lt;p class&#x3D;&quot;has-cyan-bluish-gray-color has-text-color&quot; style&#x3D;&quot;font-size:16px&quot;&gt;Lorem ipsum dolor sit amet, consectetur ut labore et dolore magna aliqua ipsum dolor sit&lt;/p&gt;
-&lt;!-- /wp:paragraph --&gt;
-
-&lt;!-- wp:search {&quot;label&quot;:&quot;&quot;,&quot;placeholder&quot;:&quot;Enter Your Email...&quot;,&quot;buttonText&quot;:&quot;Subscribe&quot;,&quot;buttonPosition&quot;:&quot;button-inside&quot;,&quot;style&quot;:{&quot;border&quot;:{&quot;width&quot;:&quot;1px&quot;}},&quot;borderColor&quot;:&quot;tertiary&quot;,&quot;backgroundColor&quot;:&quot;background-header&quot;,&quot;textColor&quot;:&quot;background&quot;} /--&gt;&lt;/div&gt;
-&lt;!-- /wp:column --&gt;&lt;/div&gt;
-&lt;!-- /wp:columns --&gt;&lt;/div&gt;
-&lt;!-- /wp:group --&gt;
-
-
-
-3.4: View the new pattern in the inserter
-
-
-
-To view the newly added Footer pattern from patterns library pattern, go to any post or page and select the inserter icon (blue plus symbol, top left), and then select “TT2 Gopher – Footer” categories. The newly added pattern is shown on the left panel, together with other footer patterns and its preview on the right (if selected):
-
-
-
-
-
-
-
-Registering patterns directly in theme.json file
-
-
-
-In WordPress 6.0, it is possible to register any desired patterns from the pattern directory with theme.json file with the following syntax. The 6.0 dev note states, “the patterns field is an array of [pattern slugs] from the Pattern Directory. Pattern slugs can be extracted by the [URL] in single pattern view at the Pattern Directory.”
-
-
-
-{
-    &quot;version&quot;: 2,
-    &quot;patterns&quot;: [&quot;short-text&quot;, &quot;patterns-slug&quot;]
-}
-
-
-
-This short WordPress 6.0 features video demonstrates how patterns are registered in the /patterns folder (at 3:53) and registering the desired patterns from the pattern director in a theme.json file (at 3:13).
-
-
-
-
-
-
-
-
-
-Then, the registered pattern is available in the patterns inserter search box, which is then available for use just like theme-bundled patterns library.
-
-
-
-{
-  &quot;version&quot;: 2,
-  &quot;patterns&quot;: [ &quot;footer-from-directory&quot;, &quot;footer-section-design-with-3-column-description-social-media-contact-and-newsletter&quot; ]
-}
-
-
-
-In this example, the pattern slug footer-section-design-with-3-column-description-social-media-contact-and-newsletter from the earlier example is registered via theme.json.
-
-
-
-Page creation pattern model
-
-
-
-As part of “building with patterns” initiatives, WordPress 6.0 offers a pattern modal option to theme authors to add page layout patterns into block theme, allowing site users to select page layout patterns (e.g., an about page, a contact page, a team page, etc.) while creating a page. The following is an example taken from the dev note:
-
-
-
-register_block_pattern(
-    &#x27;my-plugin/about-page&#x27;,
-    array(
-        &#x27;title&#x27;      &#x3D;&gt; __( &#x27;About page&#x27;, &#x27;my-plugin&#x27; ),
-        &#x27;blockTypes&#x27; &#x3D;&gt; array( &#x27;core/post-content&#x27; ),
-        &#x27;content&#x27;    &#x3D;&gt; &#x27;&lt;!-- wp:paragraph {&quot;backgroundColor&quot;:&quot;black&quot;,&quot;textColor&quot;:&quot;white&quot;} --&gt;
-        &lt;p class&#x3D;&quot;has-white-color has-black-background-color has-text-color has-background&quot;&gt;Write you about page here, feel free to use any block&lt;/p&gt;
-        &lt;!-- /wp:paragraph --&gt;&#x27;,
-    )
-);
-
-
-
-This feature is currently limited to Page Post Type only and not for “Posts Post Type”, yet.
-
-
-
-The page creation pattern modal can also be disabled completely by removing the post-content block type of all the patterns. An example sample code is available here.
-
-
-
-You can follow and participate in GitHub’s discussion from the links listed under the resource section below.
-
-
-
-Using patterns directory to build page
-
-
-
-Patterns from the directory can also be used to create the desired post or page layout, similar to page builders. The GutenbergHub team has created an experimental online page builder app using patterns directly from the directory (introductory video). Then the codes from the app can be copied and pasted in a site, which greatly simplifies the building complex page layout process without coding.
-
-
-
-In this short video, Jamie Marsland demonstrates (at 1:30) how the app can be used to create an entire page layout similar to page builder using desired page sections of the directory.
-
-
-
-Wrapping up
-
-
-
-Patterns allow users to recreate their commonly used content layout (e.g., hero page, call out, etc.) in any page and lower the barriers to presenting content in styles, which were previously not possible without coding skills. Just like the plugins and themes directories, the new patterns directory offers users options to use a wide range of patterns of their choices from the pattern directory, and write and display content in style.
-
-
-
-Indeed, block patterns will change everything and surely this is a game changer feature in the WordPress theme landscape. When the full potential of building with patterns effort becomes available, this is going to change the way we design block themes and create beautiful content even with low-code knowledge. For many creative designers, the patterns directory may also provide an appropriate avenue to showcase their creativity.
-
-
-
-
-
-
-
-Resources
-
-
-
-WordPress 6.0
-
-
-
-WordPress 6.0 Field Guide (WordPress Core)Exploring WordPress 6.0: Style Variations, Block Locking UI, Writing Improvements – 22 min video (Anne McCarthy)WordPress 6.0 features in 4mins (Dave Smith)What’s New in WordPress 6.0: New Blocks, Style Switching, Template Editing, Webfonts API, and Much More (Kinsta)
-
-
-
-Creating patterns
-
-
-
-Introduction to block patterns (Full Site Editing)Introduction to Block Patterns video, 14 mins (Learn WordPress)Block Patterns (Block Editor Handbook)So you want to make block patterns? (WordPress Blog)How to create and share low-code Block Patterns in WordPress (GoDaddy)
-
-
-
-Patterns enhancement (GitHub)
-
-
-
-Building with Patterns #38529Patterns as Sectioning Elements #39281Add: Option to pick a pattern on page creation. #40034Block Patterns for page creation. #38787Add: Page start options (templates and patterns) #39147
-
-
-
-Blog articles
-
-
-
-Gutenberg Patterns: The Future of Page Building in WordPress (Rich Tabor)Using Block Patterns to speed up WordPress site builds (GoDaddy)Block Patterns Will Change Everything (WP Tavern)
-
-How to Create Block Theme Patterns in WordPress 6.0 originally published on CSS-Tricks. You should get the newsletter.</span>
-                        </a>
-                    </article>
-                </section>
-              </section>
-            </li>
-        </ul>
-      </section>
       <footer>
-        <a class="footer-link" href="https://github.com/chuanqisun/workflow-inactivity-test/actions/runs/2580254669">
-          <time id="build-timestamp" datetime="2022-06-29T02:05:17.576Z">2022-06-29T02:05:17.576Z</time>
+        <a class="footer-link" href="https://github.com/chuanqisun/workflow-inactivity-test/actions/runs/2587053368">
+          <time id="build-timestamp" datetime="2022-06-30T02:05:29.213Z">2022-06-30T02:05:29.213Z</time>
         </a>
         <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 0.0.13</a>
       </footer>  </body>
