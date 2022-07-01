@@ -14,8 +14,252 @@
   <body>
     <header>
       osmosfeed starter test 3
-      <time datetime="2022-06-30T02:05:29.213Z">2022-06-30T02:05:29.213Z</time>
+      <time datetime="2022-07-01T02:19:35.388Z">2022-07-01T02:19:35.388Z</time>
     </header>
+      <section class="">
+        <h2 class="">
+          <time class="" data-offset-date=2022-06-30 datetime="2022-06-30T17:28:57.000Z">2022-06-30</time>
+        </h2>
+        <ul class="">
+            <li class="">
+              <section class="">
+                <h3 class="">CSS-Tricks</h3>
+                <a class="" href=""></a>
+                <section class="">
+                    <article>
+                        <h4 class="">
+                          <a class="" href="">Bunny Fonts</a>
+                        </h4>
+                        <span>Bunny Fonts bills itself as the “privacy-first web font platform designed to put privacy back into the internet.”According to its FAQ:
+
+
+
+With a zero-tracking and no-logging policy, Bunny Fonts helps you stay fully GDPR compliant and puts your user’s personal data into their own hands.
+
+
+
+Hard for my mind not to go straight to Google Fonts. Bunny Fonts even says they are a drop-in replacement for Google Fonts. It offers the same open source fonts and holds the same API structure used by Google Fonts. 
+
+
+
+Now, I’m no GDPR expert but the possibility of Google collecting data through its Fonts API is hardly unsurprising or even unexpected. I was curious to check out Google’s privacy statement for Fonts:
+
+
+
+The Google Fonts API logs the details of the HTTP request, which includes the timestamp, requested URL, and all HTTP headers (including referrer and user agent string) provided in connection with the use of our CSS API.IP addresses are not logged.
+
+
+
+Comparing that to what Bunny Fonts says in its FAQ:
+
+
+
+When using Bunny Fonts, no personal data or logs are stored. All the requests are processed completely anonymously.
+
+
+
+Or perhaps more thoroughly explained on the bunny.net GDPR statement:
+
+
+
+In most cases, the data held and collected by bunny.net does not contain any user identifiable data. In some cases, which depend on how you are using bunny.net and how your website is structured, personal data may be collected from your users. Such information includes hosting user uploaded content as well as personal data that might be transmitted in the URL, User-Agent or Referer headers of the HTTP protocol.
+
+
+
+Sounds pretty similar, right? Well, it may not have been that similar earlier this year when a German court ruled that embedded Google Fonts violated GDPR compliance. It appears that one line in the Google Fonts privacy statement about IP addresses came after the ruling, once the API scrubbed them from collected data.
+
+
+
+So, do you need to ditch Google Fonts to be GDPR compliant? I would imagine not if IP addresses were the sole concern, but I’ll leave that for folks who know the rules to comment on that.
+
+
+
+But if you are concerned about Google Font’s GDPR compliance, I guess Bunny Fonts is worth a look! And seeing that it’s powered by bunny.net’s CDN services, you should get pretty comparable performance marks.
+To Shared Link — Permalink on CSS-Tricks
+Bunny Fonts originally published on CSS-Tricks. You should get the newsletter.</span>
+                        </a>
+                    </article>
+                    <article>
+                        <h4 class="">
+                          <a class="" href="">Text-overflow: ellipsis considered harmful</a>
+                        </h4>
+                        <span>Eric Eggert:
+
+
+
+There are a few legitimate use cases for this technique. For example, you might have a table with titles and descriptions. To preserve more space for the title, you constrain the description to one line on small viewports to the one-line and you repeat the description on the detail page for this item.However, I often see it used on items like buttons or even form labels to make them look nicer(?) or when aligning them vertically. But once you change the viewport or resize the text, the end of the text disappears.
+
+
+
+I think “… if used in certain situations” belongs there, but it certainly makes for a better blog post title without it. As Eric says, there are legitimate use cases for truncating text. Maybe only a few, but legitimate nonetheless.
+
+
+
+
+
+
+
+The ultimate goal is to prevent “losing” data, something that can certainly happen in CSS. Text that inadvertently overflows a container is lost in the sense that it’s simply not there. And if that text is simply not there, users will miss it, even if it is the best and most well-crafted call to action ever published to the web.
+
+
+
+Eric points out that there is no way to make the text truncated by text-overflow: ellipsis visible. Once it’s gone, it’s gone (although screen readers seem to announce it). It’s practically lost data. You might be OK with that. That’s cool as long as you know what’s happening and it’s intended.
+
+
+
+But here’s what Eric says that made me want to share this:
+
+
+
+Don’t constrain the content to fit your design, make your CSS flexible to handle longer words gracefully.
+
+
+
+Again, you might want to conform content to the design. But I’d probably argue, like Eric, that the design should adapt to the content rather than the other way around. I have a hard time recalling any situation where the text on a page is unimportant or without purpose to the extent that I’d be cool cutting if off at any arbitrary point determined by a CSS property. Maybe an archive of blog posts where each post shows an excerpt of the post content before truncating, but that’s not exactly a use case for text-overflow: ellipse.
+
+
+
+CSS has the tools to make a flexible design that accounts for varying lengths of text. So maybe err on the side of writing defensive CSS… CSS that anticipates issues and knows how to gracefully handle different content scenarios. text-overflow: ellipsis might be part of your CSS arsenal for that. But it might also be throwing the baby out with the bath water. Worth asking whether losing that data is worth the cost of what that content is supposed to do before giving giving it a haircut.
+
+
+
+While we’re talking about truncating text…
+
+
+
+    		
+    
+      
+
+  
+    
+                
+        Link
+      
+
+    on
+
+    Oct 1, 2021  
+
+  
+    
+      Line Clampin’ (Truncating Multiple Line Text)    
+  
+
+  
+      
+      data loss text-overflow    
+  
+  
+    
+          
+  
+    
+      Chris Coyier    
+  
+
+
+
+
+  
+    
+                
+        Link
+      
+
+    on
+
+    Sep 20, 2021  
+
+  
+    
+      Embracing Asymmetrical Design    
+  
+
+  
+      
+      data loss text-overflow    
+  
+  
+    
+          
+  
+    
+      Chris Coyier    
+  
+
+
+
+
+  
+    
+                
+        Link
+      
+
+    on
+
+    Jul 21, 2020  
+
+  
+    
+      Using Flexbox and text ellipsis together    
+  
+
+  
+      
+      data loss text-overflow    
+  
+  
+    
+          
+  
+    
+      Chris Coyier    
+  
+
+
+
+
+  
+    
+                
+        Link
+      
+
+    on
+
+    Sep 4, 2019  
+
+  
+    
+      Multiline truncated text with “show more” button    
+  
+
+  
+      
+      data loss text-overflow    
+  
+  
+    
+          
+  
+    
+      Chris Coyier    
+  
+
+
+    
+  
+To Shared Link — Permalink on CSS-Tricks
+Text-overflow: ellipsis considered harmful originally published on CSS-Tricks. You should get the newsletter.</span>
+                        </a>
+                    </article>
+                </section>
+              </section>
+            </li>
+        </ul>
+      </section>
       <section class="">
         <h2 class="">
           <time class="" data-offset-date=2022-06-29 datetime="2022-06-29T12:55:44.000Z">2022-06-29</time>
@@ -885,7 +1129,7 @@ Direct link
 
 
 
-Speaking JavaScript by Alex Rauschmayer
+Speaking JavaScript by Axel Rauschmayer
 
 
 Perfect for: Leveling up from beginning JavaScriptLearning level: IntermediateRequires: Knowledge of object oriented programming
@@ -1008,7 +1252,7 @@ Direct Link
 Wrapping up
 
 
-I sure hope this collection of books help you, whether you’re taking your first steps in front-end web development, have a dozen years under or belt, or you fall somewhere in between. I know how hard it is to get into something new for the first time and the feeling of not knowing where to look. I also know how it feels to hit a plateau and need something to level me up. There should be something for everyone here, regardless of where you are in your learning journey.
+I sure hope this collection of books help you, whether you’re taking your first steps in front-end web development, have a dozen years under your belt, or you fall somewhere in between. I know how hard it is to get into something new for the first time and the feeling of not knowing where to look. I also know how it feels to hit a plateau and need something to level me up. There should be something for everyone here, regardless of where you are in your learning journey.
 
 
 
@@ -3473,988 +3717,9 @@ Let’s Make a QR Code Generator With a Serverless Function! originally publishe
             </li>
         </ul>
       </section>
-      <section class="">
-        <h2 class="">
-          <time class="" data-offset-date=2022-06-07 datetime="2022-06-07T13:57:57.000Z">2022-06-07</time>
-        </h2>
-        <ul class="">
-            <li class="">
-              <section class="">
-                <h3 class="">CSS-Tricks</h3>
-                <a class="" href=""></a>
-                <section class="">
-                    <article>
-                        <h4 class="">
-                          <a class="" href="">Building Interoperable Web Components That Even Work With React</a>
-                        </h4>
-                        <span>Those of us who’ve been web developers more than a few years have probably written code using more than one JavaScript framework. With all the choices out there — React, Svelte, Vue, Angular, Solid — it’s all but inevitable. One of the more frustrating things we have to deal with when working across frameworks is re-creating all those low-level UI components: buttons, tabs, dropdowns, etc. What’s particularly frustrating is that we’ll typically have them defined in one framework, say React, but then need to rewrite them if we want to build something in Svelte. Or Vue. Or Solid. And so on.
-
-
-
-Wouldn’t it be better if we could define these low-level UI components once, in a framework-agnostic way, and then re-use them between frameworks? Of course it would! And we can; web components are the way. This post will show you how.
-
-
-
-
-
-
-
-As of now, the SSR story for web components is a bit lacking. Declarative shadow DOM (DSD) is how a web component is server-side rendered, but, as of this writing, it’s not integrated with your favorite application frameworks like Next, Remix or SvelteKit. If that’s a requirement for you, be sure to check the latest status of DSD. But otherwise, if SSR isn’t something you’re using, read on.
-
-
-
-First, some context
-
-
-
-Web Components are essentially HTML elements that you define yourself, like &lt;yummy-pizza&gt; or whatever, from the ground up. They’re covered all over here at CSS-Tricks (including an extensive series by Caleb Williams and one by John Rhea) but we’ll briefly walk through the process. Essentially, you define a JavaScript class, inherit it from HTMLElement, and then define whatever properties, attributes and styles the web component has and, of course, the markup it will ultimately render to your users.
-
-
-
-Being able to define custom HTML elements that aren’t bound to any particular component is exciting. But this freedom is also a limitation. Existing independently of any JavaScript framework means you can’t really interact with those JavaScript frameworks. Think of a React component which fetches some data and then renders some other React component, passing along the data. This wouldn’t really work as a web component, since a web component doesn’t know how to render a React component.
-
-
-
-Web components particularly excel as leaf components. Leaf components are the last thing to be rendered in a component tree. These are the components which receive some props, and render some UI. These are not the components sitting in the middle of your component tree, passing data along, setting context, etc. — just pure pieces of UI that will look the same, no matter which JavaScript framework is powering the rest of the app.
-
-
-
-The web component we’re building
-
-
-
-Rather than build something boring (and common), like a button, let’s build something a little bit different. In my last post we looked at using blurry image previews to prevent content reflow, and provide a decent UI for users while our images load. We looked at base64 encoding a blurry, degraded versions of our images, and showing that in our UI while the real image loaded. We also looked at generating incredibly compact, blurry previews using a tool called Blurhash.
-
-
-
-That post showed you how to generate those previews and use them in a React project. This post will show you how to use those previews from a web component so they can be used by any JavaScript framework.
-
-
-
-But we need to walk before we can run, so we’ll walk through something trivial and silly first to see exactly how web components work.
-
-
-
-Everything in this post will build vanilla web components without any tooling. That means the code will have a bit of boilerplate, but should be relatively easy to follow. Tools like Lit or Stencil are designed for building web components and can be used to remove much of this boilerplate. I urge you to check them out! But for this post, I’ll prefer a little more boilerplate in exchange for not having to introduce and teach another dependency.
-
-
-
-A simple counter component
-
-
-
-Let’s build the classic “Hello World” of JavaScript components: a counter. We’ll render a value, and a button that increments that value. Simple and boring, but it’ll let us look at the simplest possible web component.
-
-
-
-In order to build a web component, the first step is to make a JavaScript class, which inherits from HTMLElement:
-
-
-
-class Counter extends HTMLElement {}
-
-
-
-The last step is to register the web component, but only if we haven’t registered it already:
-
-
-
-if (!customElements.get(&quot;counter-wc&quot;)) {
-  customElements.define(&quot;counter-wc&quot;, Counter);
-}
-
-
-
-And, of course, render it:
-
-
-
-&lt;counter-wc&gt;&lt;/counter-wc&gt;
-
-
-
-And everything in between is us making the web component do whatever we want it to. One common lifecycle method is connectedCallback, which fires when our web component is added to the DOM. We could use that method to render whatever content we’d like. Remember, this is a JS class inheriting from HTMLElement, which means our this value is the web component element itself, with all the normal DOM manipulation methods you already know and love.
-
-
-
-At it’s most simple, we could do this:
-
-
-
-class Counter extends HTMLElement {
-  connectedCallback() {
-    this.innerHTML &#x3D; &quot;&lt;div style&#x3D;&#x27;color: green&#x27;&gt;Hey&lt;/div&gt;&quot;;
-  }
-}
-
-if (!customElements.get(&quot;counter-wc&quot;)) {
-  customElements.define(&quot;counter-wc&quot;, Counter);
-}
-
-
-
-…which will work just fine.
-
-
-
-
-
-
-
-Adding real content
-
-
-
-Let’s add some useful, interactive content. We need a &lt;span&gt; to hold the current number value and a &lt;button&gt; to increment the counter. For now, we’ll create this content in our constructor and append it when the web component is actually in the DOM:
-
-
-
-constructor() {
-  super();
-  const container &#x3D; document.createElement(&#x27;div&#x27;);
-
-  this.valSpan &#x3D; document.createElement(&#x27;span&#x27;);
-
-  const increment &#x3D; document.createElement(&#x27;button&#x27;);
-  increment.innerText &#x3D; &#x27;Increment&#x27;;
-  increment.addEventListener(&#x27;click&#x27;, () &#x3D;&gt; {
-    this.#value &#x3D; this.#currentValue + 1;
-  });
-
-  container.appendChild(this.valSpan);
-  container.appendChild(document.createElement(&#x27;br&#x27;));
-  container.appendChild(increment);
-
-  this.container &#x3D; container;
-}
-
-connectedCallback() {
-  this.appendChild(this.container);
-  this.update();
-}
-
-
-
-If you’re really grossed out by the manual DOM creation, remember you can set innerHTML, or even create a template element once as a static property of your web component class, clone it, and insert the contents for new web component instances. There’s probably some other options I’m not thinking of, or you can always use a web component framework like Lit or Stencil. But for this post, we’ll continue to keep it simple.
-
-
-
-Moving on, we need a settable JavaScript class property named value
-
-
-
-#currentValue &#x3D; 0;
-
-set #value(val) {
-  this.#currentValue &#x3D; val;
-  this.update();
-}
-
-
-
-It’s just a standard class property with a setter, along with a second property to hold the value. One fun twist is that I’m using the private JavaScript class property syntax for these values. That means nobody outside our web component can ever touch these values. This is standard JavaScript that’s supported in all modern browsers, so don’t be afraid to use it.
-
-
-
-Or feel free to call it _value if you prefer. And, lastly, our update method:
-
-
-
-update() {
-  this.valSpan.innerText &#x3D; this.#currentValue;
-}
-
-
-
-It works!
-
-
-
-
-
-
-
-Obviously this is not code you’d want to maintain at scale. Here’s a full working example if you’d like a closer look. As I’ve said, tools like Lit and Stencil are designed to make this simpler.
-
-
-
-Adding some more functionality
-
-
-
-This post is not a deep dive into web components. We won’t cover all the APIs and lifecycles; we won’t even cover shadow roots or slots. There’s endless content on those topics. My goal here is to provide a decent enough introduction to spark some interest, along with some useful guidance on actually using web components with the popular JavaScript frameworks you already know and love.
-
-
-
-To that end, let’s enhance our counter web component a bit. Let’s have it accept a color attribute, to control the color of the value that’s displayed. And let’s also have it accept an increment property, so consumers of this web component can have it increment by 2, 3, 4 at a time. And to drive these state changes, let’s use our new counter in a Svelte sandbox — we’ll get to React in a bit.
-
-
-
-We’ll start with the same web component as before and add a color attribute. To configure our web component to accept and respond to an attribute, we add a static observedAttributes property that returns the attributes that our web component listens for.
-
-
-
-static observedAttributes &#x3D; [&quot;color&quot;];
-
-
-
-With that in place, we can add a attributeChangedCallback lifecycle method, which will run whenever any of the attributes listed in observedAttributes are set, or updated.
-
-
-
-attributeChangedCallback(name, oldValue, newValue) {
-  if (name &#x3D;&#x3D;&#x3D; &quot;color&quot;) {
-    this.update();
-  }
-}
-
-
-
-Now we update our update method to actually use it:
-
-
-
-update() {
-  this.valSpan.innerText &#x3D; this._currentValue;
-  this.valSpan.style.color &#x3D; this.getAttribute(&quot;color&quot;) || &quot;black&quot;;
-}
-
-
-
-Lastly, let’s add our increment property:
-
-
-
-increment &#x3D; 1;
-
-
-
-Simple and humble.
-
-
-
-Using the counter component in Svelte
-
-
-
-Let’s use what we just made. We’ll go into our Svelte app component and add something like this:
-
-
-
-&lt;script&gt;
-  let color &#x3D; &quot;red&quot;;
-&lt;/script&gt;
-
-&lt;style&gt;
-  main {
-    text-align: center;
-  }
-&lt;/style&gt;
-
-&lt;main&gt;
-  &lt;select bind:value&#x3D;{color}&gt;
-    &lt;option value&#x3D;&quot;red&quot;&gt;Red&lt;/option&gt;
-    &lt;option value&#x3D;&quot;green&quot;&gt;Green&lt;/option&gt;
-    &lt;option value&#x3D;&quot;blue&quot;&gt;Blue&lt;/option&gt;
-  &lt;/select&gt;
-
-  &lt;counter-wc color&#x3D;{color}&gt;&lt;/counter-wc&gt;
-&lt;/main&gt;
-
-
-
-And it works! Our counter renders, increments, and the dropdown updates the color. As you can see, we render the color attribute in our Svelte template and, when the value changes, Svelte handles the legwork of calling setAttribute on our underlying web component instance. There’s nothing special here: this is the same thing it already does for the attributes of any HTML element.
-
-
-
-Things get a little bit interesting with the increment prop. This is not an attribute on our web component; it’s a prop on the web component’s class. That means it needs to be set on the web component’s instance. Bear with me, as things will wind up much simpler in a bit.
-
-
-
-First, we’ll add some variables to our Svelte component:
-
-
-
-let increment &#x3D; 1;
-let wcInstance;
-
-
-
-Our powerhouse of a counter component will let you increment by 1, or by 2:
-
-
-
-&lt;button on:click&#x3D;{() &#x3D;&gt; increment &#x3D; 1}&gt;Increment 1&lt;/button&gt;
-&lt;button on:click&#x3D;{() &#x3D;&gt; increment &#x3D; 2}&gt;Increment 2&lt;/button&gt;
-
-
-
-But, in theory, we need to get the actual instance of our web component. This is the same thing we always do anytime we add a ref with React. With Svelte, it’s a simple bind:this directive:
-
-
-
-&lt;counter-wc bind:this&#x3D;{wcInstance} color&#x3D;{color}&gt;&lt;/counter-wc&gt;
-
-
-
-Now, in our Svelte template, we listen for changes to our component’s increment variable and set the underlying web component property.
-
-
-
-$: {
-  if (wcInstance) {
-    wcInstance.increment &#x3D; increment;
-  }
-}
-
-
-
-You can test it out over at this live demo.
-
-
-
-We obviously don’t want to do this for every web component or prop we need to manage. Wouldn’t it be nice if we could just set increment right on our web component, in markup, like we normally do for component props, and have it, you know, just work? In other words, it’d be nice if we could delete all usages of wcInstance and use this simpler code instead:
-
-
-
-&lt;counter-wc increment&#x3D;{increment} color&#x3D;{color}&gt;&lt;/counter-wc&gt;
-
-
-
-It turns out we can. This code works; Svelte handles all that legwork for us. Check it out in this demo. This is standard behavior for pretty much all JavaScript frameworks.
-
-
-
-So why did I show you the manual way of setting the web component’s prop? Two reasons: it’s useful to understand how these things work and, a moment ago, I said this works for “pretty much” all JavaScript frameworks. But there’s one framework which, maddeningly, does not support web component prop setting like we just saw.
-
-
-
-React is a different beast
-
-
-
-
-
-
-
-React. The most popular JavaScript framework on the planet does not support basic interop with web components. This is a well-known problem that’s unique to React. Interestingly, this is actually fixed in React’s experimental branch, but for some reason wasn’t merged into version 18. That said, we can still track the progress of it. And you can try this yourself with a live demo.
-
-
-
-The solution, of course, is to use a ref, grab the web component instance, and manually set increment when that value changes. It looks like this:
-
-
-
-import React, { useState, useRef, useEffect } from &#x27;react&#x27;;
-import &#x27;./counter-wc&#x27;;
-
-export default function App() {
-  const [increment, setIncrement] &#x3D; useState(1);
-  const [color, setColor] &#x3D; useState(&#x27;red&#x27;);
-  const wcRef &#x3D; useRef(null);
-
-  useEffect(() &#x3D;&gt; {
-    wcRef.current.increment &#x3D; increment;
-  }, [increment]);
-
-  return (
-    &lt;div&gt;
-      &lt;div className&#x3D;&quot;increment-container&quot;&gt;
-        &lt;button onClick&#x3D;{() &#x3D;&gt; setIncrement(1)}&gt;Increment by 1&lt;/button&gt;
-        &lt;button onClick&#x3D;{() &#x3D;&gt; setIncrement(2)}&gt;Increment by 2&lt;/button&gt;
-      &lt;/div&gt;
-
-      &lt;select value&#x3D;{color} onChange&#x3D;{(e) &#x3D;&gt; setColor(e.target.value)}&gt;
-        &lt;option value&#x3D;&quot;red&quot;&gt;Red&lt;/option&gt;
-        &lt;option value&#x3D;&quot;green&quot;&gt;Green&lt;/option&gt;
-        &lt;option value&#x3D;&quot;blue&quot;&gt;Blue&lt;/option&gt;
-      &lt;/select&gt;
-
-      &lt;counter-wc ref&#x3D;{wcRef} increment&#x3D;{increment} color&#x3D;{color}&gt;&lt;/counter-wc&gt;
-    &lt;/div&gt;
-  );
-}
-
-
-
-
-Live demo
-
-
-
-
-As we discussed, coding this up manually for every web component property is simply not scalable. But all is not lost because we have a couple of options.
-
-
-
-Option 1: Use attributes everywhere
-
-
-
-We have attributes. If you clicked the React demo above, the increment prop wasn’t working, but the color correctly changed. Can’t we code everything with attributes? Sadly, no. Attribute values can only be strings. That’s good enough here, and we’d be able to get somewhat far with this approach. Numbers like increment can be converted to and from strings. We could even JSON stringify/parse objects. But eventually we’ll need to pass a function into a web component, and at that point we’d be out of options.
-
-
-
-Option 2: Wrap it
-
-
-
-There’s an old saying that you can solve any problem in computer science by adding a level of indirection (except the problem of too many levels of indirection). The code to set these props is pretty predictable and simple. What if we hide it in a library? The smart folks behind Lit have one solution. This library creates a new React component for you after you give it a web component, and list out the properties it needs. While clever, I’m not a fan of this approach.
-
-
-
-Rather than have a one-to-one mapping of web components to manually-created React components, what I prefer is just one React component that we pass our web component tag name to (counter-wc in our case) — along with all the attributes and properties — and for this component to render our web component, add the ref, then figure out what is a prop and what is an attribute. That’s the ideal solution in my opinion. I don’t know of a library that does this, but it should be straightforward to create. Let’s give it a shot!
-
-
-
-This is the usage we’re looking for:
-
-
-
-&lt;WcWrapper wcTag&#x3D;&quot;counter-wc&quot; increment&#x3D;{increment} color&#x3D;{color} /&gt;
-
-
-
-wcTag is the web component tag name; the rest are the properties and attributes we want passed along.
-
-
-
-Here’s what my implementation looks like:
-
-
-
-import React, { createElement, useRef, useLayoutEffect, memo } from &#x27;react&#x27;;
-
-const _WcWrapper &#x3D; (props) &#x3D;&gt; {
-  const { wcTag, children, ...restProps } &#x3D; props;
-  const wcRef &#x3D; useRef(null);
-
-  useLayoutEffect(() &#x3D;&gt; {
-    const wc &#x3D; wcRef.current;
-
-    for (const [key, value] of Object.entries(restProps)) {
-      if (key in wc) {
-        if (wc[key] !&#x3D;&#x3D; value) {
-          wc[key] &#x3D; value;
-        }
-      } else {
-        if (wc.getAttribute(key) !&#x3D;&#x3D; value) {
-          wc.setAttribute(key, value);
-        }
-      }
-    }
-  });
-
-  return createElement(wcTag, { ref: wcRef });
-};
-
-export const WcWrapper &#x3D; memo(_WcWrapper);
-
-
-
-The most interesting line is at the end:
-
-
-
-return createElement(wcTag, { ref: wcRef });
-
-
-
-This is how we create an element in React with a dynamic name. In fact, this is what React normally transpiles JSX into. All our divs are converted to createElement(&quot;div&quot;) calls. We don’t normally need to call this API directly but it’s there when we need it.
-
-
-
-Beyond that, we want to run a layout effect and loop through every prop that we’ve passed to our component. We loop through all of them and check to see if it’s a property with an in check that checks the web component instance object as well as its prototype chain, which will catch any getters/setters that wind up on the class prototype. If no such property exists, it’s assumed to be an attribute. In either case, we only set it if the value has actually changed.
-
-
-
-If you’re wondering why we use useLayoutEffect instead of useEffect, it’s because we want to immediately run these updates before our content is rendered. Also, note that we have no dependency array to our useLayoutEffect; this means we want to run this update on every render. This can be risky since React tends to re-render a lot. I ameliorate this by wrapping the whole thing in React.memo. This is essentially the modern version of React.PureComponent, which means the component will only re-render if any of its actual props have changed — and it checks whether that’s happened via a simple equality check.
-
-
-
-The only risk here is that if you’re passing an object prop that you’re mutating directly without re-assigning, then you won’t see the updates. But this is highly discouraged, especially in the React community, so I wouldn’t worry about it.
-
-
-
-Before moving on, I’d like to call out one last thing. You might not be happy with how the usage looks. Again, this component is used like this:
-
-
-
-&lt;WcWrapper wcTag&#x3D;&quot;counter-wc&quot; increment&#x3D;{increment} color&#x3D;{color} /&gt;
-
-
-
-Specifically, you might not like passing the web component tag name to the &lt;WcWrapper&gt; component and prefer instead the @lit-labs/react package above, which creates a new individual React component for each web component. That’s totally fair and I’d encourage you to use whatever you’re most comfortable with. But for me, one advantage with this approach is that it’s easy to delete. If by some miracle React merges proper web component handling from their experimental branch into main tomorrow, you’d be able to change the above code from this:
-
-
-
-&lt;WcWrapper wcTag&#x3D;&quot;counter-wc&quot; increment&#x3D;{increment} color&#x3D;{color} /&gt;
-
-
-
-…to this:
-
-
-
-&lt;counter-wc ref&#x3D;{wcRef} increment&#x3D;{increment} color&#x3D;{color} /&gt;
-
-
-
-You could probably even write a single codemod to do that everywhere, and then delete &lt;WcWrapper&gt; altogether. Actually, scratch that: a global search and replace with a RegEx would probably work.
-
-
-
-The implementation
-
-
-
-I know, it seems like it took a journey to get here. If you recall, our original goal was to take the image preview code we looked at in my last post, and move it to a web component so it can be used in any JavaScript framework. React’s lack of proper interop added a lot of detail to the mix. But now that we have a decent handle on how to create a web component, and use it, the implementation will almost be anti-climactic.
-
-
-
-I’ll drop the entire web component here and call out some of the interesting bits. If you’d like to see it in action, here’s a working demo. It’ll switch between my three favorite books on my three favorite programming languages. The URL for each book will be unique each time, so you can see the preview, though you’ll likely want to throttle things in your DevTools Network tab to really see things taking place.
-
-
-
-
-  
-          View entire code      
-  
-
-class BookCover extends HTMLElement {
-  static observedAttributes &#x3D; [&#x27;url&#x27;];
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name &#x3D;&#x3D;&#x3D; &#x27;url&#x27;) {
-      this.createMainImage(newValue);
-    }
-  }
-
-  set preview(val) {
-    this.previewEl &#x3D; this.createPreview(val);
-    this.render();
-  }
-
-  createPreview(val) {
-    if (typeof val &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
-      return base64Preview(val);
-    } else {
-      return blurHashPreview(val);
-    }
-  }
-
-  createMainImage(url) {
-    this.loaded &#x3D; false;
-    const img &#x3D; document.createElement(&#x27;img&#x27;);
-    img.alt &#x3D; &#x27;Book cover&#x27;;
-    img.addEventListener(&#x27;load&#x27;, () &#x3D;&amp;gt; {
-      if (img &#x3D;&#x3D;&#x3D; this.imageEl) {
-        this.loaded &#x3D; true;
-        this.render();
-      }
-    });
-    img.src &#x3D; url;
-    this.imageEl &#x3D; img;
-  }
-
-  connectedCallback() {
-    this.render();
-  }
-
-  render() {
-    const elementMaybe &#x3D; this.loaded ? this.imageEl : this.previewEl;
-    syncSingleChild(this, elementMaybe);
-  }
-}
-
-
-
-
-
-First, we register the attribute we’re interested in and react when it changes:
-
-
-
-static observedAttributes &#x3D; [&#x27;url&#x27;];
-
-attributeChangedCallback(name, oldValue, newValue) {
-  if (name &#x3D;&#x3D;&#x3D; &#x27;url&#x27;) {
-    this.createMainImage(newValue);
-  }
-}
-
-
-
-This causes our image component to be created, which will show only when loaded:
-
-
-
-createMainImage(url) {
-  this.loaded &#x3D; false;
-  const img &#x3D; document.createElement(&#x27;img&#x27;);
-  img.alt &#x3D; &#x27;Book cover&#x27;;
-  img.addEventListener(&#x27;load&#x27;, () &#x3D;&gt; {
-    if (img &#x3D;&#x3D;&#x3D; this.imageEl) {
-      this.loaded &#x3D; true;
-      this.render();
-    }
-  });
-  img.src &#x3D; url;
-  this.imageEl &#x3D; img;
-}
-
-
-
-Next we have our preview property, which can either be our base64 preview string, or our blurhash packet:
-
-
-
-set preview(val) {
-  this.previewEl &#x3D; this.createPreview(val);
-  this.render();
-}
-
-createPreview(val) {
-  if (typeof val &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
-    return base64Preview(val);
-  } else {
-    return blurHashPreview(val);
-  }
-}
-
-
-
-This defers to whichever helper function we need:
-
-
-
-function base64Preview(val) {
-  const img &#x3D; document.createElement(&#x27;img&#x27;);
-  img.src &#x3D; val;
-  return img;
-}
-
-function blurHashPreview(preview) {
-  const canvasEl &#x3D; document.createElement(&#x27;canvas&#x27;);
-  const { w: width, h: height } &#x3D; preview;
-
-  canvasEl.width &#x3D; width;
-  canvasEl.height &#x3D; height;
-
-  const pixels &#x3D; decode(preview.blurhash, width, height);
-  const ctx &#x3D; canvasEl.getContext(&#x27;2d&#x27;);
-  const imageData &#x3D; ctx.createImageData(width, height);
-  imageData.data.set(pixels);
-  ctx.putImageData(imageData, 0, 0);
-
-  return canvasEl;
-}
-
-
-
-And, lastly, our render method:
-
-
-
-connectedCallback() {
-  this.render();
-}
-
-render() {
-  const elementMaybe &#x3D; this.loaded ? this.imageEl : this.previewEl;
-  syncSingleChild(this, elementMaybe);
-}
-
-
-
-And a few helpers methods to tie everything together:
-
-
-
-export function syncSingleChild(container, child) {
-  const currentChild &#x3D; container.firstElementChild;
-  if (currentChild !&#x3D;&#x3D; child) {
-    clearContainer(container);
-    if (child) {
-      container.appendChild(child);
-    }
-  }
-}
-
-export function clearContainer(el) {
-  let child;
-
-  while ((child &#x3D; el.firstElementChild)) {
-    el.removeChild(child);
-  }
-}
-
-
-
-It’s a little bit more boilerplate than we’d need if we build this in a framework, but the upside is that we can re-use this in any framework we’d like — although React will need a wrapper for now, as we discussed.
-
-
-
-Odds and ends
-
-
-
-I’ve already mentioned Lit’s React wrapper. But if you find yourself using Stencil, it actually supports a separate output pipeline just for React. And the good folks at Microsoft have also created something similar to Lit’s wrapper, attached to the Fast web component library.
-
-
-
-As I mentioned, all frameworks not named React will handle setting web component properties for you. Just note that some have some special flavors of syntax. For example, with Solid.js, &lt;your-wc value&#x3D;{12}&gt; always assumes that value is a property, which you can override with an attr prefix, like &lt;your-wc attr:value&#x3D;{12}&gt;.
-
-
-
-Wrapping up
-
-
-
-Web components are an interesting, often underused part of the web development landscape. They can help reduce your dependence on any single JavaScript framework by managing your UI, or “leaf” components. While creating these as web components — as opposed to Svelte or React components — won’t be as ergonomic, the upside is that they’ll be widely reusable.
-
-Building Interoperable Web Components That Even Work With React originally published on CSS-Tricks. You should get the newsletter.</span>
-                        </a>
-                    </article>
-                </section>
-              </section>
-            </li>
-        </ul>
-      </section>
-      <section class="">
-        <h2 class="">
-          <time class="" data-offset-date=2022-06-03 datetime="2022-06-03T14:39:11.000Z">2022-06-03</time>
-        </h2>
-        <ul class="">
-            <li class="">
-              <section class="">
-                <h3 class="">CSS-Tricks</h3>
-                <a class="" href=""></a>
-                <section class="">
-                    <article>
-                        <h4 class="">
-                          <a class="" href="">Please Give Me Some Space</a>
-                        </h4>
-                        <span>There’s all kinds of ways to do that. Some more advisable and better-suited for certain situations than others, of course.
-
-
-
-
-
-
-
-We could do it directly in HTML:
-
-
-
-&lt;p&gt;We go from one line...&lt;br&gt;&lt;br&gt; down a couple more.&lt;/p&gt;
-
-
-
-But that’s what CSS is really for:
-
-
-
-&lt;p&gt;We go from one line...&lt;span&gt;down a couple more.&lt;/span&gt;&lt;/p&gt;
-
-
-
-span {
-  display: block;
-  margin-block-start: 1.5rem;
-}
-
-
-
-Line height can also give us extra breathing room between lines of text:
-
-
-
-p {
-  line-height: 1.35;
-}
-
-
-
-Since we’re talking text, there’s also letter-spacing and word-spacing, not to mention text-indent:
-
-
-
-CodePen Embed Fallback
-
-
-
-But let’s talk boxes instead of text. Say we have two simple divs:
-
-
-
-&lt;div&gt;Twiddle Dee&lt;/div&gt;
-&lt;div&gt;Twiddle Dum&lt;/div&gt;
-
-
-
-Those are block-level so they’re already on different lines. We can reach for margin again. Or we could create the impression of space with padding. I suppose we could translate those suckers in either direction:
-
-
-
-div:nth-child(2) {
-  transform: translateY(100px);
-}
-
-
-
-But maybe those elements are absolutely positioned so we can use physical offsets:
-
-
-
-div {
-  position: absolute;
-}
-div:nth-child(1) {
-  inset: 0;
-}
-div:nth-child(2) {
-  inset-inline-start: 100px; /* or top: 100px; */
-}
-
-
-
-If we’re working in a grid container, then we get gap-age:
-
-
-
-&lt;section&gt;
-  &lt;div&gt;Twiddle Dee&lt;/div&gt;
-  &lt;div&gt;Twiddle Dum&lt;/div&gt;
-&lt;/section&gt;
-
-
-
-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 100px;
-}
-
-
-
-Same deal with a flexible container:
-
-
-
-section {
-  display: flex;
-  gap: 100px;
-}
-
-
-
-While we’re working in grid and flexible containers, we could call on any alignment property to generate space.
-
-
-
-section {
-  display: flex;
-  align-items: space-between;
-  justify-content: space-between;
-}
-
-
-
-There are tables, of course:
-
-
-
-&lt;table cellspacing&#x3D;&quot;100&quot;&gt;
-  &lt;!-- etc.  --&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Twiddle Dee&lt;/td&gt;
-      &lt;td&gt;Twiddle Dum&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-
-
-Or the CSS-y approach:
-
-
-
-/* We could use &#x60;display: table&#x60; if we&#x27;re not working in a table element. */
-table {
-  border-spacing: 100px;
-}
-
-
-
-Let’s go deeper into left field. We can make one element look like two using a linear gradient with a hard color stop:
-
-
-
-div {
-  background-image:
-    linear-gradient(
-      to right,
-      rgb(255 105 0 / 1) 50%,
-      rgb(207 46 46 / 1) 50%,
-      rgb(207 46 46 / 1) 100%
-    );
-}
-
-
-
-Then we do a head fake and insert a hard transparent color stop between the two colors:
-
-
-
-CodePen Embed Fallback
-
-
-
-As long as we’re fakin’ bacon here, might as well toss in the ol’ “transparent” border trick:
-
-
-
-CodePen Embed Fallback
-
-
-
-Let’s go back to text for a moment. Maybe we’re floating an element and want text to wrap around it… in the shape of the floated element while leaving some space between the two. We have shape-margin for that:
-
-
-
-CodePen Embed Fallback
-
-
-
-Dare I even mention the spacer.gif days?
-
-
-
-&lt;div&gt;Twiddle Dee&lt;/div&gt;
-&lt;img src&#x3D;&quot;spacer.gif&quot;&gt; &lt;!-- 🤢 --&gt;
-&lt;div&gt;Twiddle Dum&lt;/div&gt;
-
-
-
-There’s gotta be more
-
-
-
-You’re all a smart bunch with great ideas. Have at it!
-
-Please Give Me Some Space originally published on CSS-Tricks. You should get the newsletter.</span>
-                        </a>
-                    </article>
-                </section>
-              </section>
-            </li>
-        </ul>
-      </section>
       <footer>
-        <a class="footer-link" href="https://github.com/chuanqisun/workflow-inactivity-test/actions/runs/2587053368">
-          <time id="build-timestamp" datetime="2022-06-30T02:05:29.213Z">2022-06-30T02:05:29.213Z</time>
+        <a class="footer-link" href="https://github.com/chuanqisun/workflow-inactivity-test/actions/runs/2593915263">
+          <time id="build-timestamp" datetime="2022-07-01T02:19:35.388Z">2022-07-01T02:19:35.388Z</time>
         </a>
         <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 0.0.13</a>
       </footer>  </body>
