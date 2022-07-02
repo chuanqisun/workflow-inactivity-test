@@ -14,8 +14,587 @@
   <body>
     <header>
       osmosfeed starter test 3
-      <time datetime="2022-07-01T02:19:35.388Z">2022-07-01T02:19:35.388Z</time>
+      <time datetime="2022-07-02T02:01:00.189Z">2022-07-02T02:01:00.189Z</time>
     </header>
+      <section class="">
+        <h2 class="">
+          <time class="" data-offset-date=2022-07-01 datetime="2022-07-01T13:24:09.000Z">2022-07-01</time>
+        </h2>
+        <ul class="">
+            <li class="">
+              <section class="">
+                <h3 class="">CSS-Tricks</h3>
+                <a class="" href=""></a>
+                <section class="">
+                    <article>
+                        <h4 class="">
+                          <a class="" href="">Single Element Loaders: Going 3D!</a>
+                        </h4>
+                        <span>For this fourth and final article of our little series on single-element loaders, we are going to explore 3D patterns. When creating a 3D element, it’s hard to imagine that just one HTML element is enough to simulate something like all six faces of a cube. But  maybe we can get away with something more cube-like instead by showing only the front three sides of the shape — it’s totally possible and that’s what we’re going to do together.
+
+
+
+
+
+
+
+
+Article series
+
+
+
+Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — you are here
+
+
+
+
+The split cube loader
+
+
+
+Here is a 3D loader where a cube is split into two parts, but is only made with only a single element:
+
+
+
+CodePen Embed Fallback
+
+
+
+Each half of the cube is made using a pseudo-element:
+
+
+
+
+
+
+
+Cool, right?! We can use a conic gradient with CSS clip-path on the element’s ::before and ::after pseudos to simulate the three visible faces of a 3D cube. Negative margin is what pulls the two pseudos together to overlap and simulate a full cube. The rest of our work is mostly animating those two halves to get neat-looking loaders!
+
+
+
+Let’s check out a visual that explains the math behind the clip-path points used to create this cube-like element:
+
+
+
+
+
+
+
+We have our variables and an equation, so let’s put those to work. First, we’ll establish our variables and set the sizing for the main .loader element:
+
+
+
+.loader {
+  --s: 150px; /* control the size */
+  --_d: calc(0.353 * var(--s)); /* 0.353 &#x3D; sin(45deg)/2 */
+
+  width: calc(var(--s) + var(--_d)); 
+  aspect-ratio: 1;
+  display: flex;
+}
+
+
+
+Nothing too crazy so far. We have a 150px square that’s set up as a flexible container. Now we establish our pseudos:
+
+
+
+.loader::before,
+.loader::after {
+  content: &quot;&quot;;
+  flex: 1;
+}
+
+
+
+Those are two halves in the .loader container. We need to paint them in, so that’s where our conic gradient kicks in:
+
+
+
+.loader::before,
+.loader::after {
+  content: &quot;&quot;;
+  flex: 1;
+  background:
+    conic-gradient(from -90deg at calc(100% - var(--_d)) var(--_d),
+    #fff 135deg, #666 0 270deg, #aaa 0);
+}
+
+
+
+The gradient is there, but it looks weird. We need to clip it to the element:
+
+
+
+.loader::before,
+.loader::after {
+  content: &quot;&quot;;
+  flex: 1;
+  background:
+    conic-gradient(from -90deg at calc(100% - var(--_d)) var(--_d),
+    #fff 135deg, #666 0 270deg, #aaa 0);
+  clip-path:
+    polygon(var(--_d) 0, 100% 0, 100% calc(100% - var(--_d)), calc(100% - var(--_d)) 100%, 0 100%, 0 var(--_d));
+}
+
+
+
+Let’s make sure the two halves overlap with a negative margin:
+
+
+
+.loader::before {
+  margin-right: calc(var(--_d) / -2);
+}
+
+.loader::after {
+  margin-left: calc(var(--_d) / -2);
+}
+
+
+
+Now let’s make ‘em move!
+
+
+
+.loader::before,
+.loader::after {
+  /* same as before */
+  animation: load 1.5s infinite cubic-bezier(0, .5, .5, 1.8) alternate;
+}
+
+.loader::after {
+  /* same as before */
+  animation-delay: -.75s
+}
+
+@keyframes load{
+  0%, 40%   { transform: translateY(calc(var(--s) / -4)) }
+  60%, 100% { transform: translateY(calc(var(--s) / 4)) }
+}
+
+
+
+Here’s the final demo once again:
+
+
+
+CodePen Embed Fallback
+
+
+
+The progress cube loader
+
+
+
+Let’s use the same technique to create a 3D progress loader. Yes, still only one element!
+
+
+
+CodePen Embed Fallback
+
+
+
+We’re not changing a thing as far as simulating the cube the same way we did before, other than changing the loader’s height and aspect ratio. The animation we’re making relies on a surprisingly easy technique where we update the width of the left side while the right side fills the remaining space, thanks to flex-grow: 1.
+
+
+
+The first step is to add some transparency to the right side using opacity:
+
+
+
+CodePen Embed Fallback
+
+
+
+This simulates the effect that one side of the cube is filled in while the other is empty. Then we update the color of the left side. To do that, we either update the three colors inside the conic gradient or we do it by adding a background color with a background-blend-mode:
+
+
+
+.loader::before {
+  background-color: #CC333F; /* control the color here */
+  background-blend-mode: multiply;
+}
+
+
+
+This trick only allows us to update the color only once. The right side of the loader blends in with the three shades of white from the conic gradient to create three new shades of our color, even though we’re only using one color value. Color trickery!
+
+
+
+CodePen Embed Fallback
+
+
+
+Let’s animate the width of the loader’s left side:
+
+
+
+CodePen Embed Fallback
+
+
+
+Oops, the animation is a bit strange at the beginning! Notice how it sort of starts outside of the cube? This is because we’re starting the animation at the 0% width. But due to the clip-path and negative margin we’re using, what we need to do instead is start from our --_d variable, which we used to define the clip-path points and the negative margin:
+
+
+
+@keyframes load {
+  0%,
+  5% {width: var(--_d); }
+  95%,
+  100% {width: 100%; }
+}
+
+
+
+That’s a little better:
+
+
+
+CodePen Embed Fallback
+
+
+
+But we can make this animation even smoother. Did you notice we’re missing a little something? Let me show you a screenshot to compare what the final demo should look like with that last demo:
+
+
+
+
+
+
+
+It’s the bottom face of the cube! Since the second element is transparent, we need to see the bottom face of that rectangle as you can see in the left example. It’s subtle, but should be there!
+
+
+
+We can add a gradient to the main element and clip it like we did with the pseudos:
+
+
+
+background: linear-gradient(#fff1 0 0) bottom / 100% var(--_d) no-repeat;
+
+
+
+Here’s the full code once everything is pulled together:
+
+
+
+.loader {
+  --s: 100px; /* control the size */
+  --_d: calc(0.353*var(--s)); /* 0.353 &#x3D; sin(45deg) / 2 */
+
+  height: var(--s); 
+  aspect-ratio: 3;
+  display: flex;
+  background: linear-gradient(#fff1 0 0) bottom / 100% var(--_d) no-repeat;
+  clip-path: polygon(var(--_d) 0, 100% 0, 100% calc(100% - var(--_d)), calc(100% - var(--_d)) 100%, 0 100%, 0 var(--_d));
+}
+.loader::before,
+.loader::after {
+  content: &quot;&quot;;
+  clip-path: inherit;
+  background:
+    conic-gradient(from -90deg at calc(100% - var(--_d)) var(--_d),
+     #fff 135deg, #666 0 270deg, #aaa 0);
+}
+.loader::before {
+  background-color: #CC333F; /* control the color here */
+  background-blend-mode: multiply;
+  margin-right: calc(var(--_d) / -2);
+  animation: load 2.5s infinite linear;
+}
+.loader:after {
+  flex: 1;
+  margin-left: calc(var(--_d) / -2);
+  opacity: 0.4;
+}
+
+@keyframes load {
+  0%,
+  5% { width: var(--_d); }
+  95%,
+  100% { width: 100%; }
+}
+
+
+
+CodePen Embed Fallback
+
+
+
+That’s it! We just used a clever technique that uses pseudo-elements, conic gradients, clipping, background blending, and negative margins to get, not one, but two sweet-looking 3D loaders with nothing more than a single element in the markup.
+
+
+
+More 3D
+
+
+
+We can still go further and simulate an infinite number of 3D cubes using one element — yes, it’s possible! Here’s a grid of cubes:
+
+
+
+CodePen Embed Fallback
+
+
+
+This demo and the following demos are unsupported in Safari at the time of writing.
+
+
+
+Crazy, right? Now we’re creating a repeated pattern of cubes made using a single element… and no pseudos either! I won’t go into fine detail about the math we are using (there are very specific numbers in there) but here is a figure to visualize how we got here:
+
+
+
+
+
+
+
+We first use a conic-gradient to create the repeating cube pattern. The repetition of the pattern is controlled by three variables:
+
+
+
+--size: True to its name, this controls the size of each cube.--m: This represents the number of columns.--n: This is the number of rows.--gap: this the gap or distance between the cubes
+
+
+
+.cube {
+  --size: 40px; 
+  --m: 4; 
+  --n: 5;
+  --gap :10px;
+
+  aspect-ratio: var(--m) / var(--n);
+  width: calc(var(--m) * (1.353 * var(--size) + var(--gap)));
+  background:
+    conic-gradient(from -90deg at var(--size) calc(0.353 * var(--size)),
+      #249FAB 135deg, #81C5A3 0 270deg, #26609D 0) /* update the colors here */
+    0 0 / calc(100% / var(--m)) calc(100% / var(--n));
+}
+
+
+
+Then we apply a mask layer using another pattern having the same size. This is the trickiest part of this idea. Using a combination of a linear-gradient and a conic-gradient we will cut a few parts of our element to keep only the cube shapes visible.
+
+
+
+.cube {
+  /* etc. */
+  mask: 
+    linear-gradient(to bottom right,
+       #0000 calc(0.25 * var(--size)),
+       #000 0 calc(100% - calc(0.25 * var(--size)) - 1.414 * var(--gap)),
+       #0000 0),
+    conic-gradient(from -90deg at right var(--gap) bottom var(--gap), #000 90deg, #0000 0);  
+  mask-size: calc(100% / var(--m)) calc(100% / var(--n));
+  mask-composite: intersect;
+}
+
+
+
+The code may look a bit complex but thanks to CSS variables all we need to do is to update a few values to control our matrix of cubes. Need a 10⨉10 grid? Update the --m and --n variables to 10. Need a wider gap between cubes? Update the --gap value. The color values are only used once, so update those for a new color palette!
+
+
+
+Now that we have another 3D technique, let’s use it to build variations of the loader by playing around with different animations. For example, how about a repeating pattern of cubes sliding infinitely from left to right?
+
+
+
+CodePen Embed Fallback
+
+
+
+This loader defines four cubes in a single row. That means our --n value is 4 and --m is equal to 1 . In other words, we no longer need these!
+
+
+
+Instead, we can work with the --size and --gap variables in a grid container:
+
+
+
+.loader {
+  --size: 70px;
+  --gap: 15px;  
+
+  width: calc(3 * (1.353 * var(--size) + var(--gap)));
+  display: grid;
+  aspect-ratio: 3;
+}
+
+
+
+This is our container. We have four cubes, but only want to show three in the container at a time so that we always have one sliding in as one is sliding out. That’s why we are factoring the width by 3 and have the aspect ratio set to 3 as well.
+
+
+
+Let’s make sure that our cube pattern is set up for the width of four cubes. We’re going to do this on the container’s ::before pseudo-element:
+
+
+
+.loader::before { 
+  content: &quot;&quot;;
+  width: calc(4 * 100% / 3);
+  /*
+     Code to create four cubes
+  */
+}
+
+
+
+Now that we have four cubes in a three-cube container, we can justify the cube pattern to the end of the grid container to overflow it, showing the last three cubes:
+
+
+
+.loader {
+  /* same as before */
+  justify-content: end;
+}
+
+
+
+Here’s what we have so far, with a red outline to show the bounds of the grid container:
+
+
+
+CodePen Embed Fallback
+
+
+
+Now all we have to do is to move the pseudo-element to the right by adding our animation:
+
+
+
+@keyframes load {
+  to { transform: translate(calc(100% / 4)); }
+}
+
+
+
+CodePen Embed Fallback
+
+
+
+Did you get the trick of the animation? Let’s finish this off by hiding the overflowing cube pattern and by adding a touch of masking to create that fading effect that the start and the end:
+
+
+
+.loader {
+  --size: 70px;
+  --gap: 15px;  
+  
+  width: calc(3*(1.353*var(--s) + var(--g)));
+  display: grid;
+  justify-items: end;
+  aspect-ratio: 3;
+  overflow: hidden;
+  mask: linear-gradient(90deg, #0000, #000 30px calc(100% - 30px), #0000);
+}
+
+
+
+CodePen Embed Fallback
+
+
+
+We can make this a lot more flexible by introducing a variable, --n, to set how many cubes are displayed in the container at once. And since the total number of cubes in the pattern should be one more than --n, we can express that as calc(var(--n) + 1).
+
+
+
+Here’s the full thing:
+
+
+
+CodePen Embed Fallback
+
+
+
+OK, one more 3D loader that’s similar but has the cubes changing color in succession instead of sliding:
+
+
+
+CodePen Embed Fallback
+
+
+
+We’re going to rely on an animated background with background-blend-mode for this one:
+
+
+
+.loader {
+  /* ... */
+  background:
+    linear-gradient(#ff1818 0 0) 0% / calc(100% / 3) 100% no-repeat,
+    /* ... */;
+  background-blend-mode: multiply;
+  /* ... */
+  animation: load steps(3) 1.5s infinite;
+}
+@keyframes load {
+  to { background-position: 150%; }
+}
+
+
+
+I’ve removed the superfluous code used to create the same layout as the last example, but with three cubes instead of four. What I am adding here is a gradient defined with a specific color that blends with the conic gradient, just as we did earlier for the progress bar 3D loader.
+
+
+
+From there, it’s animating the background gradient’s background-position as a three-step animation to make the cubes blink colors one at a time.
+
+
+
+If you are not familiar with the values I am using for background-position and the background syntax, I highly recommend one of my previous articles and one of my Stack Overflow answers. You will find a very detailed explanation there.
+
+
+
+Can we update the number of cubes to make it variables?
+
+
+
+Yes, I do have a solution for that, but I’d like you to take a crack at it rather than embedding it here. Take what we have learned from the previous example and try to do the same with this one — then share your work in the comments!
+
+
+
+Variations galore!
+
+
+
+Like the other three articles in this series, I’d like to leave you with some inspiration to go forth and create your own loaders. Here is a collection that includes the 3D loaders we made together, plus a few others to get your imagination going:
+
+
+
+CodePen Embed Fallback
+
+
+
+That’s a wrap
+
+
+
+I sure do hope you enjoyed spending time making single element loaders with me these past few weeks. It’s crazy that we started with seemingly simple spinner and then gradually added new pieces to work ourselves all the way up to 3D techniques that still only use a single element in the markup. This is exactly what CSS looks like when we harness its powers: scalable, flexible, and reusable.
+
+
+
+Thanks again for reading this little series! I’ll sign off by reminding you that I have a collection of more than 500 loaders if you’re looking for more ideas and inspiration.
+
+
+
+
+Article series
+
+
+
+Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — you are here
+
+
+Single Element Loaders: Going 3D! originally published on CSS-Tricks. You should get the newsletter.</span>
+                        </a>
+                    </article>
+                </section>
+              </section>
+            </li>
+        </ul>
+      </section>
       <section class="">
         <h2 class="">
           <time class="" data-offset-date=2022-06-30 datetime="2022-06-30T17:28:57.000Z">2022-06-30</time>
@@ -30,7 +609,7 @@
                         <h4 class="">
                           <a class="" href="">Bunny Fonts</a>
                         </h4>
-                        <span>Bunny Fonts bills itself as the “privacy-first web font platform designed to put privacy back into the internet.”According to its FAQ:
+                        <span>Bunny Fonts bills itself as the “privacy-first web font platform designed to put privacy back into the internet.” According to its FAQ:
 
 
 
@@ -39,6 +618,10 @@ With a zero-tracking and no-logging policy, Bunny Fonts helps you stay fully GDP
 
 
 Hard for my mind not to go straight to Google Fonts. Bunny Fonts even says they are a drop-in replacement for Google Fonts. It offers the same open source fonts and holds the same API structure used by Google Fonts. 
+
+
+
+
 
 
 
@@ -1293,7 +1876,7 @@ Article series
 
 
 
-Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The Bars — you are hereSingle Element Loaders: Going 3D — coming July 1
+Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The Bars — you are hereSingle Element Loaders: Going 3D
 
 
 
@@ -1644,7 +2227,7 @@ Article series
 
 
 
-Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The Bars — you are hereSingle Element Loaders: Going 3D — coming July 1
+Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The Bars — you are hereSingle Element Loaders: Going 3D
 
 
 Single Element Loaders: The Bars originally published on CSS-Tricks. You should get the newsletter.</span>
@@ -1944,7 +2527,7 @@ Article series
 
 
 
-Single Element Loaders: The SpinnerSingle Element Loaders: The Dots — you are hereSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — coming July 1
+Single Element Loaders: The SpinnerSingle Element Loaders: The Dots — you are hereSingle Element Loaders: The BarsSingle Element Loaders: Going 3D
 
 
 
@@ -2234,7 +2817,7 @@ Article series
 
 
 
-Single Element Loaders: The SpinnerSingle Element Loaders: The Dots — you are hereSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — coming July 1
+Single Element Loaders: The SpinnerSingle Element Loaders: The Dots — you are hereSingle Element Loaders: The BarsSingle Element Loaders: Going 3D
 
 
 Single Element Loaders: The Dots originally published on CSS-Tricks. You should get the newsletter.</span>
@@ -3099,7 +3682,7 @@ Single-Element Loaders series:
 
 
 
-Single Element Loaders: The Spinner — you are hereSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — coming July 1
+Single Element Loaders: The Spinner — you are hereSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D
 
 
 
@@ -3475,7 +4058,7 @@ Single-Element Loaders series:
 
 
 
-Single Element Loaders: The Spinner — you are hereSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — coming July 1
+Single Element Loaders: The Spinner — you are hereSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D
 
 
 Single Element Loaders: The Spinner originally published on CSS-Tricks. You should get the newsletter.</span>
@@ -3546,180 +4129,9 @@ Am I on the IndieWeb yet? originally published on CSS-Tricks. You should get the
             </li>
         </ul>
       </section>
-      <section class="">
-        <h2 class="">
-          <time class="" data-offset-date=2022-06-08 datetime="2022-06-08T14:30:53.000Z">2022-06-08</time>
-        </h2>
-        <ul class="">
-            <li class="">
-              <section class="">
-                <h3 class="">CSS-Tricks</h3>
-                <a class="" href=""></a>
-                <section class="">
-                    <article>
-                        <h4 class="">
-                          <a class="" href="">Let’s Make a QR Code Generator With a Serverless Function!</a>
-                        </h4>
-                        <span>QR codes are funny, right? We love them, then hate them, then love them again. Anyways, they’ve lately been popping up again and it got me thinking about how they’re made. There are like a gazillion QR code generators out there, but say it’s something you need to do on your own website. This package can do that. But it’s also weighs in at a hefty 180 KB for everything it needs to generate stuff. You wouldn’t want to serve all that along with the rest of your scripts.
-
-
-
-Now, I’m relatively new to the concept of cloud functions, but I hear that’s the bee’s knees for something just like this. That way, the function lives somewhere on a server that can be called when it’s needed. Sorta like a little API to run the function.
-
-
-
-Some hosts offer some sort of cloud function feature. DigitalOcean happens to be one of them! And, like Droplets, functions are pretty easy to deploy.
-
-
-
-
-
-
-
-Create a functions folder locally
-
-
-
-DigitalOcean has a CLI that with a command that’ll scaffold things for us, so cd wherever you want to set things up and run:
-
-
-
-doctl serverless init --language js qr-generator
-
-
-
-Notice the language is explicitly declared. DigitalOcean functions also support PHP and Python.
-
-
-
-We get a nice clean project called qr-generator with a /packages folder that holds all the project’s functions. There’s a sample function in there, but we can overlook it for now and create a qr folder right next to it:
-
-
-
-
-
-
-
-That folder is where both the qrcode package and our qr.js function are going to live. So, let’s cd into packages/sample/qr and install the package:
-
-
-
-npm install --save qrcode
-
-
-
-Now we can write the function in a new qr.js file:
-
-
-
-const qrcode &#x3D; require(&#x27;qrcode&#x27;)
-
-exports.main &#x3D; (args) &#x3D;&gt; {
-  return qrcode.toDataURL(args.text).then(res &#x3D;&gt; ({
-    headers:  { &#x27;content-type&#x27;: &#x27;text/html; charset&#x3D;UTF-8&#x27; },
-    body: args.img &#x3D;&#x3D; undefined ? res : &#x60;&lt;img src&#x3D;&quot;${res}&quot;&gt;&#x60;
-  }))
-}
-
-if (process.env.TEST) exports.main({text:&quot;hello&quot;}).then(console.log)
-
-
-
-All that’s doing is requiring the the qrcode package and exporting a function that basically generates an &lt;img&gt; tag with the a base64 PNG for the source. We can even test it out in the terminal:
-
-
-
-doctl serverless functions invoke sample/qr -p &quot;text:css-tricks.com&quot;
-
-
-
-Check the config file
-
-
-
-There is one extra step we need here. When the project was scaffolded, we got this little project.yml file and it configures the function with some information about it. This is what’s in there by default:
-
-
-
-targetNamespace: &#x27;&#x27;
-parameters: {}
-packages:
-  - name: sample
-    environment: {}
-    parameters: {}
-    annotations: {}
-    actions:
-      - name: hello
-        binary: false
-        main: &#x27;&#x27;
-        runtime: &#x27;nodejs:default&#x27;
-        web: true
-        parameters: {}
-        environment: {}
-        annotations: {}
-        limits: {}
-
-
-
-See those highlighted lines? The packages: name property is where in the packages folder the function lives, which is a folder called sample in this case. The actions/ name property is the name of the function itself, which is the name of the file. It’s hello by default when we spin up the project, but we named ours qr.js, so we oughta change that line from hello to qr before moving on.
-
-
-
-Deploy the function
-
-
-
-We can do it straight from the command line! First, we connect to the DigitalOcean sandbox environment so we have a live URL for testing:
-
-
-
-## You will need an DO API key handy
-doctl sandbox connect
-
-
-
-Now we can deploy the function:
-
-
-
-doctl sandbox deploy qr-generator
-
-
-
-Once deployed, we can access the function at a URL. What’s the URL? There’s a command for that:
-
-
-
-doctl sbx fn get sample/qr --url
-https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/fn-10a937cb-1f12-427b-aadd-f43d0b08d64a/sample/qr
-
-
-
-Heck yeah! No more need to ship that entire package with the rest of the scripts! We can hit that URL and generate the QR code from there.
-
-
-
-Demo
-
-
-
-We fetch the API and that’s really all there is to it!
-
-
-
-CodePen Embed Fallback
-
-Let’s Make a QR Code Generator With a Serverless Function! originally published on CSS-Tricks. You should get the newsletter.</span>
-                        </a>
-                    </article>
-                </section>
-              </section>
-            </li>
-        </ul>
-      </section>
       <footer>
-        <a class="footer-link" href="https://github.com/chuanqisun/workflow-inactivity-test/actions/runs/2593915263">
-          <time id="build-timestamp" datetime="2022-07-01T02:19:35.388Z">2022-07-01T02:19:35.388Z</time>
+        <a class="footer-link" href="https://github.com/chuanqisun/workflow-inactivity-test/actions/runs/2600008246">
+          <time id="build-timestamp" datetime="2022-07-02T02:01:00.189Z">2022-07-02T02:01:00.189Z</time>
         </a>
         <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 0.0.13</a>
       </footer>  </body>
