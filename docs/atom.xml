@@ -4,10 +4,34 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-07-12T02:12:36.693Z</updated>
+   <updated>2022-07-13T02:06:36.276Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>In Praise of Shadows</title>
+         <link href="https://css-tricks.com/in-praise-of-shadows/"/>
+       <updated>2022-07-12T17:08:49.000Z</updated>
+       <content type="text">Our dear friend Robin has a new essay called In Praise of Shadows. Now, before you hop over there looking for nuggets on CSS box shadows, text shadows, and shadow filters… this is not that. It’s an essay on photography and what Robin has learned about handing shadows with a camera.
+ 
+ 
+ 
+ So, why share this? Because it’s cool as heck that he made an article directed page dedicated to one essay. And you’ll learn a lot about CSS if you crack open DevTools on it:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Centering techniques. Notice how CSS Grid is used on the &lt;body&gt; simply to center the pamphlet. Then Robin reaches for it again on each .frame of the essay to do the same thing with the content.“Faux” background images. Robin could have made a lot of work for himself by creating a CSS class for each .frame to get the background images. Instead, he uses object-fit: cover on inlined HTML &lt;img&gt;s to maintain the aspect ratio while filling the .frame container. (He’s actually written about this before.) That sure saves a lot of CSS’ing, but it also allows him to use alt text if needed. I sorta wonder if a &lt;figure&gt;/&lt;figcaption&gt; structure could’ve worked here instead but I doubt it would provide much additional benefit for what’s going on.Stacking contexts. Another perk of those faux background images? They use absolute positioning which creates a stacking context, allowing Robin to set a z-index: 0 on the images. That way, the text stacks directly on top with z-index: 1. Again, CSS Grid is handling all the centering so things are nicely aligned.Scroll snapping. I always love it when I see CSS scroll snapping in the wild. Robin made a nice choice to use it here, as it really lends to the whole page-turning experience while scrolling through frames. Horizontal scrolling can be maddening, but also extremely elegant when executed well as it is here in how it enhances the narrow-column design. If you want a nice explanation of how it all works, Robin has also written about horizontal scroll snapping.
+ 
+ 
+ 
+ If nothing else, Robin is an excellent writer and it’s worth reading anything he publishes, CSS and beyond.
+ To Shared Link — Permalink on CSS-Tricks
+ In Praise of Shadows originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Technical Writing for Developers</title>
          <link href="https://css-tricks.com/technical-writing-for-developers/"/>
@@ -1995,7 +2019,11 @@
        <title>Help Shape the Future of CSS-Tricks!</title>
          <link href="https://css-tricks.com/help-shape-the-future-of-css-tricks/"/>
        <updated>2022-06-28T19:52:48.000Z</updated>
-       <content type="text">Hey, so it’s been a minute since we announced that CSS-Tricks is now part of the DigitalOcean family. Things are pretty much business as usual and hopefully it feels that way to you, too. Now that we’re getting settled, we’re eager to start poking at the future of this site.
+       <content type="text">Head’s up! The survey closed on July 12, 2022. We got tons of responses — thanks to everyone for helping us out!
+ 
+ 
+ 
+ Hey, so it’s been a minute since we announced that CSS-Tricks is now part of the DigitalOcean family. Things are pretty much business as usual and hopefully it feels that way to you, too. Now that we’re getting settled, we’re eager to start poking at the future of this site.
  
  
  
