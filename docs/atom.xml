@@ -4,10 +4,446 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-07-13T02:06:36.276Z</updated>
+   <updated>2022-07-14T02:12:21.645Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>React Hooks: The Deep Cuts</title>
+         <link href="https://css-tricks.com/react-hooks-the-deep-cuts/"/>
+       <updated>2022-07-13T13:34:08.000Z</updated>
+       <content type="text">Hooks are reusable functions. They allow you to use state and other features (e.g. lifecycle methods and so on) without writing a class. Hook functions let us “hook into” the React state lifecycle using functional components, allowing us to manipulate the state of our functional components without needing to convert them to class components.
+ 
+ 
+ 
+ React introduced hooks back in version 16.8 and has been adding more ever since. Some are more used and popular than others, like useEffect, useState, and useContext hooks. I have no doubt that you’ve reached for those if you work with React.
+ 
+ 
+ 
+ But what I’m interested in are the lesser-known React hooks. While all React hooks are interesting in their own way, there are five of them that I really want to show you because they may not pop up in your everyday work — or maybe they do and knowing them gives you some extra superpowers.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Table of Contents
+ 
+ useReducer
+ useRef
+ useImperativeHandle
+ useMemo
+ useCallback
+ Final thoughts
+ 
+ 
+ useReducer
+ 
+ 
+ The useReducer hook is a state management tool like other hooks. Specifically, it is an alternative to the useState hook.
+ 
+ 
+ 
+ If you use the useReducer hook to change two or more states (or actions), you won’t have to manipulate those states individually. The hook keeps track of all the states and collectively manages them. In other words: it manages and re-renders state changes. Unlike the useState hook, useReducer is easier when it comes to handling many states in complex projects.
+ 
+ 
+ Use cases
+ 
+ 
+ useReducer can help reduce the complexity of working with multiple states. Use it when you find yourself needing to track multiple states collectively, as it allows you to treat state management and the rendering logic of a component as separate concerns.
+ 
+ 
+ Syntax
+ 
+ 
+ useReducer accepts three arguments, one of which is optional:
+ 
+ 
+ 
+ a reducer functioninitialStatean init function (optional)
+ 
+ 
+ 
+ const [state, dispatch] &#x3D; useReducer(reducer, initialState)
+ const [state, dispatch] &#x3D; useReducer(reducer, initialState initFunction) // in the case where you initialize with the optional 3rd argument
+ 
+ 
+ Example
+ 
+ 
+ The following example is an interface that contains a text input, counter, and button. Interacting with each element updates the state. Notice how useReducer allows us to define multiple cases at once rather than setting them up individually.
+ 
+ 
+ 
+ import { useReducer } from &#x27;react&#x27;;
+ const reducer &#x3D; (state, action) &#x3D;&gt; {
+   switch (action.type) {
+     case &#x27;INCREMENT&#x27;:
+       return { ...state, count: state.count + 1 };
+     case &#x27;DECREMENT&#x27;:
+       return { ...state, count: state.count - 1 };
+     case &#x27;USER_INPUT&#x27;:
+       return { ...state, userInput: action.payload };
+     case &#x27;TOGGLE_COLOR&#x27;:
+       return { ...state, color: !state.color };
+     default:
+       throw new Error();
+   }
+ }
+ 
+ function App() {
+   const [state, dispatch] &#x3D; useReducer(reducer, { count: 0, userInput: &#x27;&#x27;, color: false })
+ 
+   return (
+     &lt;main className&#x3D;&quot;App, App-header&quot; style&#x3D;{{ color: state.color ? &#x27;#000&#x27; : &#x27;#FF07FF&#x27;}}&gt;
+       &lt;input style&#x3D;{{margin: &#x27;2rem&#x27;}}
+         type&#x3D;&quot;text&quot;
+         value&#x3D;{state.userInput}
+         onChange&#x3D;{(e) &#x3D;&gt; dispatch({ type: &#x27;USER_INPUT&#x27;, payload: e.target.value })}
+       /&gt;
+       &lt;br /&gt;&lt;br /&gt;
+       &lt;p style&#x3D;{{margin: &#x27;2rem&#x27;}} &gt;{state.count}&lt;/p&gt;
+       &lt;section style&#x3D;{{margin: &#x27;2rem&#x27;}}&gt;
+         &lt;button  onClick&#x3D;{(() &#x3D;&gt; dispatch({ type: &#x27;DECREMENT&#x27; }))}&gt;-&lt;/button&gt;
+         &lt;button onClick&#x3D;{(() &#x3D;&gt; dispatch({ type: &#x27;INCREMENT&#x27; }))}&gt;+&lt;/button&gt;
+         &lt;button onClick&#x3D;{(() &#x3D;&gt; dispatch({ type: &#x27;TOGGLE_COLOR&#x27; }))}&gt;Color&lt;/button&gt;
+       &lt;/section&gt;
+       &lt;br /&gt;&lt;br /&gt;
+       &lt;p style&#x3D;{{margin: &#x27;2rem&#x27;}}&gt;{state.userInput}&lt;/p&gt;
+     &lt;/main&gt;
+   );
+ }
+ export default App;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ From the code above, noticed how we are able to easily managed several states in the reducer (switch-case), this shows the benefit of the useReducer. This is the power it gives when working in complex applications with multiple states.
+ 
+ 
+ useRef
+ 
+ 
+ The useRef hook is used to create refs on elements in order to access the DOM. But more than that, it returns an object with a .current property that can be used throughout a component’s entire lifecycle, allowing data to persist without causing a re-render. So, the useRef value stays the same between renders; updating the reference does not trigger a re-render.
+ 
+ 
+ Use cases
+ 
+ 
+ Reach for the useRef hook when you want to:
+ 
+ 
+ 
+ Manipulate the DOM with stored mutable information.Access information from child components (nested elements).Set focus on an element.
+ 
+ 
+ 
+ It’s most useful when storing mutatable data in your app without causing a re-render.
+ 
+ 
+ Syntax
+ 
+ 
+ useRef only accepts one argument, which is the initial value.
+ 
+ 
+ 
+ const newRefComponent &#x3D; useRef(initialValue);
+ 
+ 
+ Example
+ 
+ 
+ Here I used the useRef and useState hook to show the amount of times an application renders an updated state when typing in a text input.
+ 
+ 
+ 
+ import &#x27;./App.css&#x27;
+ 
+ function App() {
+   const [anyInput, setAnyInput] &#x3D; useState(&quot; &quot;);
+   const showRender &#x3D; useRef(0);
+   const randomInput &#x3D; useRef();
+   const toggleChange &#x3D; (e) &#x3D;&gt; {
+     setAnyInput (e.target.value);
+     showRender.current++;
+   
+   }
+   const focusRandomInput &#x3D; () &#x3D;&gt; {
+     randomInput.current.focus();
+   }
+ 
+   return (
+     &lt;div className&#x3D;&quot;App&quot;&gt;
+       &lt;input className&#x3D;&quot;TextBox&quot; 
+         ref &#x3D;{randomInput} type&#x3D;&quot;text&quot; value&#x3D;{anyInput} onChange&#x3D;{toggleChange}
+       /&gt;
+       &lt;h3&gt;Amount Of Renders: {showRender.current}&lt;/h3&gt;
+       &lt;button onClick&#x3D;{focusRandomInput}&gt;Click To Focus On Input &lt;/button&gt;
+     &lt;/div&gt;
+   );
+ }
+ 
+ export default App;
+ 
+ 
+ 
+ Notice how typing each character in the text field updates the app’s state, but never triggers a complete re-render.
+ 
+ 
+ 
+ 
+ 
+ 
+ useImperativeHandle
+ 
+ 
+ You know how a child component has access to call functions passed down to them from the parent component? Parents pass those down via props, but that transfer is “unidirectional” in the sense that the parent is unable to call a function that’s in the child.
+ 
+ 
+ 
+ Well, useImperativeHandle makes it possible for a parent to access a child component’s functions.
+ 
+ 
+ 
+ How does that work?
+ 
+ 
+ 
+ A function is defined in the child component.A ref is added in the parent.We use forwardRef, allowing the ref that was defined to be passed to the child.useImperativeHandle exposes the child’s functions via the ref.
+ 
+ 
+ Use cases
+ 
+ 
+ useImperativeHandle works well when you want a parent component to be affected by changes in the child. So, things like a changed focus, incrementing and decrementing, and blurred elements may be situations where you find yourself reaching for this hook so the parent can be updated accordingly.
+ 
+ 
+ Syntax
+ 
+ 
+ useImperativeHandle (ref, createHandle, [dependencies])
+ 
+ 
+ Example
+ 
+ 
+ In this example, we have two buttons, one that’s in a parent component and one that’s in a child. Clicking on the parent button retrieves data from the child, allowing us to manipulate the parent component. It’s set up so that clicking the child button does not pass anything from the parent component to the child to help illustrate how we are passing things in the opposite direction.
+ 
+ 
+ 
+ // Parent component
+ import React, { useRef } from &quot;react&quot;;
+ import ChildComponent from &quot;./childComponent&quot;;
+ import &#x27;./App.css&#x27;;
+ 
+ function ImperativeHandle() {
+   const controlRef &#x3D; useRef(null);
+   return (
+     onClick&#x3D;{
+       () &#x3D;&gt; {
+         controlRef.current.controlPrint();
+       }
+     }
+     &gt;
+     Parent Box
+   );
+ }
+ export default ImperativeHandle;
+ 
+ 
+ 
+ // Child component
+ import React, { forwardRef, useImperativeHandle, useState } from &quot;react&quot;;
+ 
+ const ChildComponent &#x3D; forwardRef((props, ref) &#x3D;&gt; {
+   const [print, setPrint] &#x3D; useState(false);
+   useImperativeHandle(ref, () &#x3D;&gt; ({
+     controlPrint() 
+     { setPrint(!print); },
+   })
+   );
+ 
+   return (
+     &lt;&gt;
+     Child Box
+     { print &amp;&amp; I am from the child component }
+   );
+ });
+ 
+ export default ChildComponent;
+ 
+ 
+ Output
+ 
+ 
+ 
+ 
+ 
+ useMemo
+ 
+ 
+ useMemo is one of the least-used but most interesting React hooks. It can improve performance and decrease latency, particularly on large computations in your app. How so? Every time a component’s state updates and components re-render, the useMemo hook prevents React from having to recalculate values.
+ 
+ 
+ 
+ You see, functions respond to state changes. The useMemo hook takes a function and returns the return value of that function. It caches that value to prevent spending additional effort re-rendering it, then returns it when one of the dependencies has changed.
+ 
+ 
+ 
+ This process is called memoization and it’s what helps to boost performance by remembering the value from a previous request so it can be used again without repeating all that math.
+ 
+ 
+ Use cases
+ 
+ 
+ The best use cases are going to be any time you’re working with heavy calculations where you want to store the value and use it on subsequent state changes. It can be a nice performance win, but using it too much can have the exact opposite effect by hogging your app’s memory.
+ 
+ 
+ Syntax
+ 
+ 
+ useMemo( () &#x3D;&gt; 
+   { // Code goes here },
+   []
+ )
+ 
+ 
+ Example
+ 
+ 
+ When clicking the button, this mini-program indicates when a number is even or odd, then squares the value. I added lots of zeros to the loop to increase its computation power. It returns the value in spilt seconds and still works well due to the useMemo hook.
+ 
+ 
+ 
+ // UseMemo.js
+ import React, { useState, useMemo } from &#x27;react&#x27;
+ 
+ function Memo() {
+   const [memoOne, setMemoOne] &#x3D; useState(0);
+   const incrementMemoOne &#x3D; () &#x3D;&gt; { setMemoOne(memoOne + 1) }
+   const isEven &#x3D; useMemo(() &#x3D;&gt; { 
+     let i &#x3D; 0 while (i &lt; 2000000000) i++ return memoOne % 2 &#x3D;&#x3D;&#x3D; 0
+   },
+   [memoOne]);
+   
+   const square &#x3D; useMemo(()&#x3D;&gt; { 
+     console.log(&quot;squared the number&quot;); for(var i&#x3D;0; i &lt; 200000000; i++);
+     return memoOne * memoOne;
+   },
+   [memoOne]);
+ 
+   return (
+     Memo One - 
+     { memoOne }
+     { isEven ? &#x27;Even&#x27; : &#x27;Odd&#x27; } { square } 
+   );
+ }
+ export default Memo
+ 
+ 
+ Output
+ 
+ 
+ 
+ 
+ 
+ 
+ useMemo is a little like the useCallback hook, but the difference is that useMemo can store a memorized value from a function, where useCallback stores the memorized function itself.
+ 
+ 
+ useCallback
+ 
+ 
+ The useCallback hook is another interesting one and the last section was sort of a spoiler alert for what it does.
+ 
+ 
+ 
+ As we just saw, useCallback works like the useMemo hook in that they both use memoization to cache something for later use. While useMemo stores a function’s calculation as a cached value, useCallback stores and returns a function.
+ 
+ 
+ Use cases
+ 
+ 
+ Like useMemo, useCallback is a nice performance optimization in that it stores and returns a memoized callback and any of its dependencies without a re-render.
+ 
+ 
+ Syntax
+ 
+ 
+ const getMemoizedCallback &#x3D; useCallback (
+   () &#x3D;&gt; { doSomething () }, []
+ );
+ 
+ 
+ Example
+ 
+ 
+ 
+ { useCallback, useState } from &quot;react&quot;;
+ import CallbackChild from &quot;./UseCallback-Child&quot;;
+ import &quot;./App.css&quot;
+ 
+ export default function App() {
+   const [toggle, setToggle] &#x3D; useState(false);
+   const [data, setData] &#x3D; useState(&quot;I am a data that would not change at every render, thanks to the useCallback&quot;);
+   const returnFunction &#x3D; useCallback(
+     (name) &#x3D;&gt; 
+     { return data + name; }, [data]
+   );
+   return (
+     onClick&#x3D;{() &#x3D;&gt; {
+       setToggle(!toggle);
+     }}
+     &gt;
+     {&quot; &quot;}
+ 
+     // Click To Toggle
+     { toggle &amp;&amp; h1. Toggling me no longer affects any function } 
+   ); 
+ }
+ 
+ 
+ 
+ // The Child component
+ import React, { useEffect } from &quot;react&quot;;
+ 
+ function CallbackChild(
+   { returnFunction }
+ ) {
+   useEffect(() &#x3D;&gt; 
+     { console.log(&quot;FUNCTION WAS CALLED&quot;); },
+     [returnFunction]);
+   return { returnFunction(&quot; Hook!&quot;) };
+ }
+ export default CallbackChild;
+ 
+ 
+ Output
+ 
+ 
+ 
+ 
+ 
+ Final thoughts
+ 
+ 
+ There we go! We just looked at five super handy React hooks that I think often go overlooked. As with many roundups like this, we’re merely scratching the surface of these hooks. They each have their own nuances and considerations to take into account when you use them. But hopefully you have a nice high-level idea of what they are and when they might be a better fit than another hook you might reach for more often.
+ 
+ 
+ 
+ The best way to fully understand them is by practice. So I encourage you to practice using these hooks in your application for better understanding. For that, you can get way more in depth by checking out the following resources:
+ 
+ 
+ 
+ Intro to React Hooks (Kingsley Silas)Hooks at a Glance (React documentation)Hooks Cheatsheet (Ohans Emmanuel)The Circle of a React Lifecycle (Kingsley Silas)Hooks of React Router (Agney Menon)Testing React Hooks With Enzyme and React Testing Library (Kingsley Silas)
+ 
+ React Hooks: The Deep Cuts originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>In Praise of Shadows</title>
          <link href="https://css-tricks.com/in-praise-of-shadows/"/>
