@@ -4,15 +4,118 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-07-15T02:22:05.438Z</updated>
+   <updated>2022-07-16T02:04:21.209Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
      <entry>
+       <title>How stroke-dasharray Patterns Work</title>
+         <link href="https://css-tricks.com/how-stroke-dasharray-patterns-work/"/>
+       <updated>2022-07-15T19:43:40.000Z</updated>
+       <content type="text">Say you have a line in SVG:
+ 
+ 
+ 
+ &lt;svg&gt;
+   &lt;line x1&#x3D;&quot;0&quot; y1&#x3D;&quot;30&quot; x2&#x3D;&quot;500&quot; y2&#x3D;&quot;30&quot; stroke-color&#x3D;&quot;#f8a100&quot; /&gt;
+ &lt;/svg&gt;
+ 
+ 
+ 
+ You can use the stroke-dasharray property in CSS to make dashes:
+ 
+ 
+ 
+ line {
+   stroke-dasharray: 5;
+ }
+ 
+ 
+ 
+ That 5 value is a relative unit based on the size of the SVG’s viewBox. We could use any CSS length, really. But what it does is make a pattern of dashes that are 5 units long with 5 unit gaps between them.
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ So far, so good. We can use two values where the second value individually sets the gap length:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Now we have dashes that are 5 units and gaps that are 10. Let’s try a third value:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ See how we’re forming a pattern here? It goes:
+ 
+ 
+ 
+ Dash: 5 unitsGap: 10 unitsDash: 15 units
+ 
+ 
+ 
+ You’d think it repeats after that in the exact same cadence. But no! It if did, we’d have dashes bumping into one another:
+ 
+ 
+ 
+ Dash: 5 unitsGap: 10 unitsDash: 15 unitsDash: 5 unitsGap: 10 unitsDash: 15 units…and so on.
+ 
+ 
+ 
+ Instead, stroke-dasharray gets all smart and duplicates the pattern if there are an odd number of values So…
+ 
+ 
+ 
+ stroke-dasharray: 5 10 15;
+ 
+ /* is the same as */
+ stroke-dasharray: 5 10 15 5 10 15;
+ 
+ 
+ 
+ That’s actually why a single value works! Earlier, we declared a single 5 value. That’s really the same as saying stroke-dasharray: 5 5. Without the second value, stroke-dasharray implicitly duplicates the first value to get a repeatable pattern. Otherwise, it’d just be a solid line of dashes that are 5 units long, but no gaps between them!
+ 
+ 
+ 
+ The pattern also depends on the size of the shape itself. Our SVG line is 500 units. Let’s set larger stroke-dasharray values and add them up:
+ 
+ 
+ 
+ stroke-dasharray: 10 20 30 40 50; /* 150 units */
+ 
+ 
+ 
+ If the pattern runs four times (150 units ⨉ 4 iterations), we’re dealing with 600 total units. That additional 100 units is lopped off to prevent the pattern from overflowing itself.
+ 
+ 
+ 
+ That’s all.
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ 🎩 Hat tip to Joshua Dance for calling this out!
+ 
+ How stroke-dasharray Patterns Work originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
+     <entry>
        <title>Office Spaces</title>
          <link href="https://css-tricks.com/office-spaces/"/>
        <updated>2022-07-14T14:07:01.000Z</updated>
-       <content type="text">I think it’s super timely that Jim Nielson wrote about his office space the other day. My family recently re-rooted in Colorado and I was up late last night setting up my desk and everything around it. So late, in fact, that reading these words now bites me:
+       <content type="text">I think it’s super timely that Jim Nielsen wrote about his office space the other day. My family recently re-rooted in Colorado and I was up late last night setting up my desk and everything around it. So late, in fact, that reading these words now bites me:
  
  
  
@@ -401,7 +504,7 @@
  import ChildComponent from &quot;./childComponent&quot;;
  import &#x27;./App.css&#x27;;
  
- function ImperativeHandle() {
+ function useImperativeHandle() {
    const controlRef &#x3D; useRef(null);
    return (
      onClick&#x3D;{
@@ -413,7 +516,7 @@
      Parent Box
    );
  }
- export default ImperativeHandle;
+ export default useImperativeHandle;
  
  
  
