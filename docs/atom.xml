@@ -4,7 +4,7 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-07-18T02:08:18.449Z</updated>
+   <updated>2022-07-19T02:21:20.049Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
@@ -1345,7 +1345,7 @@
  How to reproduce the problem
  
  
- It’s much easier for programmers to solve a bug when it’s live on their computer. That’s why a good commit should come with the steps to precisely reproduce the problem.
+ It’s much easier for programmers to solve a bug when it’s live on their computer. That’s why a good commit message should come with the steps to precisely reproduce the problem.
  
  
  
