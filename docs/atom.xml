@@ -4,10 +4,69 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-07-20T02:05:24.556Z</updated>
+   <updated>2022-07-21T02:06:57.975Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Logical Properties for Useful Shorthands</title>
+         <link href="https://css-tricks.com/logical-properties-for-useful-shorthands/"/>
+       <updated>2022-07-20T16:16:34.000Z</updated>
+       <content type="text">Michelle Barker with my favorite sorta blog post: short, practical, and leaves you with a valuable nugget for your time. Here, she gets into logical property shorthands in CSS, particularly those that set lengths just on a single axis, say only the block (vertical) axis or just the inline (horizontal) axis.
+ 
+ 
+ 
+ I say “block” and ”inline”  because, as far as logical properties are concerned, the x-axis could just as well behave like a vertical axis depending on the current writing-mode.
+ 
+ 
+ 
+ So, where we’ve always had padding, margin, and border shorthands that can support a multi-value syntax, none of them allow us to declare lengths on a specific axis without also setting a length on the other axis.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ For example:
+ 
+ 
+ 
+ /* This gives us margin on the inline axis */
+ margin: 0 3rem;
+ 
+ 
+ 
+ …but we had to set the other axis in order to get there. With logical properties, however, we have additional shorthands for each axis meaning we can cue up the margin-inline shorthand to work specifically on the inline axis:
+ 
+ 
+ 
+ margin-inline: 3rem;
+ 
+ 
+ 
+ Michelle mentions my favorite logical property shorthand in passing. How many times do you position something to this sort of tune:
+ 
+ 
+ 
+ .position-me {
+   position: absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+ }
+ 
+ 
+ 
+ We can get those four lines into in with inset: 0. Or we could target the block and inline axis directly with inset-block and inset-inline, respectively.
+ 
+ 
+ 
+ While we’re talking shorthands, I always like to put a word of caution about ”accidental” CSS resets. Just one of the common CSS mistakes I make.
+ To Shared Link — Permalink on CSS-Tricks
+ Logical Properties for Useful Shorthands originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>How stroke-dasharray Patterns Work</title>
          <link href="https://css-tricks.com/how-stroke-dasharray-patterns-work/"/>
@@ -238,9 +297,7 @@
  And all of it is in a space large and welcoming enough to invite life in if it needs to — family, friends, fiddling around, whatever. It’s also conveniently located right off the family room for such distractions  moments.
  
  
- 
  What’s on my desk
- 
  
  
  It feels odd to sign off without showing you what’s actually on my desk. It’s fun knowing what people use and how they’re set up. Here’s what I’ve got.
@@ -258,9 +315,7 @@
  16″ MacBook Pro (2019)Apple Magic Keyboard (no charging or TouchID)Apple Magic Trackpad (with charging)27″ LG UltraFine 4K external monitor (2016, discontinued)27″ Dell UltraSharp 4K USB-C monitor (thank you, DigitalOcean!)Shure SM7B microphone (with mount)Focusrite Scarlett 2i2 microphone preampDBX 286s microphone preamp processorUBeesize 12’’ Ring Light with Tripod (the room is super dark)Grogu (aka Baby Yoda) and Bob Belcher figuresOrange cup for pens and a Seth Godin action figureSammy stress ball
  
  
- 
  What’s your office like?
- 
  
  
  Is it a traditional office you commute to? A room that’s a few steps away from your bedroom? Maybe it’s even in your bedroom? Where do you work when you’re not there? What’s in there?
@@ -1631,18 +1686,14 @@
  
  
  
- 
  Article series
- 
  
  
  Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — you are here
  
  
  
- 
  The split cube loader
- 
  
  
  Here is a 3D loader where a cube is split into two parts, but is only made with only a single element:
@@ -1775,9 +1826,7 @@
  CodePen Embed Fallback
  
  
- 
  The progress cube loader
- 
  
  
  Let’s use the same technique to create a 3D progress loader. Yes, still only one element!
@@ -1918,9 +1967,7 @@
  That’s it! We just used a clever technique that uses pseudo-elements, conic gradients, clipping, background blending, and negative margins to get, not one, but two sweet-looking 3D loaders with nothing more than a single element in the markup.
  
  
- 
  More 3D
- 
  
  
  We can still go further and simulate an infinite number of 3D cubes using one element — yes, it’s possible! Here’s a grid of cubes:
@@ -2147,9 +2194,7 @@
  Yes, I do have a solution for that, but I’d like you to take a crack at it rather than embedding it here. Take what we have learned from the previous example and try to do the same with this one — then share your work in the comments!
  
  
- 
  Variations galore!
- 
  
  
  Like the other three articles in this series, I’d like to leave you with some inspiration to go forth and create your own loaders. Here is a collection that includes the 3D loaders we made together, plus a few others to get your imagination going:
@@ -2159,9 +2204,7 @@
  CodePen Embed Fallback
  
  
- 
  That’s a wrap
- 
  
  
  I sure do hope you enjoyed spending time making single element loaders with me these past few weeks. It’s crazy that we started with seemingly simple spinner and then gradually added new pieces to work ourselves all the way up to 3D techniques that still only use a single element in the markup. This is exactly what CSS looks like when we harness its powers: scalable, flexible, and reusable.
@@ -2172,9 +2215,7 @@
  
  
  
- 
  Article series
- 
  
  
  Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The BarsSingle Element Loaders: Going 3D — you are here
@@ -2436,9 +2477,7 @@
  Speaking of which, I do consider myself a front-end developer but my background is super heavy in design. So I know code, but not to the extent of someone who is a JavaScript engineer. Just wanted to clear that up because experience can certainly impact the final decision.
  
  
- 
  Here’s the goal
- 
  
  
  Before we get into any decision-making let’s take a look at the sorts of animations I needed to make in this CSS-Tricks-ified version of the game:
@@ -2482,9 +2521,7 @@
  That’s what I took with me as I went in search of the right tool for this particular job.
  
  
- 
  Choosing between CSS or JavaScript animation libraries
- 
  
  
  The first thing I considered when choosing an animation library was whether to go with a CSS or JavaScript-based library. There are lots of great CSS libraries, many of them with excellent performance which was a high priority for me. I was looking to do some heavy-duty animations, like the  ability to sequence animations and get callbacks on animation completion. That’s all totally possible with pure CSS — still, it’s a lot less smooth than what most JavaScript libraries offer.
@@ -2563,9 +2600,7 @@
  It seemed clear that a JavaScript library was the right way to go, but which was the right one to choose for my Solitaire game? I mean, jQuery is great and still widely used even today, but that’s not something I want to hang my hat on. There are plenty of JavaScript animation libraries, so I wanted to consider something built specifically to handle the type of heavy animations I had in mind.
  
  
- 
  Choosing a JavaScript animation library
- 
  
  
  It quickly became apparent to me that there’s no lack of JavaScript animation libraries and new, exciting technologies. They all have benefits and drawbacks, so let’s go through some of the ones I considered and why.
@@ -2587,9 +2622,7 @@
  An active community was critical to me since I needed a place to ask for help, and I didn’t want to use a library that might later be abandoned. I considered this as part of my convenience requirements.
  
  
- 
  Sequencing animations and callbacks
- 
  
  
  Once I had my choices narrowed down, the next step was to implement a complex animation using my two libraries. A recurrent animation in a solitaire game is that of a card moving somewhere and then turning over, so let’s see how that looks:
@@ -2669,9 +2702,7 @@
  })
  
  
- 
  Decision time
- 
  
  
  The main difference between Anime and GSAP appears to be the syntax, where GSAP might be a little more elaborate. I was stuck with two great libraries that had very similar functionality, were able to deal with complex animation, and had a thriving community. It seemed like I had a tie race!
@@ -2748,9 +2779,7 @@
  
  
  
- 
  CSS-Tricks Newsletter
- 
  
  
  Oh, and one more update for all of you who miss the newsletter: it will be back! But we had to drop a ton of you off the list (seriously, like 80% of all subscribers) to be compliant with legal stuff that’s over my head. No worries, though, because you can re-subscribe right down here with your email address.
@@ -2863,9 +2892,7 @@
  Looking at that last one reminds me that I sometimes forget to set the content property when I’m working with ::before or ::after. Which reminds me of how I’ve forgotten to set an element’s position before trying to offset it or change its z-index. Seriously, these things happen!
  
  
- 
  It’s hard talking about mistakes
- 
  
  
  Have you ever finished reading some blog post sharing some amazing trick and felt some sort of Imposter Syndrome? I think that’s largely because blog posts often mask the real work — and failures — that go into amazing tricks. As someone who reads posts like that for a living, I can tell you that many, if not the vast majority, go through many rounds of editing where potentially embarrassing mistakes are weeded out and smoothed over.
@@ -2887,9 +2914,7 @@
  And all of this is merely building up to what I really want to ask…
  
  
- 
  What are your dumbest CSS mistakes?
- 
  
  
  C’mon, we all know you’ve made some! Let us learn from them!
@@ -3386,9 +3411,7 @@
  
  
  
- 
  Article series
- 
  
  
  Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The Bars — you are hereSingle Element Loaders: Going 3D
@@ -3415,9 +3438,7 @@
  It might seem like that at first glance! But all of them rely on the same code structure and we only update a few values to create variations. That’s all the power of CSS. We don’t learn how to create one loader, but we learn different techniques that allow us to create as much loader as we want using merely the same code structure.
  
  
- 
  Let’s make some bars!
- 
  
  
  We start by defining the dimensions for them using width (or height) with aspect-ratio to maintain proportion:
@@ -3459,9 +3480,7 @@
  Like the other articles in this series, we are going to deal with a lot of background trickery. So, if you ever feel like we’re jumping around too fast or feel you need a little more detail, please do check those out. You can also read my Stack Overflow answer where I give a detailed explanation on how all this works.
  
  
- 
  Animating the bars
- 
  
  
  We either animate the element’s size or position to create the bar loader. Let’s animate the size by defining the following animation keyframes:
@@ -3551,9 +3570,7 @@
  Expect for the last two examples in that demo, all of the bar loaders use the same underlying markup and styles and different combinations of animations. Open the code and try to visualize each frame independently; you’ll see how relatively trivial it is to make dozens — if not hundreds — of variations.
  
  
- 
  Getting fancy
- 
  
  
  Did you remember the mask trick we did with the dot loaders in the second article of this series? We can do the same here!
@@ -3587,9 +3604,7 @@
  Gradients to create the shapes (dots or bars or maybe something else)Animating background-size and/or background-position to create the loader animationAdding mask to add a touch of colors
  
  
- 
  Rounding the bars
- 
  
  
  Let’s try something different this time where we can round the edges of our bars.
@@ -3716,9 +3731,7 @@
  CodePen Embed Fallback
  
  
- 
  Wrapping up
- 
  
  
  I hope so far you are feeling super encouraged by all the powers you have to make complex-looking loading animations. All we need is one element, either gradients or pseudos to draw the bars, then some keyframes to move things around. That’s the entire recipe for getting an endless number of possibilities, so go out and starting cooking up some neat stuff!
@@ -3737,9 +3750,7 @@
  
  
  
- 
  Article series
- 
  
  
  Single Element Loaders: The SpinnerSingle Element Loaders: The DotsSingle Element Loaders: The Bars — you are hereSingle Element Loaders: Going 3D
