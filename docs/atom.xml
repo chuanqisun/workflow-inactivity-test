@@ -4,10 +4,86 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-07-21T02:06:57.975Z</updated>
+   <updated>2022-07-22T02:08:26.719Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Roundup of Recent Document Outline Chatter</title>
+         <link href="https://css-tricks.com/roundup-of-recent-document-outline-chatter/"/>
+       <updated>2022-07-21T14:04:34.000Z</updated>
+       <content type="text">It’s not everyday that HTML headings are the topic de jour, but my folder of saved links is accumulating articles about the recently merged removal of the document outline algorithm in the WHATWG Living Standard.
+ 
+ 
+ 
+ First off, you should know that the algorithm never really existed. Sure, it was in the spec. And sure, there was a warning about using it in the spec. But no browser ever implemented it, as Bruce Lawson reminded us. We have been living in a flat document structure the whole time.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ This is very old news. Adrian Roselli has been writing about the document outline myth since 2013. But it’s his 2016 post titled “There Is No Document Outline Algorithm” that comprehensively spells it out and has been updated regularly with extra nuggets of context about the conversations and struggles that got us here. This is really the best timeline of the saga. Amelia Bellamy-Royds has also delved into the roots of the dilemma in the past here on CSS-Tricks.
+ 
+ 
+ 
+ My mind instantly goes to all the work that’s gone into the making of a document outline algorithm that supports sectioning. Removing it from the spec is the right call for sure, but it doesn’t take away from the herculean efforts that went into it even if it is now buried in some version history. I also think about all the well-intentioned folks who have written about the algorithm erroneously over time (including on this very site!) with the expectation that it was just around the corner. There’s nearly seven years of mental and technical debt that we’ve accrued from what appear to be a lack of action.
+ 
+ 
+ 
+ Looking past the “news” that the algorithm is officially no more, Bruce laments that there is no generic &lt;h&gt; element or the like that can be sectioned to produce the correct heading level. I agree. Having an &lt;h1&gt; element essentially exist as an exposed &lt;title&gt; is constraining, particularly since pages are so rarely structured around a single article with a single top-level heading. I often find myself wincing every time I’m making some sort of card component where using &lt;h3&gt; might be technically correct, but feels out of order. And that’s before we even talk about the styling considerations where a lower heading level now needs to look like a distinct higher heading level.
+ 
+ 
+ 
+ Speaking of heading level management, Steve Faulkner (who authored the PR that plucked the algorithm from the spec) has a super practical overview of using the &lt;hgroup&gt; element to handle heading patterns that involve subheadings, subtitles, alternative titles, snd taglines. I’m sure you’ve seen markup like this in the wild:
+ 
+ 
+ 
+ &lt;h1&gt;Disappointingly Average&lt;/h1&gt;
+ &lt;h2&gt;The Autobiography of Geoff Graham&lt;/h2&gt;
+ &lt;h3&gt;by Geoff Graham&lt;/h3&gt;
+ 
+ 
+ 
+ That doesn’t jive with a flat document outline that’s driven by heading levels. Each one of those headings represents a section that forms a hierarchy of information:
+ 
+ 
+ 
+ Disappointingly Average
+ └── The Autobiography of Geoff Graham
+     └── by Geoff Graham
+ 
+ 
+ 
+ What we want instead is a group of headings. Cue the &lt;hgroup&gt; element:
+ 
+ 
+ 
+ When nested within a &lt;hgroup&gt; element, the &lt;p&gt; element’s content represents a subheading, alternative title, or tagline which are not included in the document outline.
+ 
+ 
+ 
+ So, we get this structure:
+ 
+ 
+ 
+ &lt;hgroup&gt;
+   &lt;h1&gt;Disappointingly Average&lt;/h1&gt;
+   &lt;p&gt;The Autobiography of Geoff Graham&lt;/p&gt;
+   &lt;p&gt;by Geoff Graham&lt;/p&gt;
+ &lt;/hgroup&gt;
+ 
+ 
+ 
+ &lt;hgroup&gt; is role&#x3D;generic at the moment, but Steve points to a proposal that could map it to role&#x3D;group. If that happens, the accessibility tree will allow assistive tech to assign more semantic meaning to those paragraphs as the subtitle and tagline pieces that they are. Sounds easy but Steve notes challenges that are in the way. He also demos how this sort of pattern could be implemented today with ARIA attributes.
+ 
+ 
+ 
+ As long as we’re rounding things up, Matthias Ott published a few tips on creating a structured outline with headings. Check out the end for a great list of tools to check your heading outlines.
+ 
+ Roundup of Recent Document Outline Chatter originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Logical Properties for Useful Shorthands</title>
          <link href="https://css-tricks.com/logical-properties-for-useful-shorthands/"/>
