@@ -4,10 +4,42 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-07-29T02:18:02.354Z</updated>
+   <updated>2022-07-30T02:05:43.237Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Scroll Shadows? Pure CSS Parallax? Game Back On.</title>
+         <link href="https://css-tricks.com/scroll-shadows-pure-css-parallax-game-back-on/"/>
+       <updated>2022-07-29T14:55:31.000Z</updated>
+       <content type="text">Chris calls scroll shadows one his favorite CSS-Tricks of all time. Lea Verou popularized the pure CSS approach using four layered background gradients with some clever background-attachment magic. The result is a slick scrolling interaction that gives users a hint that additional content is available in a scrollable container.
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Just one problem: it broke in Safari iOS 13. One day it was all good. The next, not so much. And that wasn’t the only thing affected. Keith Clark’s CSS-only parallax effect also stopped working right about then.
+ 
+ 
+ 
+ Well, reader Ronald wrote in to say that all is working once again! In fact, I’m writing this on my iPad (Safari 15.5) right now and Chris’s demo is looking sharp as ever. So is Keith’s original demo.
+ 
+ 
+ 
+ So, what broke it? We still don’t know. But the Safari 13 release notes offer clues:
+ 
+ 
+ 
+ Added support for one-finger accelerated scrolling to all frames and overflow:scroll elements eliminating the need to set-webkit-overflow-scrolling: touch.Changed the default behavior on iPad for wide web pages with responsive meta-tags that require horizontal scrolling. Pages are scaled to prevent horizontal scrolling and any text is resized to preserve legibility.
+ 
+ 
+ 
+ When was it fixed and what fixed it? Well, on the scroll shadow side, the Safari 15.4 included some work on background-attachment: local that may have done the trick. On the parallax side, Safari 14.1 added support for individual transform properties… so maybe that?
+ 
+ Scroll Shadows? Pure CSS Parallax? Game Back On. originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Recreating MDN’s Truncated Text Effect</title>
          <link href="https://css-tricks.com/recreating-mdns-truncated-text-effect/"/>
