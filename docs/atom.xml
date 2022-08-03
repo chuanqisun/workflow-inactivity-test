@@ -4,10 +4,62 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-02T02:24:18.235Z</updated>
+   <updated>2022-08-03T02:06:09.037Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Implicit Grids, Repeatable Layout Patterns, and Danglers</title>
+         <link href="https://css-tricks.com/implicit-grids-repeatable-layout-patterns-and-danglers/"/>
+       <updated>2022-08-02T13:10:49.000Z</updated>
+       <content type="text">Dave Rupert with some modern CSS magic that tackles one of those classic conundrums: what happens when the CSS for component is unable to handle the content we throw at it?
+ 
+ 
+ 
+ The specific situation is when a layout grid expects an even number of items, but is supplied with an odd number instead. We’re left with a “dangling” element at the end that throws off the layout. Sounds like what’s needed is some Defensive CSS and Dave accomplishes it.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ He reaches for :has() to write a nifty selector that sniffs out the last item in a grid that contains an odd number of items:
+ 
+ 
+ 
+ .items:has(.item:last-of-type:nth-of-type(odd)) .item:first-of-type { }
+ 
+ 
+ 
+ Breaking that down:
+ 
+ 
+ 
+ We have a parent container of .items.If the container :has() an .item child that is the last of its type,…and that .item happens to be an odd-numbered instance,…then select the first .item element of that type and style it!
+ 
+ 
+ 
+ In this case, that last .item can be set to go full-width to prevent holes in the layout.
+ 
+ 
+ 
+ If… then… CSS has conditional logic powers! We’re only talking about support for Safari TP and Edge/Chrome Canary at the moment, but that’s pretty awesome.
+ 
+ 
+ 
+ As chance has it, Temani Afif recently shared tricks he learned while experimenting with implicit grids. By taking advantage of CSS Grid’s auto-placement algorithm, we don’t even have to explicitly declare a fixed number of columns and rows for a grid — CSS will create them for us if they’re needed!
+ 
+ 
+ 
+ No, Temani’s techniques aren’t alternative solutions to Dave’s “dangler” dilemma. But combining Temani’s approach to repeatable grid layout patterns with Dave’s defensive CSS use of :has(), we get a pretty powerful and complex-looking grid that’s lightweight and capable of handling any number of items while maintaining a balanced, repeatable pattern.
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ Implicit Grids, Repeatable Layout Patterns, and Danglers originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers</title>
          <link href="https://css-tricks.com/exploring-css-grids-implicit-grid-and-auto-placement-powers/"/>
