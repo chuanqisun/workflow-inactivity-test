@@ -4,10 +4,833 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-04T02:01:05.343Z</updated>
+   <updated>2022-08-05T02:02:39.515Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Actually, the San Francisco Typeface Does Ship as a Variable Font</title>
+         <link href="https://css-tricks.com/actually-the-san-francisco-typeface-does-ship-as-a-variable-font/"/>
+       <updated>2022-08-04T20:20:28.000Z</updated>
+       <content type="text">Apple unveiled an expanded version of its San Francisco system font at WWDC 2022. Then, last month, Jim Nielsen zeroed in on the font’s variations, explaining how the font provides a spectrum of variations based on the width and weight. It’s a remarkable read if you haven’t checked it.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ With all of these great new options, you might be tempted to use them in a web design. Chris was ogling over the expanded sets as well over on his personal blog and pondered:
+ 
+ 
+ 
+ But it’s not year clear how we might tap into the condensed, compressed, and expanded varieties in CSS, or if there is even a plan to allow that. I suppose we can peek around Apple.com eventually and see how they do it if they start using them there.Doesn’t this make perfect sense to construct as a variable font and ship the whole kit and kaboodle that way?
+ 
+ 
+ 
+ Turns out, yes. It does make perfect sense. Chris follows up in a new post:
+ 
+ 
+ 
+ But just yesterday I randomly stumbled across the fact that the built-in San Francisco font (on the Apple devices that have it built-in) is already variable (!!). See, I was derping around with Roboto Flex, and had system-ui as the fallback font, and I was noticing that during the FOUT, the font-variation-settings I was using had an effect on the fallback font, which renders as San Francisco on my Mac. Which… unless I’m daft… means that San Francisco is a variable font.
+ 
+ 
+ 
+ So, as for using it? Chris has a demo, of course:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ There are some gotchas to all this, the most significant being fallbacks for non-Apple devices. After all, that demo is simply calling system-ui for the font family — it’s not telling the browser to download a font file or anything and who knows if Apple is gonna ever ship a variable font file we can serve up as an actual custom web font.
+ 
+ 
+ 
+ The other interesting thing? Chris did some sleuthing and counted 35 layout featured included in that system font. Go read the rest of the post to see ’em all (and to get a good ol’ dose of Chris-isms — I know I miss them!).
+ To Shared Link — Permalink on CSS-Tricks
+ Actually, the San Francisco Typeface Does Ship as a Variable Font originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
+     <entry>
+       <title>Converting Speech to PDF with NextJS and ExpressJS</title>
+         <link href="https://css-tricks.com/converting-speech-to-pdf-with-nextjs-and-expressjs/"/>
+       <updated>2022-08-04T12:55:39.000Z</updated>
+       <content type="text">With speech interfaces becoming more of a thing, it’s worth exploring some of the things we can do with speech interactions. Like, what if we could say something and have that transcribed and pumped out as a downloadable PDF?
+ 
+ 
+ 
+ Well, spoiler alert: we absolutely can do that! There are libraries and frameworks we can cobble together to make it happen, and that’s what we’re going to do together in this article.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Server repo 
+ 
+ 
+ 
+ Client repo
+ 
+ 
+ 
+ These are the tools we‘re using
+ 
+ 
+ First off, these are the two big players: Next.js and Express.js.
+ 
+ 
+ 
+ Next.js tacks on additional functionalities to React, including key features for building static sites. It’s a go-to for many developers because of what it offers right out of the box, like dynamic routing, image optimization, built-in-domain and subdomain routing, fast refreshes, file system routing, and API routes… among many, many other things.
+ 
+ 
+ 
+ In our case, we definitely need Next.js for its API routes on our client server. We want a route that takes a text file, converts it to PDF, writes it to our filesystem, then sends a response to the client.
+ 
+ 
+ 
+ Express.js allows us to get a little Node.js app going with routing, HTTP helpers, and templating. It’s a server for our own API, which is what we’ll need as we pass and parse data between things.
+ 
+ 
+ 
+ We have some other dependencies we’ll be putting to use:
+ 
+ 
+ 
+ react-speech-recognition: A library for converting speech to text, making it available to React components.regenerator-runtime: A library for troubleshooting the “regeneratorRuntime is not defined” error that shows up in Next.js when using react-speech-recognitionhtml-pdf-node: A library for converting an HTML page or public URL into a PDFaxios: A library for making HTTP requests in both the browser and Node.jscors: A library that allows cross-origin resource sharing
+ 
+ 
+ Setting up
+ 
+ 
+ The first thing we want to do is create two project folders, one for the client and one for the server. Name them whatever you’d like. I’m naming mine audio-to-pdf-client and audio-to-pdf-server, respectively.
+ 
+ 
+ 
+ The fastest way to get started with Next.js on the client side is to bootstrap it with create-next-app. So, open your terminal and run the following command from your client project folder:
+ 
+ 
+ 
+ npx create-next-app client
+ 
+ 
+ 
+ Now we need our Express server. We can get it by cd-ing into the server project folder and running the npm init command. A package.json file will be created in the server project folder once it’s done.
+ 
+ 
+ 
+ We still need to actually install Express, so let’s do that now with npm install express. Now we can create a new index.js file in the server project folder and drop this code in there:
+ 
+ 
+ 
+ const express &#x3D; require(&quot;express&quot;)
+ const app &#x3D; express()
+ 
+ app.listen(4000, () &#x3D;&gt; console.log(&quot;Server is running on port 4000&quot;))
+ 
+ 
+ 
+ Ready to run the server?
+ 
+ 
+ 
+ node index.js
+ 
+ 
+ 
+ We’re going to need a couple more folders and and another file to move forward:
+ 
+ 
+ 
+ Create a components folder in the client project folder.Create a SpeechToText.jsx file in the components subfolder.
+ 
+ 
+ 
+ Before we go any further, we have a little cleanup to do. Specifically, we need to replace the default code in the pages/index.js file with this:
+ 
+ 
+ 
+ import Head from &quot;next/head&quot;;
+ import SpeechToText from &quot;../components/SpeechToText&quot;;
+ 
+ export default function Home() {
+   return (
+     &lt;div className&#x3D;&quot;home&quot;&gt;
+       &lt;Head&gt;
+         &lt;title&gt;Audio To PDF&lt;/title&gt;
+         &lt;meta
+           name&#x3D;&quot;description&quot;
+           content&#x3D;&quot;An app that converts audio to pdf in the browser&quot;
+         /&gt;
+         &lt;link rel&#x3D;&quot;icon&quot; href&#x3D;&quot;/favicon.ico&quot; /&gt;
+       &lt;/Head&gt;
+ 
+       &lt;h1&gt;Convert your speech to pdf&lt;/h1&gt;
+ 
+       &lt;main&gt;
+         &lt;SpeechToText /&gt;
+       &lt;/main&gt;
+     &lt;/div&gt;
+   );
+ }
+ 
+ 
+ 
+ The imported SpeechToText component will eventually be exported from components/SpeechToText.jsx.
+ 
+ 
+ Let’s install the other dependencies
+ 
+ 
+ Alright, we have the initial setup for our app out of the way. Now we can install the libraries that handle the data that’s passed around.
+ 
+ 
+ 
+ We can install our client dependencies with:
+ 
+ 
+ 
+ npm install react-speech-recognition regenerator-runtime axios
+ 
+ 
+ 
+ Our Express server dependencies are up next, so let’s cd into the server project folder and install those:
+ 
+ 
+ 
+ npm install html-pdf-node cors
+ 
+ 
+ 
+ Probably a good time to pause and make sure the files in our project folders are in tact. Here’s what you should have in the client project folder at this point:
+ 
+ 
+ 
+ /audio-to-pdf-web-client
+ ├─ /components
+ |  └── SpeechToText.jsx
+ ├─ /pages
+ |  ├─ _app.js
+ |  └── index.js
+ └── /styles
+     ├─globals.css
+     └── Home.module.css
+ 
+ 
+ 
+ And here’s what you should have in the server project folder:
+ 
+ 
+ 
+ /audio-to-pdf-server
+ └── index.js
+ 
+ 
+ Building the UI
+ 
+ 
+ Well, our speech-to-PDF wouldn’t be all that great if there’s no way to interact with it, so let’s make a React component for it that we can call &lt;SpeechToText&gt;.
+ 
+ 
+ 
+ You can totally use your own markup. Here’s what I’ve got to give you an idea of the pieces we’re putting together:
+ 
+ 
+ 
+ import React from &quot;react&quot;;
+ 
+ const SpeechToText &#x3D; () &#x3D;&gt; {
+   return (
+     &lt;&gt;
+       &lt;section&gt;
+         &lt;div className&#x3D;&quot;button-container&quot;&gt;
+           &lt;button type&#x3D;&quot;button&quot; style&#x3D;{{ &quot;--bgColor&quot;: &quot;blue&quot; }}&gt;
+             Start
+           &lt;/button&gt;
+           &lt;button type&#x3D;&quot;button&quot; style&#x3D;{{ &quot;--bgColor&quot;: &quot;orange&quot; }}&gt;
+             Stop
+           &lt;/button&gt;
+         &lt;/div&gt;
+         &lt;div
+           className&#x3D;&quot;words&quot;
+           contentEditable
+           suppressContentEditableWarning&#x3D;{true}
+         &gt;&lt;/div&gt;
+         &lt;div className&#x3D;&quot;button-container&quot;&gt;
+           &lt;button type&#x3D;&quot;button&quot; style&#x3D;{{ &quot;--bgColor&quot;: &quot;red&quot; }}&gt;
+             Reset
+           &lt;/button&gt;
+           &lt;button type&#x3D;&quot;button&quot; style&#x3D;{{ &quot;--bgColor&quot;: &quot;green&quot; }}&gt;
+             Convert to pdf
+           &lt;/button&gt;
+         &lt;/div&gt;
+       &lt;/section&gt;
+     &lt;/&gt;
+   );
+ };
+ 
+ export default SpeechToText;
+ 
+ 
+ 
+ This component returns a React fragment that contains an HTML &lt;&#x60;&#x60;section&#x60;&#x60;&gt; element that contains three divs:
+ 
+ 
+ 
+ .button-container contains two buttons that will be used to start and stop speech recognition..words has contentEditable and suppressContentEditableWarning attributes to make this element editable and suppress any warnings from React.Another .button-container holds two more buttons that will be used to reset and convert speech to PDF, respectively.
+ 
+ 
+ 
+ Styling is another thing altogether. I won’t go into it here, but you’re welcome to use some styles I wrote either as a starting point for your own styles/global.css file.
+ 
+ 
+ 
+ 
+   
+           View Full CSS      
+   
+ 
+ html,
+ body {
+   padding: 0;
+   margin: 0;
+   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+ }
+ 
+ a {
+   color: inherit;
+   text-decoration: none;
+ }
+ 
+ * {
+   box-sizing: border-box;
+ }
+ 
+ .home {
+   background-color: #333;
+   min-height: 100%;
+   padding: 0 1rem;
+   padding-bottom: 3rem;
+ }
+ 
+ h1 {
+   width: 100%;
+   max-width: 400px;
+   margin: auto;
+   padding: 2rem 0;
+   text-align: center;
+   text-transform: capitalize;
+   color: white;
+   font-size: 1rem;
+ }
+ 
+ .button-container {
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   gap: 3rem;
+ }
+ 
+ button {
+   color: white;
+   background-color: var(--bgColor);
+   font-size: 1.2rem;
+   padding: 0.5rem 1.5rem;
+   border: none;
+   border-radius: 20px;
+   cursor: pointer;
+ }
+ 
+ button:hover {
+   opacity: 0.9;
+ }
+ 
+ button:active {
+   transform: scale(0.99);
+ }
+ 
+ .words {
+   max-width: 700px;
+   margin: 50px auto;
+   height: 50vh;
+   border-radius: 5px;
+   padding: 1rem 2rem 1rem 5rem;
+   background-image: -webkit-gradient(
+     linear,
+     0 0,
+     0 100%,
+     from(#d9eaf3),
+     color-stop(4%, #fff)
+   ) 0 4px;
+   background-size: 100% 3rem;
+   background-attachment: scroll;
+   position: relative;
+   line-height: 3rem;
+   overflow-y: auto;
+ }
+ 
+ .success,
+ .error {
+   background-color: #fff;
+   margin: 1rem auto;
+   padding: 0.5rem 1rem;
+   border-radius: 5px;
+   width: max-content;
+   text-align: center;
+   display: block;
+ }
+ 
+ .success {
+   color: green;
+ }
+ 
+ .error {
+   color: red;
+ }
+ 
+ 
+ 
+ 
+ The CSS variables in there are being used to control the background color of the buttons.
+ 
+ 
+ 
+ 
+ 
+ Let’s see the latest changes! Run npm run dev in the terminal and check them out.
+ 
+ 
+ 
+ You should see this in browser when you visit http://localhost:3000:
+ 
+ 
+ 
+ 
+ 
+ 
+ Our first speech to text conversion!
+ 
+ 
+ The first action to take is to import the necessary dependencies into our &lt;SpeechToText&gt; component:
+ 
+ 
+ 
+ import React, { useRef, useState } from &quot;react&quot;;
+ import SpeechRecognition, {
+   useSpeechRecognition,
+ } from &quot;react-speech-recognition&quot;;
+ import axios from &quot;axios&quot;;
+ 
+ 
+ 
+ Then we check if speech recognition is supported by the browser and render a notice if not supported:
+ 
+ 
+ 
+ const speechRecognitionSupported &#x3D;
+   SpeechRecognition.browserSupportsSpeechRecognition();
+ 
+ if (!speechRecognitionSupported) {
+   return &lt;div&gt;Your browser does not support speech recognition.&lt;/div&gt;;
+ }
+ 
+ 
+ 
+ Next up, let’s extract transcript and resetTranscript from the useSpeechRecognition() hook:
+ 
+ 
+ 
+ const { transcript, resetTranscript } &#x3D; useSpeechRecognition();
+ 
+ 
+ 
+ This is what we need for the state that handles listening:
+ 
+ 
+ 
+ const [listening, setListening] &#x3D; useState(false);
+ 
+ 
+ 
+ We also need a ref for the div with the contentEditable attribute, then we need to add the ref attribute to it and pass transcript as children:
+ 
+ 
+ 
+ const textBodyRef &#x3D; useRef(null);
+ 
+ 
+ 
+ …and:
+ 
+ 
+ 
+ &lt;div
+   className&#x3D;&quot;words&quot;
+   contentEditable
+   ref&#x3D;{textBodyRef}
+   suppressContentEditableWarning&#x3D;{true}
+   &gt;
+   {transcript}
+ &lt;/div&gt;
+ 
+ 
+ 
+ The last thing we need here is a function that triggers speech recognition and to tie that function to the onClick event listener of our button. The button sets listening to true and makes it run continuously. We’ll disable the button while it’s in that state to prevent us from firing off additional events.
+ 
+ 
+ 
+ const startListening &#x3D; () &#x3D;&gt; {
+   setListening(true);
+   SpeechRecognition.startListening({
+     continuous: true,
+   });
+ };
+ 
+ 
+ 
+ …and:
+ 
+ 
+ 
+ &lt;button
+   type&#x3D;&quot;button&quot;
+   onClick&#x3D;{startListening}
+   style&#x3D;{{ &quot;--bgColor&quot;: &quot;blue&quot; }}
+   disabled&#x3D;{listening}
+ &gt;
+   Start
+ &lt;/button&gt;
+ 
+ 
+ 
+ Clicking on the button should now start up the transcription.
+ 
+ 
+ More functions
+ 
+ 
+ OK, so we have a component that can start listening. But now we need it to do a few other things as well, like stopListening, resetText and handleConversion. Let’s make those functions.
+ 
+ 
+ 
+ const stopListening &#x3D; () &#x3D;&gt; {
+   setListening(false);
+   SpeechRecognition.stopListening();
+ };
+ 
+ const resetText &#x3D; () &#x3D;&gt; {
+   stopListening();
+   resetTranscript();
+   textBodyRef.current.innerText &#x3D; &quot;&quot;;
+ };
+ 
+ const handleConversion &#x3D; async () &#x3D;&gt; {}
+ 
+ 
+ 
+ Each of the functions will be added to an onClick event listener on the appropriate buttons:
+ 
+ 
+ 
+ &lt;button
+   type&#x3D;&quot;button&quot;
+   onClick&#x3D;{stopListening}
+   style&#x3D;{{ &quot;--bgColor&quot;: &quot;orange&quot; }}
+   disabled&#x3D;{listening &#x3D;&#x3D;&#x3D; false}
+ &gt;
+   Stop
+ &lt;/button&gt;
+ 
+ &lt;div className&#x3D;&quot;button-container&quot;&gt;
+   &lt;button
+     type&#x3D;&quot;button&quot;
+     onClick&#x3D;{resetText}
+     style&#x3D;{{ &quot;--bgColor&quot;: &quot;red&quot; }}
+   &gt;
+     Reset
+   &lt;/button&gt;
+   &lt;button
+     type&#x3D;&quot;button&quot;
+     style&#x3D;{{ &quot;--bgColor&quot;: &quot;green&quot; }}
+     onClick&#x3D;{handleConversion}
+   &gt;
+     Convert to pdf
+   &lt;/button&gt;
+ &lt;/div&gt;
+ 
+ 
+ 
+ The handleConversion function is asynchronous because we will eventually be making an API request. The “Stop” button has the disabled attribute that would be be triggered when listening is false.
+ 
+ 
+ 
+ If we restart the server and refresh the browser, we can now start, stop, and reset our speech transcription in the browser.
+ 
+ 
+ 
+ Now what we need is for the app to transcribe that recognized speech by converting it to a PDF file. For that, we need the server-side path from Express.js.
+ 
+ 
+ Setting up the API route
+ 
+ 
+ The purpose of this route is to take a text file, convert it to a PDF, write that PDF to our filesystem, then send a response to the client.
+ 
+ 
+ 
+ To setup, we would open the server/index.js file and import the html-pdf-node and fs dependencies that will be used to write and open our filesystem.
+ 
+ 
+ 
+ const HTMLToPDF &#x3D; require(&quot;html-pdf-node&quot;);
+ const fs &#x3D; require(&quot;fs&quot;);
+ const cors &#x3D; require(&quot;cors)
+ 
+ 
+ 
+ Next, we will setup our route:
+ 
+ 
+ 
+ app.use(cors())
+ app.use(express.json())
+ 
+ app.post(&quot;/&quot;, (req, res) &#x3D;&gt; {
+   // etc.
+ })
+ 
+ 
+ 
+ We then proceed to define our options required in order to use html-pdf-node inside the route:
+ 
+ 
+ 
+ let options &#x3D; { format: &quot;A4&quot; };
+ let file &#x3D; {
+   content: &#x60;&lt;html&gt;&lt;body&gt;&lt;pre style&#x3D;&#x27;font-size: 1.2rem&#x27;&gt;${req.body.text}&lt;/pre&gt;&lt;/body&gt;&lt;/html&gt;&#x60;,
+ };
+ 
+ 
+ 
+ The options object accepts a value to set the paper size and style. Paper sizes follow a much different system than the sizing units we typically use on the web. For example, A4 is the typical letter size.
+ 
+ 
+ 
+ The file object accepts either the URL of a public website or HTML markup. In order to generate our HTML page, we will use the html, body, pre HTML tags and the text from the req.body.
+ 
+ 
+ 
+ You can apply any styling of your choice.
+ 
+ 
+ 
+ Next, we will add a trycatch to handle any errors that might pop up along the way:
+ 
+ 
+ 
+ try {
+ 
+ } catch(error){
+   console.log(error);
+   res.status(500).send(error);
+ }
+ 
+ 
+ 
+ Next, we will use the generatePdf from the html-pdf-node library to generate a pdfBuffer (the raw PDF file) from our file and create a unique pdfName:
+ 
+ 
+ 
+ HTMLToPDF.generatePdf(file, options).then((pdfBuffer) &#x3D;&gt; {
+   // console.log(&quot;PDF Buffer:-&quot;, pdfBuffer);
+   const pdfName &#x3D; &quot;./data/speech&quot; + Date.now() + &quot;.pdf&quot;;
+ 
+   // Next code here
+ }
+ 
+ 
+ 
+ From there, we use the filesystem module to write, read and (yes, finally!) send a response to the client app:
+ 
+ 
+ 
+ fs.writeFile(pdfName, pdfBuffer, function (writeError) {
+   if (writeError) {
+     return res
+       .status(500)
+       .json({ message: &quot;Unable to write file. Try again.&quot; });
+   }
+ 
+   fs.readFile(pdfName, function (readError, readData) {
+     if (!readError &amp;&amp; readData) {
+       // console.log({ readData });
+       res.setHeader(&quot;Content-Type&quot;, &quot;application/pdf&quot;);
+       res.setHeader(&quot;Content-Disposition&quot;, &quot;attachment&quot;);
+       res.send(readData);
+       return;
+     }
+ 
+     return res
+       .status(500)
+       .json({ message: &quot;Unable to write file. Try again.&quot; });
+   });
+ });
+ 
+ 
+ 
+ Let’s break that down a bit:
+ 
+ 
+ 
+ The writeFile filesystem module accepts a file name, data and a callback function that can returns an error message if there’s an issue writing to the file. If you’re working with a CDN that provides error endpoints, you could use those instead.The readFile filesystem module accepts a file name and a callback function that is capable or returning a read error as well as the read data. Once we have no read error and the read data is present, we will construct and send a response to the client. Again, this can be replaced with your CDN’s endpoints if you have them.The res.setHeader(&quot;Content-Type&quot;, &quot;application/pdf&quot;); tells the browser that we are sending a PDF file.The res.setHeader(&quot;Content-Disposition&quot;, &quot;attachment&quot;); tells the browser to make the received data downloadable.
+ 
+ 
+ 
+ Since the API route ready, we can use it in our app at http://localhost:4000. We can the proceed to the client part of our application to complete the handleConversion function.
+ 
+ 
+ Handling the conversion
+ 
+ 
+ Before we can start working on a handleConversion function, we need to create a state that handles our API requests for loading, error, success, and other messages. We’re going use React’s useState hook to set that up:
+ 
+ 
+ 
+ const [response, setResponse] &#x3D; useState({
+   loading: false,
+   message: &quot;&quot;,
+   error: false,
+   success: false,
+ });
+ 
+ 
+ 
+ In the handleConversion function, we will check for when the web page has been loaded before running our code and make sure the div with the editable attribute is not empty:
+ 
+ 
+ 
+ if (typeof window !&#x3D;&#x3D; &quot;undefined&quot;) {
+ const userText &#x3D; textBodyRef.current.innerText;
+   // console.log(textBodyRef.current.innerText);
+ 
+   if (!userText) {
+     alert(&quot;Please speak or write some text.&quot;);
+     return;
+   }
+ }
+ 
+ 
+ 
+ We proceed by wrapping our eventual API request in a trycatch, handling any error that may arise, and updating the response state:
+ 
+ 
+ 
+ try {
+ 
+ } catch(error){
+   setResponse({
+     ...response,
+     loading: false,
+     error: true,
+     message:
+       &quot;An unexpected error occurred. Text not converted. Please try again&quot;,
+     success: false,
+   });
+ }
+ 
+ 
+ 
+ Next, we set some values for the response state and also set config for axios and make a post request to the server:
+ 
+ 
+ 
+ setResponse({
+   ...response,
+   loading: true,
+   message: &quot;&quot;,
+   error: false,
+   success: false,
+ });
+ const config &#x3D; {
+   headers: {
+     &quot;Content-Type&quot;: &quot;application/json&quot;,
+   },
+   responseType: &quot;blob&quot;,
+ };
+ 
+ const res &#x3D; await axios.post(
+   &quot;http://localhost:4000&quot;,
+   {
+     text: textBodyRef.current.innerText,
+   },
+   config
+ );
+ 
+ 
+ 
+ Once we have gotten a successful response, we set the response state with the appropriate values and instruct the browser to download the received PDF:
+ 
+ 
+ 
+ setResponse({
+   ...response,
+   loading: false,
+   error: false,
+   message:
+     &quot;Conversion was successful. Your download will start soon...&quot;,
+   success: true,
+ });
+ 
+ // convert the received data to a file
+ const url &#x3D; window.URL.createObjectURL(new Blob([res.data]));
+ // create an anchor element
+ const link &#x3D; document.createElement(&quot;a&quot;);
+ // set the href of the created anchor element
+ link.href &#x3D; url;
+ // add the download attribute, give the downloaded file a name
+ link.setAttribute(&quot;download&quot;, &quot;yourfile.pdf&quot;);
+ // add the created anchor tag to the DOM
+ document.body.appendChild(link);
+ // force a click on the link to start a simulated download
+ link.click();
+ 
+ 
+ 
+ And we can use the following below the contentEditable div for displaying messages:
+ 
+ 
+ 
+ &lt;div&gt;
+   {response.success &amp;&amp; &lt;i className&#x3D;&quot;success&quot;&gt;{response.message}&lt;/i&gt;}
+   {response.error &amp;&amp; &lt;i className&#x3D;&quot;error&quot;&gt;{response.message}&lt;/i&gt;}
+ &lt;/div&gt;
+ 
+ 
+ Final code
+ 
+ 
+ I’ve packaged everything up on GitHub so you can check out the full source code for both the server and the client.
+ 
+ 
+ 
+ 
+ Server repo 
+ 
+ 
+ 
+ Client repo
+ 
+ 
+ Converting Speech to PDF with NextJS and ExpressJS originally published on CSS-Tricks. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Implicit Grids, Repeatable Layout Patterns, and Danglers</title>
          <link href="https://css-tricks.com/implicit-grids-repeatable-layout-patterns-and-danglers/"/>
