@@ -4,10 +4,46 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-09T02:11:02.270Z</updated>
+   <updated>2022-08-10T01:50:46.046Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Committing CSS Crimes</title>
+         <link href="https://css-tricks.com/committing-css-crimes/"/>
+       <updated>2022-08-09T13:01:44.000Z</updated>
+       <content type="text">The time for CSS-Tricks is over. Now is the time for CSS Crimes!
+ 
+ 
+ 
+ In this current landscape of content service providers, users are often limited to expressing themselves in text, links, and images. Sanitization rules tend to strip out HTML, JavaScript, and various attributes.
+ 
+ 
+ 
+ Social media service Cohost allows users to have greater freedom with markup and inline styles than we may be typically used to. Some users have taken advantage of this freedom to commit CSS Crimes! It has resulted in creative recreations of familiar interfaces and interactive games by using properties in unconventional ways.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Blackle Mori created a contraption where pulling a handle slowly turns a series of gears, pulleys, and chains. Eventually an aperture opens to reveal the site’s mascot (“eggbug”) and the proclamation “Good Job!”. I have stared at this in Developer Tools and it is an amazing combination of grid, resize, transform, and calc(). I ended up adding a border to all &lt;div&gt;s to try and get a better understanding of how each individual element moved.
+ 
+ 
+ 
+ Several other CSS Crimes use resize to allow viewers rudimentary click and drag functionality.Blackle Mori explains this technique here!Other CSS Crimes create limited interaction through &lt;details&gt; and &lt;summary&gt;.Blackle Mori explains this technique here!Some members of the community have taken Andrew Siller’s technique from “Night of the Living GIF: Making Interactive Multiplayer Experiences” to create a multiplayer Pokemon experience!
+ 
+ 
+ 
+ There have been situations in the past where I have been restricted from using the full toolkit of HTML, JavaScript, and CSS. There have been many instances of using decorative CSS shapes to get around images. I have used :hover as a workaround for mouseenter and mouseleave. I have used input:checked as a sibling selector for toggling.
+ 
+ 
+ 
+ While CSS Crimes are probably not something you would want to employ on a regular basis, we should embrace experiments within constraints that can foster creative solutions.
+ To Shared Link — Permalink on CSS-Tricks
+ Committing CSS Crimes originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Zooming Images in a Grid Layout</title>
          <link href="https://css-tricks.com/zooming-images-in-a-grid-layout/"/>
