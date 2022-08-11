@@ -4,10 +4,305 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-10T01:50:46.046Z</updated>
+   <updated>2022-08-11T01:54:37.130Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Designing for Long-Form Articles</title>
+         <link href="https://css-tricks.com/designing-for-long-form-articles/"/>
+       <updated>2022-08-10T14:30:01.000Z</updated>
+       <content type="text">Designing a beautiful “article” is wrought with tons of considerations. Unlike, say, a homepage, a long-form article is less about designing an interface than it is designing text in a way that creates a relaxed and comfortable reading experience.
+ 
+ 
+ 
+ That’s because articles deal with long-form content which, in turn, tends to be valued by a ”time on page” interaction with users. We want someone to read a complete narrative. There’s a natural space between the time someone lands on an article and reads all the words. And hopefully, that space is immersive enough to not only hold a user’s, but provoke thoughts, ideas, and, possibly, actions. At least that’s what I’m hoping as I have your attention and you make your way through the very article you’re reading.
+ 
+ 
+ 
+ There’s a balance. On one hand, we hear that “no one reads the Internet.” On the other, a long-form article demands careful attention. Considering the current value of content marketing and the growing impatience in users, captivating readers for as long as possible should be a key concern. Let’s take a look at some best practices and examples of incredible article pages to get a better idea of what makes a visually appealing reading experience for long-form articles (without sacrificing user experience), and how we can replicate the effects.
+ 
+ 
+ 
+ 
+ 
+ 
+ Quick wins
+ 
+ 
+ Let me quickly list out what I think might already be obvious to many of you, but are effective things for content legibility:
+ 
+ 
+ 
+ Increase the font size: We know that 16px is the default and is perfectly fine in many designs, but a larger font size is inviting in that it implies the user is free to lean back and settle in without having to angle forward with the screen in their face to read.Aim for characters per line: Very few people I know like to work harder than they need to, and that goes for reading too. Rather than using the full viewport width, try to narrow things down and balance that with your larger font size to get fewer characters on each line of text. Your sweet spot may vary, though many folks suggest somewhere between 45-75 characters per line to help limit how far the reader’s eye has to work to go from left to right. Chris has a bookmarklet to help count characters, but we also have the ch unit in CSS to get predictable results.Bump up the line height: A default line height is going to feel smashed. It’s funny, but more space between lines (up to a point, of course) is less work for eyes, which seems antithetical to the characters-per-line advice where we generally want eyes to travel a shorter distance. A line height between 1.2 and 1.5 seems to be a pretty typical range for long-form content.
+ 
+ 
+ 
+ If you haven’t seen it before, Pierrick Calvez has a great “five-minute” guide to typography that packs in a bunch of low-hanging fruit like these.
+ 
+ 
+ Design for extra breathing room
+ 
+ 
+ You may be accustomed to designing “above the fold” where real estate is a prime commodity. That’s sort of like beach-front property in the web world because it’s where we’re used to packing in high-value things, like hero banners, calls to action, and anything else to help sell a thing. Above the fold can be a lot like a dense urban downtown with high traffic and high-rise buildings.
+ 
+ 
+ 
+ Articles are different. They allow you to stretch out a bit. If we want to take the city development analogy a little further, articles have the acreage to lean into a “less is more” sort of design approach. That’s what makes seemingly small design choices — like type — so important to the overall experience.
+ 
+ 
+ 
+ Check out the example below. The link underlines have a little more room to breathe (specifically, they appear below the descenders). This is actually something that you can enable sitewide but looks especially nice on article pages since it increases readability. That’s the sort of subtle design choice that contributes to extra breathing room.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ text-underline-position: under; is the line of CSS that makes this work. Naturally, text-decoration must be set to something other than none (underline in this case), too.
+ 
+ 
+ 
+ The example above also features text-decoration-thickness, which alters the thickness of underlines (and other line types). You can use this CSS property to match a line’s thickness to a font’s size and/or weight.
+ 
+ 
+ 
+ Here’s a full example:
+ 
+ 
+ 
+ a {
+   text-decoration: underline;
+   text-decoration-thickness: 2px;
+ 
+   /* or */
+   text-decoration: underline 2px;
+   text-underline-position: under;
+ }
+ 
+ 
+ 
+ But before you reach for the text-decoration shorthand, Šime Vidas has a few “gotchas” when it comes to using it that are worth reviewing.
+ 
+ 
+ Leading into the content
+ 
+ 
+ Drop caps are stylized letters that can be placed at the beginning of a document or document section. They were once used in Latin texts, but today they’re mostly used for decorative reasons.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Personally, I think that drop caps hinder readability. However, they can be a nice way to “lead” a reader into the main content, and they shouldn’t introduce any serious accessibility issues as long as you’re using the ::first-letter pseudo-element. There are other (older) methods that involve more HTML and CSS as well as the use of ARIA attributes in order for the content to remain accessible.
+ 
+ 
+ 
+ Using ::first-letter, the CSS would look something like this:
+ 
+ 
+ 
+ /* select the first letter of the first paragraph */
+ article &gt; p:first-child::first-letter {
+   color: #903;
+   float: left;
+   font-family: Georgia;
+   font-size: 75px;
+   line-height: 60px;
+   padding-top: 4px;
+   padding-right: 8px;
+   padding-left: 3px;
+ }
+ 
+ 
+ 
+ It sure would be nice if we could use the initial-letter property, but there’s pretty much no support for it at the time I’m writing this. If we had it, all that math for font size and line height would be calculated for us!
+ 
+ 
+ 
+ CodePen challenged folks to show off their drop-cap-styling skills several years ago and you can see a whole bunch of neat examples from it in this collection.
+ 
+ 
+ Skip to main content
+ 
+ 
+ Screen readers allow users to skip to the main content as long as it wraps it within a &lt;main&gt; element. However, those who navigate websites by tabbing don’t benefit from this. Instead, we must create a “skip to main content” anchor link. This link is customarily hidden but revealed once the user makes their first tab (i.e. show on focus).
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ It would look something like this:
+ 
+ 
+ 
+ &lt;!-- anchor --&gt;
+ &lt;a id&#x3D;&quot;skip-link&quot; href&#x3D;&quot;#main&quot;&gt;Skip to main content&lt;/a&gt;
+ 
+ &lt;!-- target --&gt;
+ &lt;main class&#x3D;&quot;main&quot;&gt;
+   &lt;!-- main content --&gt;
+ &lt;/main&gt;
+ 
+ 
+ 
+ #skip-link {
+   position: absolute; /* remove it from the flow */
+   transform: translateX(-100%); /* move it off-screen so that it appears hidden but remains focusable */
+ }
+ #skip-link:focus {
+   position: unset; /* insert it back into the flow */
+   transform: unset; /* move it back onto the screen */
+ }
+ 
+ .main {
+   scroll-margin: 1rem; /* adds breathing room above the scroll target */
+ }
+ 
+ 
+ 
+ There are other ways to go about it, of course. Here are a couple of deeper dives on creating skip links.
+ 
+ 
+ 
+     		
+     
+       
+ 
+   
+     
+                 
+         Article
+       
+ 
+     on
+ 
+     Aug 3, 2021  
+ 
+   
+     
+       A Deep Dive on Skipping to Content    
+   
+ 
+   
+       
+       design design principles editorial typography    
+   
+   
+     
+           
+   
+     
+       Paul Ratcliffe    
+   
+ 
+ 
+ 
+ 
+   
+     
+                 
+         Article
+       
+ 
+     on
+ 
+     Aug 25, 2021  
+ 
+   
+     
+       How to Create a “Skip to Content” Link    
+   
+ 
+   
+       
+       design design principles editorial typography    
+   
+   
+     
+           
+   
+     
+       Paul Ryan    
+   
+ 
+ 
+     
+   
+ 
+ 
+ Seamless visuals
+ 
+ 
+ I love the illustrations in this article. Despite how incredible they look, they don’t demand too much cognitive attention. They introduce brief moments of delight but also suggest that the article itself has something more important to say. Partly, this comes down to the use of transparency, whereas rectangular images capture more negative space and therefore demand more attention (which is fine if that’s the desired effect and images are crucial to the story).
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ However, it’s important to know that the images aren’t actually transparent at all, but instead are non-transparent JPEGs with the same background color as the content. I’m presuming that’s to keep the size of the images smaller compared to PNGs that support transparency.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ The downside to “faking” a transparent background like this is that it would require additional trickery (and maintenance) to support a dark mode UI if your site happens to offer one. If the illustrations are pretty flat and simple, then SVG might be the way to go instead since it’s small, scalable, and capable of blending into whatever background it’s on.
+ 
+ 
+ 
+ But if you’re bound to using raster images and would rather work with PNG files for transparency, you’ll want to look into using responsive images and the loading&#x3D;&quot;lazy&quot; attribute for faster loading times.
+ 
+ 
+ Put the focus on the type and semantics
+ 
+ 
+ You may have very little say over how or where someone reads content on the web these days. Whether the user receives it in an RSS feed, gets it delivered by email, sees it copy-and-pasted from a colleague, finds it on a scraped site, or whatnot, your content might look different than you prefer. You could design what you think is the most gorgeous article in all the land and the user still might smash that Reader Mode button to your dismay.
+ 
+ 
+ 
+ That’s ok! The discoverability of content is very much as important as the design of it, and many users have their own ways of discovering content and preferences for what makes a good reading experience.
+ 
+ 
+ 
+ But there are reasons why someone would want a Reader Mode. For one, it’s like “not seeing any CSS” at all. By that, I mean Safari’s Reader Mode or Brave SpeedReader, which use machine learning to detect articles. There’s no fetching or executing of CSS, JavaScript, or non-article images, which boosts performance and also blocks ads and tracking.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ This sort of “brute minimalism” puts the focus on the content rather than the styles. So, you might actually want to embrace a browser’s opinionated reading styles specifically for that purpose.
+ 
+ 
+ 
+ The way to do that is not by using CSS, but by paying closer attention to your HTML. Reader modes work best with markup that uses simple, semantic, article-related HTML. You’ve got to do more than simply slapping &lt;article&gt; tags around the article to get the most from it.
+ 
+ 
+ 
+ You might just find that a minimal design that emphasizes legibility over slickness is actually a good strategy to use in your site’s design. I’d strongly suggest reading Robin’s post on the “smallest CSS” for a solid reading experience.
+ 
+ 
+ Roundup of long-form articles!
+ 
+ 
+ I’ve shared a lot of what I think makes for a great reading experience for long-form articles on the web. But seeing is believing and I’ve rounded up a bunch of examples that showcase what we’ve covered.
+ 
+ 
+ 
+ Polygon uses a strong, provacative visual to hook readers into the ain content. Notice how the drop cap, larger font size, and increased line height make this feel like a page you can sit back with and relax.The TASTE website uses transparent images that blend into the background color of the content. There’s plenty of space between elements and bold accents — like thick borders and a heavy drop cap — pull the reader’s eye down the page.The Outline is a prime example of minimalism. Notice how something as subtle as a squiggly horizontal rule can be an eye-catching embellishment when there are fewer things competing for attention.The brutalist style of the Dropbox blog is probably a controversial one. The colors, fonts, and use of space are all over the place, and the content being floated to the right just feels unfamiliar. But does it break any design ‘rules’? Nope. I could grow to like it in time, especially in a milder form.Urban Beardsman’s design is extremely linear. As somebody that has difficulty concentrating and is easily distracted by sidebars, in-article CTA boxes, and even blockquotes, I very much enjoy how easy it is to read this blog like a book. The perfect example of “less is more.”There’s nothing unique about the GoSquared blog, but it managed to include pretty much all of the things we discussed in the article — a better underline design, seamless images, and some very readable typography. Quite impressive.The Smart Passive Income blog proves how far you can get just by choosing a legible font and using readable font sizes, line heights, letter spacings, and paragraph spacings.Recipe pages are consistently sucky, but not Little Fat Boy. The lack of sameness throughout the page makes it easy jump to different parts of the recipe without getting lost. Plus, the ingredients are pinned to the top-right for your convenience.
+ 
+ Designing for Long-Form Articles originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Committing CSS Crimes</title>
          <link href="https://css-tricks.com/committing-css-crimes/"/>
