@@ -4,10 +4,74 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-18T02:23:28.596Z</updated>
+   <updated>2022-08-19T02:18:58.082Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>When Do You Use CSS Columns?</title>
+         <link href="https://css-tricks.com/when-do-you-use-css-columns/"/>
+       <updated>2022-08-18T13:24:48.000Z</updated>
+       <content type="text">That ain’t rhetorical: I’m really interested in finding great use cases for CSS multi-column layouts.
+ 
+ 
+ 
+ The answer seems straightforward. Use columns when you want to split any content into columns, right? Here is generally the sort of example you’ll find in articles that show how CSS mutli-column layouts work, including our very own Almanac:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Right on. But is this an actual use case? Mmmmmaybe. If the text is relatively brief, then perhaps it’s a nice touch. That’s how I sold it to myself when redesigning my website a few years ago. It’s not that way today, but this is what it looked like then:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ But an entire long-form article split into columns? I love it in newspapers but am hesitant to scroll down a webpage to read one column, only to scroll back up to do it again.
+ 
+ 
+ 
+ I suppose we can use it to place two elements side-by-side, but flexbox is way more suited for that. Plus, a limitation prevents us from selecting the columns to size them individually. The columns have to be the same width.
+ 
+ 
+ 
+ One thing columns have going for them is that they are the only CSS layout method that fragments content. (That is, unless we’re counting CSS Regions… what happened to those, anyway?!) So, if you wanna split a paragraph up into columns, it’s already possible without additional wrappers.
+ 
+ 
+ 
+ When else might you need to split a continuous block of content into columns? I remember needing to do that when I had a big ol’ unordered list of items. I like the way lists can make content easy to scan, but long lists can make one side of the page look super heavy. Let’s say, for example, that we were listing out all the post tags for CSS-Tricks in alphabetical groups. A multi-column layout works beautifully for that:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Go ahead and try resizing the viewport width. Three columns are defined but the number will change based on the amount of available space. Gotta love all that responsive goodness without the media query work!
+ 
+ 
+ 
+ I was working on a demo for the :left pseudo-class and reached for columns because it’s a great way to fragment things for printing demos. So, I guess there’s another use case. And while making a demo, I realized that a multi-column layout could be used to create a masonry grid of items, like an image gallery:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ But what else? Are we limited to short paragraphs, long lists, and free-flowing grids?
+ 
+ When Do You Use CSS Columns? originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Why (and How) I Write Code With Pencil and Paper</title>
          <link href="https://css-tricks.com/why-and-how-i-write-code-with-pencil-and-paper/"/>
