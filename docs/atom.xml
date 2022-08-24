@@ -4,10 +4,46 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-23T02:20:51.041Z</updated>
+   <updated>2022-08-24T02:13:04.482Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Removing jQuery from GOV.UK</title>
+         <link href="https://css-tricks.com/removing-jquery-from-gov-uk/"/>
+       <updated>2022-08-23T13:04:31.000Z</updated>
+       <content type="text">The GOV.UK team recently published “How and why we removed jQuery from GOV.UK“. This was an insightful look at how an organization can assess its tooling and whether something is still the best tool for the job. This is not a nudge to strip libraries out of your current project right now! Many of us may still be supporting legacy projects and browser requirements that prevent this from being a viable option.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Some of the criticism appears to be that the library size argument is negligible on modern network speeds and caching.
+ 
+ 
+ 
+ GOV.UK posted an update to address this criticism with metrics – “The impact of removing jQuery on our web performance“.
+ 
+ 
+ 
+ This article also makes the case for improving maintenance. Instead of upgrading disparate outdated versions of code and having to address security updates in a piecemeal approach, removing the dependency reduces this footprint. This is the dream of having the luxury for addressing technical debt.
+ 
+ 
+ 
+ Previously, GitHub also documented how they incrementally decoupled jQuery from their front-end code. Improving maintenance and developer experience played a role into their decision.
+ 
+ 
+ 
+ What caught my eye in particular was the link to the documentation on how to remove jQuery. Understanding how to decouple and perform migration steps are maintenance tasks that will continue to come up for websites and it’s reassuring to have a guide from someone that had to do the same.
+ 
+ 
+ 
+ Further musing on this subject turned up the old chestnuts “You Might Not Need jQuery” (2014), “(Now More Than Ever) You Might Not Need jQuery” (2017), “Is jQuery still relevant? (1)” (2016),  and “Is jQuery still relevant? (2)” (2017).
+ To Shared Link — Permalink on CSS-Tricks
+ Removing jQuery from GOV.UK originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>CSS Grid and Custom Shapes, Part 2</title>
          <link href="https://css-tricks.com/css-grid-and-custom-shapes-part-2/"/>
