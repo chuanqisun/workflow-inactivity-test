@@ -4,10 +4,193 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-24T02:13:04.482Z</updated>
+   <updated>2022-08-25T02:21:34.088Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Using CSS Cascade Layers to Manage Custom Styles in a Tailwind Project</title>
+         <link href="https://css-tricks.com/using-css-cascade-layers-to-manage-custom-styles-in-a-tailwind-project/"/>
+       <updated>2022-08-24T13:11:47.000Z</updated>
+       <content type="text">If a utility class only does one thing, chances are you don’t want it to be overridden by any styles coming from elsewhere. One approach is to use !important to be 100% certain the style will be applied, regardless of specificity conflicts.
+ 
+ 
+ 
+ The Tailwind config file has an !important option that will automatically add !important to every utility class. There’s nothing wrong with using !important this way, but nowadays there are better ways to handle specificity. Using CSS Cascade Layers we can avoid the heavy-handed approach of using !important.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Cascade layers allow us to group styles into “layers”. The precedence of a layer always beats the specificity of a selector. Specificity only matters inside each layer. Establishing a sensible layer order helps avoid styling conflicts and specificity wars. That’s what makes CSS Cascade Layers a great tool for managing custom styles alongside styles from third-party frameworks, like Tailwind.
+ 
+ 
+ 
+ A Tailwind source .css file usually starts something like this:
+ 
+ 
+ 
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+ @tailwind variants;
+ 
+ 
+ 
+ Let’s take a look at the official Tailwind docs about directives:
+ 
+ 
+ 
+ Directives are custom Tailwind-specific at-rules you can use in your CSS that offer special functionality for Tailwind CSS projects. Use the @tailwind directive to insert Tailwind’s base, components, utilities and variants styles into your CSS.
+ 
+ 
+ 
+ In the output CSS file that gets built, Tailwind’s CSS reset — known as Preflight — is included first as part of the base styles. The rest of base consists of CSS variables needed for Tailwind to work. components is a place for you to add your own custom classes. Any utility classes you’ve used in your markup will appear next. Variants are styles for things like hover and focus states and responsive styles, which will appear last in the generated CSS file.
+ 
+ 
+ The Tailwind @layer directive
+ 
+ 
+ Confusingly, Tailwind has its own @layer syntax. This article is about the CSS standard, but let’s take a quick look at the Tailwind version (which gets compiled away and doesn’t end up in the output CSS). The Tailwind @layer directive is a way to inject your own extra styles into a specified part of the output CSS file.
+ 
+ 
+ 
+ For example, to append your own styles to the base styles, you would do the following:
+ 
+ 
+ 
+ @layer base {
+   h1 {
+     font-size: 30px;
+   }
+ }
+ 
+ 
+ 
+ The components layer is empty by default — it’s just a place to put your own classes. If you were doing things the Tailwind way, you’d probably use @apply (although the creator of Tailwind recently advised against it), but you can also write classes the regular way:
+ 
+ 
+ 
+ @layer components {
+   .btn-blue {
+     background-color: blue;
+     color: white;
+   }
+ }
+ 
+ 
+ 
+ The CSS standard is much more powerful. Let’s get back to that…
+ 
+ 
+ Using the CSS standard @layer
+ 
+ 
+ Here’s how we can rewrite this to use the CSS standard @layer:
+ 
+ 
+ 
+ @layer tailwind-base, my-custom-styles, tailwind-utilities;
+ 
+ @layer tailwind-base {
+   @tailwind base;
+ }
+ 
+ @layer tailwind-utilities {
+   @tailwind utilities;
+   @tailwind variants;
+ } 
+ 
+ 
+ 
+ Unlike the Tailwind directive, these don’t get compiled away. They’re understood by the browser. In fact, DevTools in Edge, Chrome, Safari, and Firefox will even show you any layers you’ve defined.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ You can have as many layers as you want — and name them whatever you want — but in this example, all my custom styles are in a single layer (my-custom-styles). The first line establishes the layer order:
+ 
+ 
+ 
+ @layer tailwind-base, my-custom-styles, tailwind-utilities;
+ 
+ 
+ 
+ This needs to be provided upfront. Be sure to include this line before any other code that uses @layer. The first layer in the list will be the least powerful, and the last layer in the list will be the most powerful. That means tailwind-base is the least powerful layer and any code in it will be overridden by all the subsequent layers. That also means tailwind-utilities will always trump any other styles — regardless of source order or specificity. (Utilities and variants could go in separate layers, but the maintainers of Tailwind will ensure variants always trump utilities, so long as you include the variants below the utilities directive.)
+ 
+ 
+ 
+ Anything that isn’t in a layer will override anything that is in a layer (with the one exception being styles that use !important). So, you could also opt to leave utilities and variants outside of any layer:
+ 
+ 
+ 
+ @layer tailwind-base, tailwind-components, my-custom-styles;
+ 
+ @layer tailwind-base {
+   @tailwind base;
+ }
+ 
+ @layer tailwind-components {
+   @tailwind components;
+ }
+ 
+ @tailwind utilities;
+ @tailwind variants;
+ 
+ 
+ 
+ What did this actually buy us? There are plenty of times when advanced CSS selectors come in pretty handy. Let’s create a version of :focus-within that only responds to keyboard focus rather than mouse clicks using the :has selector (which lands in Chrome 105). This will style a parent element when any of its children receive focus. Tailwind 3.1 introduced custom variants — e.g. &lt;div class&#x3D;&quot;[&amp;:has(:focus-visible)]:outline-red-600&quot;&gt; — but sometimes it’s easier to just write CSS:
+ 
+ 
+ 
+ @layer tailwind-base, my-custom-styles;
+ @layer tailwind-base {
+   @tailwind base;
+ }
+ 
+ @tailwind utilities;
+ 
+ @layer my-custom-styles {
+   .radio-container {
+     padding: 4px 24px;
+     border: solid 2px rgb(230, 230, 230);
+   }
+   .radio-container:has(:focus-visible) {
+     outline: solid 2px blue;
+   }
+ }
+ 
+ 
+ 
+ Let’s say in just one instance we want to override the outline-color from blue to something else. Let’s say the element we’re working with has both the Tailwind class .outline-red-600 and our own .radio-container:has(:focus-visible) class:
+ 
+ 
+ 
+ &lt;div class&#x3D;&quot;outline-red-600 radio-container&quot;&gt; ... &lt;/div&gt;
+ 
+ 
+ 
+ Which outline-color will win?
+ 
+ 
+ 
+ Ordinarily, the higher specificity of .radio-container:has(:focus-visible) would mean the Tailwind class has no effect — even if it’s lower in the source order. But, unlike the Tailwind @layer directive that relies on source order, the CSS standard @layer overrules specificity.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ As a result, we can use complex selectors in our own custom styles but still override them with Tailwind’s utility classes when we need to — without having to resort to heavy-handed !important usage to get what we want.
+ 
+ Using CSS Cascade Layers to Manage Custom Styles in a Tailwind Project originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Removing jQuery from GOV.UK</title>
          <link href="https://css-tricks.com/removing-jquery-from-gov-uk/"/>
