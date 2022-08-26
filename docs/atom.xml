@@ -4,10 +4,82 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-25T02:21:34.088Z</updated>
+   <updated>2022-08-26T02:28:28.473Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Not Sure How to WordPress Anymore?</title>
+         <link href="https://css-tricks.com/not-sure-how-to-wordpress-anymore/"/>
+       <updated>2022-08-25T14:34:06.000Z</updated>
+       <content type="text">Neither do I! And that’s probably because there’s a lot happening in WordPress-land. The evolution towards full-site editing (FSE) introduces frequent changes to the way we build themes and plugins, and at such break-neck speed that the documentation itself is either non-existent or nearly stale upon being published. Heck, the term “full-site editing” might even change.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Tom McFarlin was musing about this in his post titled “Writing Tutorials in These Gutenberg Times”:
+ 
+ 
+ 
+ I know Gutenberg has been in development for five years and I know that it’s matured a lot over the course of that time. But [t]he number of tutorials explaining how to do something that’s already outdated was absolutely incredible.
+ 
+ 
+ 
+ The truth is that I wouldn’t know where to start if I was asked to make a new WordPress site. As I see, there are a number of ways to go in this evolving era of WordPress:
+ 
+ 
+ 
+ Make a virtually empty theme that leverages the Site Editor for templating and block patterns for layouts.Make a child theme based on the existing Twenty Twenty-Two theme (because it supports FSE out of the box and is minimal enough to customize without much fuss).Make a classic theme.Ditch theming altogether and make a headless front-end that consumes the WordPress REST API.
+ 
+ 
+ 
+ I mean, we have so many tools for extending WordPress as a CMS that the front end of a WordPress site may vary from site to site. We can quite literally build an entire custom WordPress site with nothing but some tweaks to the theme.json file and fiddling around with layouts in the Block Editor.
+ 
+ 
+ 
+ It’s amazing and dizzying all at once.
+ 
+ 
+ 
+ It can also be frustrating, and we saw some of the frustration boil over when Matt Mullenweg commented on the recent design updates to the WordPress.org homepage and the amount of time took to complete:
+ 
+ 
+ 
+ […] it’s such a basic layout, it’s hard to imagine it taking a single person more than a day on Squarespace, Wix, Webflow, or one of the WP page builders.
+ 
+ 
+ 
+ (And, yes, someone proved that a nearly identical copy of the design could be created in 20 minutes.)
+ 
+ 
+ 
+ I think Matt’s comments have more to do with the process and solving the right problems than they are criticizing the approach that was taken. But reading the comments on that post is a nice microcosm of what I believe is an existential dilemma that many WordPress developers — including myself — are feeling after five years of living between “classic” and FSE themes.
+ 
+ 
+ 
+ I’ll be honest: I feel super out of touch with FSE development. So out of touch that I’ve wondered whether I’ve fallen too far behind and whether I’ll be able to catch up. I know there’s a huge effort to bolster learning (Learn WordPress is a great example of that), but it feels like there’s still something missing — or some sorta disconnect — that’s preventing the community from being on the same page as far as where we are and where we’re heading.
+ 
+ 
+ 
+ Could it be a lack of communication? Nah, there’s lots of that, not to mention lots of opportunities to attend meetings and view meeting notes. Could it be a lack of stable documentation? That’s legit, at least when I’ve tried seeking information on block development.
+ 
+ 
+ 
+ Perhaps the biggest shortcoming is the dearth of blog posts that share tips, tricks, and best practices. The WordPress community has always been a vast army of folks who generously share their talents and wisdom. But I think Tom summed it up best when he tweeted:
+ 
+ 
+ 
+ my sympathy to anyone who duckduckgo’s/googles a tutorial for how to create a gutenberg block and cannot find a single consistent tutorial.what a mess.— Tom McFarlin (@tommcfarlin) August 17, 2022 
+ 
+ 
+ 
+ I, for one, would love to be writing about WordPress as much as I have in the “classic” era. But again, there’s that elusive starting point that prevents me from feeling confident about anything I’d say.
+ 
+ Not Sure How to WordPress Anymore? originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Using CSS Cascade Layers to Manage Custom Styles in a Tailwind Project</title>
          <link href="https://css-tricks.com/using-css-cascade-layers-to-manage-custom-styles-in-a-tailwind-project/"/>
