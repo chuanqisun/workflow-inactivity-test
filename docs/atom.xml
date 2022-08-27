@@ -4,10 +4,703 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-26T02:28:28.473Z</updated>
+   <updated>2022-08-27T02:23:28.425Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Using Grid Named Areas to Visualize (and Reference) Your Layout</title>
+         <link href="https://css-tricks.com/using-grid-named-areas-to-visualize-and-reference-your-layout/"/>
+       <updated>2022-08-26T13:44:49.000Z</updated>
+       <content type="text">Whenever we build simple or complex layouts using CSS Grid, we’re usually positioning items with line numbers. Grid layouts contain grid lines that are automatically indexed with positive and negative line numbers (that is unless we explicitly name them). Positioning items with line numbers is a fine way to lay things out, though CSS Grid has numerous ways to accomplish the same with an undersized cognitive encumbrance. One of those ways is something I like to think of as the “ASCII” method.
+ 
+ 
+ 
+ 
+ 
+ 
+ The ASCII method in a nutshell
+ 
+ 
+ The method boils down to using grid-template-areas to position grid items using custom-named areas at the grid container level rather than line numbers.
+ 
+ 
+ 
+ When we declare an element as a grid container using display: grid, the grid container, by default, generates a single-column track and rows that sufficiently hold the grid items. The container’s child elements that participate in the grid layout are converted to grid items, irrespective of their display property.
+ 
+ 
+ 
+ For instance, let’s create a grid by explicitly defining columns and rows using the grid-template-columns and grid-template-rows properties.
+ 
+ 
+ 
+ .grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-template-rows: repeat(3, 200px);
+ }
+ 
+ 
+ 
+ This little snippet of CSS creates a 3×2 grid where the grid items take up equal space in the columns, and where the grid contains three rows with a track size of 200px.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ We can define the entire layout with named grid areas using the grid-template-areas property. According to the spec, the initial value of grid-template-areas is none.
+ 
+ 
+ 
+ grid-template-areas &#x3D; none | &lt;string&gt;+
+ 
+ 
+ 
+ &lt;string&gt;+ is listing the group of strings enclosed with a quote. Each string is represented as a cell, and each quoted string is represented as a row. Like this:
+ 
+ 
+ 
+ grid-template-areas: &quot;head head&quot; &quot;nav main&quot; &quot;foot foot&quot;;
+ 
+ 
+ 
+ The value of grid-template-areas describes the layout as having four grid areas. They are,
+ 
+ 
+ 
+ headnavmainfoot
+ 
+ 
+ 
+ head and foot span two column tracks and one row track. The remaining nav and main each span one column track and one row track. The value of grid-template-areas is a lot like arranging ASCII characters, and as Chris suggested a while back, we can get a visualization of the overall structure of the layout from the CSS itself which is the most trouble-free way to understand it.
+ 
+ 
+ 
+ (Full size GIF)
+ 
+ 
+ 
+ OK, so we created our layout with four named grid areas: head, nav, main, foot.
+ 
+ 
+ 
+ Now, let’s start to position the grid items against named grid areas instead of line numbers. Specifically, let’s place a header element into the named grid area head and specify the named grid area head in the header element using the grid-area property.
+ 
+ 
+ 
+ Named grid areas in a grid layout are called idents. So, what we just did was create a custom ident named head that we can use to place items into certain grid tracks.
+ 
+ 
+ 
+ header { grid-area: head; }
+ 
+ 
+ 
+ We can other HTML elements using other custom idents:
+ 
+ 
+ 
+ nav { grid-area: nav; }
+ main { grid-area: main; }
+ footer { grid-area: foot; }
+ 
+ 
+ Writing named area values
+ 
+ 
+ According to CSS Grid Layout Module Level 1, all strings must be defined under the following tokens:
+ 
+ 
+ 
+ Named cell token: This represents the named grid area in the grid. For instance, head is a named cell token.Null cell token: This represents the unnamed grid area in the grid container. For instance, an empty cell in the grid is a null cell token.Trash token: This is a syntax error, such as an invalid declaration. For instance, a disparate number of cells and rows compared to the number of grid items would make a declaration invalid.
+ 
+ 
+ 
+ In grid-template-area, every quoted string (the rows) must have the same number of cells and define the complete grid without ignoring any cell.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ We can ignore a cell or leave it as an empty cell using the full-stop character (.)
+ 
+ 
+ 
+ .grid { 
+   display: grid;
+   grid-template-areas:
+     &quot;head head&quot;
+     &quot;nav main&quot;
+     &quot;foot .&quot;;
+ }
+ 
+ 
+ 
+ If that feels visually awkward or imbalanced to you, we can use multiple full-stop characters without any whitespaces separating them:
+ 
+ 
+ 
+ .grid {
+   display: grid;
+   grid-template-areas:
+     &quot;head head&quot;
+     &quot;nav main&quot;
+     &quot;foot ....&quot;;
+ }
+ 
+ 
+ 
+ A named cell token can span multiple grid cells, But those cells must form a rectangular layout. In other words, we’re unable to create “L” or “T”-shaped layouts, although the spec does hint at support for non-rectangular layouts with disconnected regions in the future.
+ 
+ 
+ ASCII is better than line-based placement
+ 
+ 
+ Line-based placement is where we use the grid-column and grid-row properties to position an element on the grid using grid line numbers that are automatically indexed by a number:
+ 
+ 
+ 
+ .grid-item {
+   grid-column: 1 / 3; /* start at grid column line 1 and span to line 3 */
+ }
+ 
+ 
+ 
+ But grid item line numbers can change if our layout changes at a breakpoint. In those cases, it’s not like we can rely on the same line numbers we used at a specific breakpoint. This is where it takes extra cognitive encumbrance to understand the code.
+ 
+ 
+ 
+ That’s why I think an ASCII-based approach works best. We can redefine the layout for each breakpoint using grid-template-areas within the grid container, which offers a convenient visual for how the layout will look directly in the CSS — it’s like self-documented code!
+ 
+ 
+ 
+ .grid {
+   grid-template-areas:
+     &quot;head head&quot;
+     &quot;nav main&quot;
+     &quot;foot ....&quot;; /* much easier way to see the grid! */
+ }
+ 
+ .grid-item {
+   grid-area: foot; /* much easier to place the item! */
+ }
+ 
+ 
+ 
+ We can actually see a grid’s line numbers and grid areas in DevTools. In Firefox, for example, go to the Layout panel. Then, under the Grid tab, locate the “Grid display settings” and enable the “Display line number” and “Display area names” options.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ This ASCII approach using named areas requires a lot less effort to visualize and easily find the placement of elements.
+ 
+ 
+ 
+ 
+ 
+ 
+ Let’s look at the “universal” use case
+ 
+ 
+ Whenever I see a tutorial on named grid areas, the common example is generally some layout pattern containing header, main, sidebar, and footer areas. I like to think of this as the “universal” use case since it casts such a wide net.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ It’s a great example to illustrate how grid-template-areas works, but a real-life implementation usually involves media queries set to change the layout at certain viewport widths. Rather than having to re-declare grid-area on each grid item at each breakpoint to re-position everything, we can use grid-template-areas to “respond” to the breakpoint instead — and get a nice visual of the layout at each breakpoint in the process!
+ 
+ 
+ 
+ Before defining the layout, let’s assign an ident to each element using the grid-area property as a base style.
+ 
+ 
+ 
+ header {
+   grid-area: head;
+ }
+ 
+ .left-side {
+   grid-area: left;
+ }
+ 
+ main {
+   grid-area: main;
+ }
+ 
+ .right-side {
+   grid-area: right;
+ }
+ 
+ footer {
+   grid-area: foot;
+ }
+ 
+ 
+ 
+ Now, let’s define the layout again as a base style. We’re going with a mobile-first approach so that things will stack by default:
+ 
+ 
+ 
+ .grid-container {
+   display: grid;
+   grid-template-areas:
+     &quot;head&quot;
+     &quot;left&quot;
+     &quot;main&quot;
+     &quot;right&quot;
+     &quot;foot&quot;;
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Each grid item is auto-sized in this configuration — which seems a little bit weird — so we can set min-height: 100vh on the grid container to give us more room to work with:
+ 
+ 
+ 
+ .grid-container {
+   display: grid;
+   grid-template-areas:
+     &quot;head&quot;
+     &quot;left&quot;
+     &quot;main&quot;
+     &quot;right&quot;
+     &quot;foot&quot;;
+   min-height: 100vh;
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Now let’s say we want the main element to sit to the right of the stacked left and right sidebars when we get to a slightly wider viewport width. We re-declare grid-template-areas with an updated ASCII layout to get that:
+ 
+ 
+ 
+ @media (min-width: 800px) {
+   .parent {
+     grid-template-columns: 0.5fr 1fr;
+     grid-template-rows: 100px 1fr 1fr 100px;
+     grid-template-areas:
+       &quot;head head&quot;
+       &quot;left main&quot;
+       &quot;right main&quot;
+       &quot;foot foot&quot;;
+   }
+ }
+ 
+ 
+ 
+ I tossed some column and row sizing in there purely for aesthetics.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ As the browser gets even wider, we may want to change the layout again, so that main is sandwiched between the left and right sidebars. Let’s write the layout visually!
+ 
+ 
+ 
+ .grid-container {
+   grid-template-columns: 200px 1fr 200px; /* again, just for sizing */
+   grid-template-areas:
+     &quot;head head head&quot;
+     &quot;left main right&quot;
+     &quot;left main right&quot;
+     &quot;foot foot foot&quot;;
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ Leveraging implicit line names for flexibility
+ 
+ 
+ According to the spec, grid-template-areas automatically generates names for the grid lines created by named grid areas. We call these implicitly-named grid lines because they are named for us for free without any additional work.
+ 
+ 
+ 
+ Every named grid area gets four implicitly-named grid lines, two in the column direction and two in the row direction, where -start and -end are appended to the ident. For example, a grid area named head gets head-start and head-end lines in both directions for a total of four implicitly-named grid lines.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ We can use these lines to our advantage! For instance, if we want an element to overlay the main, left, and right areas of our grid. Earlier, we talked about how layouts have to be rectangular — no “T” and “L” shaped layouts allowed. Consequently, we’re unable to use the ASCII visual layout method to place the overlay. We can, however, use our implicit line names using the same grid-area property on the overlay that we use to position the other elements.
+ 
+ 
+ 
+ Did you know that grid-area is a shorthand property, sort of the same way that margin and padding are shorthand properties? It takes multiple values the same way, but instead of following a “clockwise” direction like, margin — which goes in order of margin-block-start, margin-inline-end, margin-block-end, and margin-inline-start — grid-area goes like this:
+ 
+ 
+ 
+ grid-area: block-start / inline-start / block-end / inline-end;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ But we’re talking about rows and columns, not block and inline directions, right? Well, they correspond to one another. The row axis corresponds to the block direction, and the column axis corresponds to the inline direction:
+ 
+ 
+ 
+ grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Back to positioning that overlay element as a grid item in our layout. The grid-area property will be helpful to position the element using our implicitly-named grid lines:
+ 
+ 
+ 
+ .overlay {
+   grid-area: left-start / left-start / right-end / main-end;
+ }
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ Creating a minimal grid system
+ 
+ 
+ When we focus on layouts like the “universal” use case we just saw, it’s tempting to think of grid areas in terms of one area per element. But it doesn’t have to work like that. We can repeat idents to reserve more space for them in the layout. We saw that when we repeated the head and foot idents in the last example:
+ 
+ 
+ 
+ .grid-container {
+   grid-template-areas:
+     &quot;head head head&quot;
+     &quot;left main right&quot;
+     &quot;left main right&quot;
+     &quot;foot foot foot&quot;;
+ }
+ 
+ 
+ 
+ Notice that main, left, and right are also repeated but in the block direction.
+ 
+ 
+ 
+ Let’s forget about full page layouts and use named grid areas on a component. Grid is just as good for component layouts as full pages!
+ 
+ 
+ 
+ Here’s a pretty standard hero component that sports a row of images followed by different blocks of text:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ The HTML is pretty simple:
+ 
+ 
+ 
+ &lt;div class&#x3D;&quot;hero&quot;&gt;
+   &lt;div class&#x3D;&quot;image&quot;&gt;
+     &lt;img src&#x3D;&quot;...&quot; alt&#x3D;&quot;&quot; /&gt;
+   &lt;/div&gt;
+   &lt;div class&#x3D;&quot;text&quot;&gt;
+     &lt;!-- ... --&gt;
+   &lt;/div&gt;
+ &lt;/div&gt;
+ 
+ 
+ 
+ We could do this for a real fast stacked layout:
+ 
+ 
+ 
+ .hero {
+   grid-template-areas:
+     &quot;image&quot;
+     &quot;text&quot;;
+ }
+ 
+ 
+ 
+ But then we have to reach for some padding, max-width or whatever to get the text area narrower than the row of images. How about we expand our ASCII layout into a four-column grid instead by repeating our idents on both rows:
+ 
+ 
+ 
+ .hero {
+   display: grid;
+   grid-template-columns: repeat(4, 1fr); /* maintain equal sizing */
+   grid-template-areas:
+     &quot;image image image image&quot;
+     &quot;text  text  text  text&quot;;
+ }
+ 
+ 
+ 
+ Alright, now we can place our grid items into those named areas:
+ 
+ 
+ 
+ .hero .image {
+   grid-area: image;
+ }
+ 
+ .hero .text {
+   grid-area: text;
+ }
+ 
+ 
+ 
+ So far, so good — both rows take up the entire width. We can use that as our base layout for small screens.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ But maybe we want to introduce the narrower text when the viewport reaches a larger width. We can use what we know about the full-stop character to “skip” columns. Let’s have the text ident skip the first and last columns in this case.
+ 
+ 
+ 
+ @media (min-width: 800px) {
+   main {
+     grid-template-columns: repeat(6, 1fr); /* increase to six columns */
+     grid-template-areas:
+       &quot;image image image image image image&quot;
+       &quot;..... text  text  text  text  .....&quot;;
+   }
+ }
+ 
+ 
+ 
+ Now we have the spacing we want:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ If the layout needs additional tweaking at even larger breakpoints, we can add more columns and go from there:
+ 
+ 
+ 
+ .hero {
+   grid-template-columns: repeat(8, 1fr);
+   grid-template-areas:
+     &quot;image image image image image image image image&quot;
+     &quot;..... text  text  text  text  text  text  .....&quot;;
+ }
+ 
+ 
+ 
+ Dev tool visualization:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Remember when 12-column and 16-column layouts were the big things in CSS frameworks? We can quickly scale up to that and maintain a nice visual ASCII layout in the code:
+ 
+ 
+ 
+ main {
+   grid-template-columns: repeat(12, 1fr);
+   grid-template-areas:
+     &quot;image image image image image image image image image image image image&quot;
+     &quot;..... text  text  text  text  text  text  text  text  text  text  .....&quot;;
+ }
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ Let’s look at something more complex
+ 
+ 
+ We’ve looked at one fairly generic example and one relatively straightforward example. We can still get nice ASCII layout visualizations with more complex layouts.
+ 
+ 
+ 
+ Let’s work up to this:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ I’ve split this up into two elements in the HTML, a header and a main:
+ 
+ 
+ 
+ &lt;header&gt;
+   &lt;div class&#x3D;&quot;logo&quot;&gt; ... &lt;/div&gt;
+   &lt;div class&#x3D;&quot;menu&quot;&gt; ... &lt;/div&gt;
+ &lt;/header&gt;
+ &lt;main&gt;
+   &lt;div class&#x3D;&quot;image&quot;&gt; ... &lt;/div&gt;
+   &lt;h2&gt; ... &lt;/h2&gt;
+   &lt;div class&#x3D;&quot;image&quot;&gt; ... &lt;/div&gt;
+   &lt;div class&#x3D;&quot;image&quot;&gt; ... &lt;/div&gt;
+ &lt;/main&gt;
+ 
+ 
+ 
+ I think flexbox is more appropriate for the header since we can space its child elements out easily that way. So, no grid there:
+ 
+ 
+ 
+ header {
+   display: flex;
+   justify-content: space-between;
+   /* etc. */
+ }
+ 
+ 
+ 
+ But grid is well-suited for the main element’s layout. Let’s define the layout and assign the idents to the corresponding elements that we need to position the .text and three .image elements. We’ll start with this as our baseline for small screens:
+ 
+ 
+ 
+ .grid {
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   grid-template-areas:
+     &quot;image1 image1 .....  image2&quot;
+     &quot;texts  texts  texts  texts&quot;
+     &quot;.....  image3 image3 .....&quot;;
+ }
+ 
+ 
+ 
+ You can already see where we’re going with this, right? The layout is visualized for us, and we can drop the grid items into place with the custom idents:
+ 
+ 
+ 
+ .image:nth-child(1) {
+   grid-area: image1;
+ }
+ 
+ .image:nth-last-child(2) {
+   grid-area: image2;
+ }
+ 
+ .image:nth-last-child(1) {
+   grid-area: image3;
+ }
+ 
+ h2 {
+   grid-area: texts;
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ That’s our base layout, so let’s venture into a wider breakpoint:
+ 
+ 
+ 
+ @media (min-width: 800px) {
+   .grid {
+     grid-template-columns: repeat(8, 1fr);
+     grid-template-areas:
+       &quot;. image1 image1 ...... ......  ...... image2 .&quot;
+       &quot;. texts  texts  texts  texts   texts  image2 .&quot;
+       &quot;. .....  image3 image3 image3  image3 ...... .&quot;;
+   }
+ }
+ 
+ 
+ 
+ I bet you know exactly how that will look because the layout is right there in the code!
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Same deal if we decide to scale up even further:
+ 
+ 
+ 
+ .grid {
+   grid-template-columns: repeat(12, 1fr);
+   grid-template-areas:
+     &quot;. image1 image1 .....  .....   .....  .....  .....  .....  .....  .....  .&quot;
+     &quot;. texts  texts  texts  texts   texts  texts  texts  texts  texts  image2 .&quot;
+     &quot;. .....  image3 image3 image3  image3 .....  .....  .....  .....  .....  .&quot;;
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Here’s the full demo:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ I’m using the “negative margin hack” to get the first image to overlap the heading.
+ 
+ 
+ Wrapping up
+ 
+ 
+ I’m curious if anyone else is using grid-template-areas to create named areas for the benefit of having an ASCII visual of the grid layout. Having that as a reference in my CSS code has helped de-mystify some otherwise complex designs that may have been even more complex when dealing with line numbers.
+ 
+ 
+ 
+ But if nothing else, defining grid layouts this way teaches us some interesting things about CSS Grid that we saw throughout this post:
+ 
+ 
+ 
+ The grid-template-areas property allows us to create custom idents — or “named areas” — and use them to position grid items using the grid-area property.There are three types of “tokens” that grid-template-areas accepts as values, including named cell tokens, null cell tokens, and trash cell tokens.Each row that is defined in grid-template-areas needs the same number of cells. Ignoring a single cell doesn’t create a layout; it is considered a trash token.We can get a visual ASCII-like diagram of the grid layout in the grid-template-areas property value by using required whitespaces between named cell tokens while defining the grid layout.Make sure there is no whitespace inside a null cell token (e.g. .....). Otherwise, a single whitespace between null cell tokens creates unnecessary empty cells, resulting in an invalid layout.We can redefine the layout at various breakpoints by re-positioning the grid items using grid-area, then re-declaring the layout with grid-template-areas on the grid container to update the track listing, if needed. There’s no need to touch the grid items.Custom named grid areas automatically get four implicitly assigned line names — &lt;custom-ident&gt;-start and &lt;custom-ident&gt;-end in both the column and row directions.
+ 
+ Using Grid Named Areas to Visualize (and Reference) Your Layout originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Not Sure How to WordPress Anymore?</title>
          <link href="https://css-tricks.com/not-sure-how-to-wordpress-anymore/"/>
