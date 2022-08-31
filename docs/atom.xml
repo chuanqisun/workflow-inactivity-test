@@ -4,10 +4,108 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-30T02:33:13.851Z</updated>
+   <updated>2022-08-31T02:38:26.301Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Interpolating Numeric CSS Variables</title>
+         <link href="https://css-tricks.com/interpolating-numeric-css-variables/"/>
+       <updated>2022-08-30T13:17:25.000Z</updated>
+       <content type="text">We can make variables in CSS pretty easily:
+ 
+ 
+ 
+ :root {
+   --scale: 1;
+ }
+ 
+ 
+ 
+ And we can declare them on any element:
+ 
+ 
+ 
+ .thing {
+   transform: scale(--scale);
+ }
+ 
+ 
+ 
+ Even better for an example like this is applying the variable on a user interaction, say :hover:
+ 
+ 
+ 
+ :root {
+   --scale: 1;
+ }
+ 
+ .thing {
+   height: 100px;
+   transform: scale(--scale);
+   width: 100px;
+ }
+ 
+ .thing:hover {
+   --scale: 3;
+ }
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ But if we wanted to use that variable in an animation… nada.
+ 
+ 
+ 
+ :root {
+   --scale: 1;
+ }
+ 
+ @keyframes scale {
+   from { --scale: 0; }
+   to { --scale: 3; }
+ }
+ 
+ /* Nope! */
+ .thing {
+   animation: scale .25s ease-in;
+   height: 100px;
+   width: 100px;
+ }
+ 
+ 
+ 
+ That’s because the variable is recognized as a string and what we need is a number that can be interpolated between two numeric values. That’s where we can call on @property to not only register the variable as a custom property, but define its syntax as a number:
+ 
+ 
+ 
+ @property --scale {
+   syntax: &quot;&lt;number&gt;&quot;;
+   initial-value: 1;
+   inherits: true;
+ }
+ 
+ 
+ 
+ Now we get the animation!
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ You’re going to want to check browser support since @property has only landed in Chrome (starting in version 85) as of this writing. And if you’re hoping to sniff it out with @supports, we’re currently out of luck because it doesn’t accept at-rules as values… yet. That will change once at-rule()becomes a real thing.
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ Interpolating Numeric CSS Variables originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Using Grid Named Areas to Visualize (and Reference) Your Layout</title>
          <link href="https://css-tricks.com/using-grid-named-areas-to-visualize-and-reference-your-layout/"/>
