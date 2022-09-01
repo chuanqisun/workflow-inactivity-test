@@ -4,7 +4,7 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-08-31T02:38:26.301Z</updated>
+   <updated>2022-09-01T02:19:05.984Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
@@ -27,7 +27,7 @@
  
  
  .thing {
-   transform: scale(--scale);
+   transform: scale(var(--scale));
  }
  
  
@@ -42,7 +42,7 @@
  
  .thing {
    height: 100px;
-   transform: scale(--scale);
+   transform: scale(var(--scale));
    width: 100px;
  }
  
