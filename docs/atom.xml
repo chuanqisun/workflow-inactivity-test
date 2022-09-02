@@ -4,10 +4,416 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-01T02:19:05.984Z</updated>
+   <updated>2022-09-02T02:24:30.740Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Behind the CSScenes, September 2022</title>
+         <link href="https://css-tricks.com/behind-the-csscenes-sept2022/"/>
+       <updated>2022-09-01T20:06:56.000Z</updated>
+       <content type="text">Those of you who have been reading CSS-Tricks for a while may remember that we used to publish a little thing we called CSS-Tricks Chronicles. Our friend Chris Coyier would write up a reflection from the past couple of months or so, and it was a great way to get a pulse on what’s happening around CSS-Tricks, the site, and what the team is doing.
+ 
+ 
+ 
+ We like that and want to keep it going. It’s a new era, though! So what we’re going to do is welcome you back to what we’re now calling Behind the CSScenes. You’re going to meet some new and familiar faces in these updates, starting with Haley Mills, who is kicking off the very first issue.
+ 
+ 
+ 
+ 
+ 
+ 
+ How’s the transition going?
+ 
+ 
+ [Haley Mills:] Before we dive in, let me start by introducing myself! My name is Haley, and I’m the manager of Content Integration here at DigitalOcean. I’ve been at DigitalOcean for 5 years and previously worked on our editorial team, helping authors publish all sorts of topics through our Write For DOnations program. 
+ 
+ 
+ 
+ Many folks here at DigitalOcean (including myself) are avid readers of CSS-Tricks, and we still have to pinch ourselves for how lucky we are to be entrusted with this community. We recognize that CSS-Tricks is a critical free resource for devs across the world, and my goal is to keep it that way. 
+ 
+ 
+ 
+ Since the acquisition, we have published 95 pieces of new content and look forward to growing that number.In the month of August, we performed maintenance on 6 existing pieces of content.
+ 
+ 
+ 
+ That said, change is to be expected when passing a torch.
+ 
+ 
+ 
+ I think we all know that no one can replace Chris’ voice — it’s a big reason why CSS-Tricks is, well, CSS-Tricks. His ability to have you laughing while learning something new is a skill that few can compete with. I know many of you miss his writing because you told us so in a survey (which we’ll get to in a bit), but it also opens up a huge opportunity for us all to take the torch and continue doing what CSS-Tricks does best:
+ 
+ 
+ 
+ Find creative solutions to problems and share them with the world. Chris brought people together this way on CSS-Tricks — and you can give back, too.
+ 
+ 
+ 
+ Your blossoming idea could turn out to be what the Flexbox Guide is for me and so many other people, so I humbly encourage you to reach out in our Guest Writing Form and talk to us about your topic ideas. We have two awesome editors, Geoff and Brad, to help you shape and bring your ideas to life to share with the CSS-Tricks community. In addition to paying you for your contribution, we will now also make a matching donation to a tech-focused charity of your choice.
+ 
+ 
+ 
+ Next up, we have Product Manager Karen Degi with some survey result highlights.
+ 
+ 
+ The results are in…
+ 
+ 
+ [Karen Degi:] In June, we shared a survey to collect feedback to help shape the future of CSS-Tricks. We received almost 900 responses, including some great written responses that helped us understand what CSS-Tricks means to the larger community. 
+ 
+ 
+ 
+ Many of you also volunteered to talk to us directly, which has us thinking about the best way to gather those thoughts. If you’re one of those folks, know that we haven’t forgotten about you and still want to hear from you. We just want to make sure we approach this in the most effective way!
+ 
+ 
+ 
+ The survey confirmed some things we already suspected and brought new things to our attention. The top few things that grabbed our attention are:
+ 
+ 
+ 
+ Engaging, high-quality content is at the heart of CSS-Tricks. We’re working to make sure that we continue investing in in-depth guides on front-end topics, as well as providing short articles about quick tricks and tutorials with embedded demos.You love RSS! As we continue investing in CSS-Tricks and bringing new functionality, we’ll make sure we keep an eye on how our changes affect the RSS feed.You come to CSS-Tricks to learn, to be entertained, and to do your jobs better. You do not come to CSS-Tricks because you’re excited about being sold…well, anything, really. Although we think DigitalOcean is pretty great, and we’ll probably continue to talk about ourselves where it makes sense, we understand that we need to do so in a way that is honest, trustworthy, and connected to your needs as a front-end enthusiast.
+ 
+ 
+ 
+ Next up is Logan Liffick, Senior Digital Experience Designer, with redesign updates.
+ 
+ 
+ A redesign is in the works!
+ 
+ 
+ [Logan Liffick:] If you’ve worked on the front end — or really anywhere on the web, you’re bound to know CSS-Tricks. It’s where I, and many others, started the journey. So, when I was asked to spearhead a redesign for the site, it was nothing short of an honor. Without a doubt, undertaking a brand update for something so familiar to so many is a challenge of incredible magnitude
+ 
+ 
+ 
+ If I were to do justice to this project, I’d need to pay tribute to the original. That mentality became the underlying theme of my work, and any effort to rejuvenate took inspiration from existing patterns and styles from the site.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Upon first glance, you’ll notice the fresh coat of paint. Past that, you’ll recognize the site reads more “editorial” than before. This was a purposeful decision to accentuate existing type stylings and, more importantly, to pay homage to the essence of CSS-Tricks as an informational resource. 
+ 
+ 
+ 
+ Preserving the element of “fun” was also top of mind. Sprinkled throughout the site are various snippets from the actual CSS “tricks” shared on this site — for example, there’s going to be a little Easter egg tucked inside a sticky footer using Preethi’s slide-out effect that’s my personal favorite, a fantastic suggestion from Geoff himself. Gradients are now a core color-way in the system, and border-radii have been rounded out. 
+ 
+ 
+ 
+ We wanted to give ourselves permission and space to explore an open-ended and malleable system far into the future, which lines up nicely with the overall mission and goal of CSS-Tricks: to explore what’s possible with CSS. This is just the beginning, there’s so much more to see, do, and learn with CSS-Tricks living in our (digital) ocean.Next is Geoff with author highlights!
+ 
+ 
+ New authors! 
+ 
+ 
+ [Geoff:] We’ve added a few new faces to our growing list of guest authors who have contributed to CSS-Tricks:
+ 
+ 
+ 
+ Nick SypterasJohn Siciliano Sunkanmi FafoworaMarcel MoreauNicholas C. ZakasAisha BukarSaleh MubasharVictor AdedokunHolger SindbaekEludaBlessing Ene AnyebeObumuneme NwabudeOnuorah Bonaventure ChukwudiDaniel SchwarzPreethi Selvam
+ 
+ 
+ 
+ You may have also seen our editor Bradley Kouchi’s name pop up a couple of times, and you can expect to continue seeing him on a semi-regular basis.
+ 
+ 
+ 
+ That’s 16 new authors! You can be one, too, by filling out our guest writing form.
+ 
+ 
+ 
+ On a related note, I’m pleased as punch that we still get regular contributions from a large band of familiar faces from before the DigitalOcean acquisition. Just look at all the fine folks who’ve continued to share their great ideas with us:
+ 
+ 
+ 
+ Temani AfifMariana BeldiGanesh DahalAdam RackisPreehi SamathanamMojtaba SeyediJhey TompkinsŠime VidasOllie Williams
+ 
+ 
+ 
+ Big shake-ups like the one we’re going through today can be scary. Seeing these familiar names in article bylines has helped me a ton as far as continuity and consistency go. CSS-Tricks still seems very CSS-Tricks-y to me, and that’s a big deal.
+ 
+ 
+ Until next time…
+ 
+ 
+ We hope you’ve enjoyed this little peek behind the CSScenes! We’ll do it again… and again and again. As you can tell, there’s a lot of activity happening around here, which means we’ll have lots to share in the next edition.
+ 
+ 
+ 
+ Oh, and if you’re one of the many who’ve told us just how much you miss the newsletter, it’s still here! We’re sending it just once a month while we get back in the swing of things, and you may very well need to re-subscribe to get it (we had to do a lot of scrubbing after the keys to the site were handed over).
+ 
+ 
+ 
+ Thanks for reading!
+ 
+ Behind the CSScenes, September 2022 originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
+     <entry>
+       <title>Comparing JAWS, NVDA, and VoiceOver</title>
+         <link href="https://css-tricks.com/comparing-jaws-nvda-and-voiceover/"/>
+       <updated>2022-09-01T17:47:16.000Z</updated>
+       <content type="text">A screen reader is an important accessibility tool for people with no or limited vision. People who are blind or those with low vision can use a screen reader to navigate the computer. Screen readers will read contents on the screen and explain to the user what is on the page. Screen readers allow people to use the computer for daily tasks.
+ 
+ 
+ 
+ There are many screen reader software available for people through their operating system or through open source projects.
+ 
+ 
+ 
+ A 2021 research by WebAim found that from 1568 responders, more than 53.7 percent of people surveyed used JAWS on Windows, more than 30.7 percent of people used NVDA on Windows and little over 6.5 percent of people used VoiceOver on macOS.
+ 
+ 
+ 
+ JAWS and NVDA for Windows and VoiceOver for macOS are the most popular screen readers people use.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ First, I should clarify that this article will be written from my point of view. To give background, I have been a front-end developer at a non-profit for people with learning differences for over three years. I, along with my colleagues, seek to make our projects more accessible every day. I am not visually impaired and do not use these tools on a regular basis. For work, I have a Mac machine and test accessibility using VoiceOver.
+ 
+ 
+ 
+ Here is my planned testing methodology:
+ 
+ 
+ 
+ Navigate the page by heading, until “Accessibility APIs” section.Reason for this step: A 2016 survey by Heydon Pickering found that most people who use screen readers navigate new pages by headingsIn the “Accessibility APIs” section, read the content and the unordered list inside.TAB to hear focusable items in the unordered list.Jump to the Search field.TAB to hear a few items in the navigation section
+ 
+ 
+ 
+ To find similarities and differences between them, I decided to test a set of steps with each screen reader on a Wikipedia page about screen readers. I will browse the web with Chrome for my tests. Testing all screen readers on the same page and browser will reduce the amount of variables and keep the tests consistent.
+ 
+ 
+ JAWS
+ 
+ 
+ JAWS is an acronym for Job Access With Speech and is the most widely used screen reader in the world. It is only available on Windows. Depending on the plan and features, JAWS can be purchased anywhere from $90 yearly license all the way to $1605 for perpetual license.
+ 
+ 
+ 
+ JAWS has predefined keyboard commands to navigate the web. Full list of keyboard commands can be found on their website.
+ 
+ 
+ Demonstration
+ 
+ 
+ 
+ 
+ JAWS Demo
+ 
+ 
+ 
+ 
+ In the beginning of the demo, I am clicking on H key on my keyboard to go to the next heading. JAWS is moving down the page, reading me the headings along with their level.
+ 
+ 
+ 
+ Later in the video, I am clicking on number 2 and number 3 on my keyboard to have JAWS read Heading Levels 2s then later Heading Levels 3s. This is a great feature because we can move down the page and sections by heading level and get a better sense of the page layout.
+ 
+ 
+ 
+ When I reach the “Accessible APIs” section, I press the DOWN ARROW key until the third item in the unordered list.
+ 
+ 
+ 
+ Later in the demo, I am clicking on the TAB key for JAWS to read to me the next focusable item on the page, which is inside this list. I click TAB until I reach a focusable element in another section.
+ 
+ 
+ 
+ Then I press F key to focus on the search field, which JAWS reads to me.
+ 
+ 
+ 
+ Then I click on TAB and JAWS focuses on the navigation elements that are on the side of the page.
+ 
+ 
+ 
+ Pros &amp; Cons
+ 
+ 
+ Pros:
+ 
+ 
+ 
+ JAWS is more customizable than other screen readers.There are more options to navigate through the page.JAWS is industry standard.Widely used, which means there are lots of user to user support.
+ 
+ 
+ 
+ Cons:
+ 
+ 
+ 
+ JAWS is more complicated to use than NVDA or VoiceOver.Some commands are not intuitive.There are a lot more commands for the user to learn.More learning curve for users.JAWS is also not available on the Mac, which limits its users.Costs anywhere between $90 – $1605 for the user.JAWS has different key commands for desktop and laptop which may make it harder for users to transfer knowledge and may cause confusion.
+ 
+ 
+ NVDA
+ 
+ 
+ NVDA, or NonVisual Digital Access, is available on Windows only. Users need to download the software from NVDA’s website, NVAccess. This software is free to download but does not come already installed on Windows machines. NVDA is the second most popular screen reader in the world according to WebAim’s 2021 survey.
+ 
+ 
+ 
+ Like other screen readers, NVDA has defined keyboard commands to navigate the web. NVDA’s full keyboard commands can be found on their website.
+ 
+ 
+ Demonstration
+ 
+ 
+ 
+ 
+ NVDA Demo
+ 
+ 
+ 
+ 
+ In the demo I am clicking on H key on the keyboard to go to the next heading. First, NVDA reads me Heading Level 1, which is “Screen reader”. Then NVDA goes to read Heading Level 2s and 3s.
+ 
+ 
+ 
+ When I reach “References” I begin to click on TAB on my keyboard for NVDA to focus on next focusable items.
+ 
+ 
+ 
+ After focusing on a few items on the list, I click ENTER and go to the New York Times page.
+ 
+ 
+ 
+ Pros &amp; Cons
+ 
+ 
+ Pros:
+ 
+ 
+ 
+ Overall, I found NVDA was able to provide me with information on the screen.The out-of-the-box keyboard commands were easy to use and easy to learn.NVDA is open source, which means the community can update and fix.NVDA is free, which makes it an affordable option to Windows users.
+ 
+ 
+ 
+ Cons:
+ 
+ 
+ 
+ NVDA is not available on the Mac, which limits its users.
+ 
+ 
+ VoiceOver
+ 
+ 
+ VoiceOver is the screen reader used in Mac. VoiceOver is only available on Mac not available in Windows. VoiceOver is free and is already installed on the computer, which removes barriers because this is part of the computer setup and the user does not have to download or purchase any additional software.
+ 
+ 
+ 
+ VoiceOver has defined keyboard commands to navigate the web. VoiceOver’s full keyboard commands can be found on their website.
+ 
+ 
+ Demonstration
+ 
+ 
+ 
+ 
+ VoiceOver Demo
+ 
+ 
+ 
+ 
+ In the demo, I am on a Wikipedia page and I am clicking on the VoiceOver Command (which is Control+Option) along with Command+H to navigate through the headings. VoiceOver reads the headings in order, starting from Heading Level 1, “Screen Reader”, to Heading Level 2, “Contents”, to Heading Level 3, and so on.
+ 
+ 
+ 
+ When I reach the “Accessibility APIs” section, I click on VoiceOver Command plus the RIGHT ARROW, to tell VoiceOver that I want it to read this section. Later I am clicking on the VoiceOver Command plus the RIGHT ARROW on my keyboard, to navigate the section.
+ 
+ 
+ 
+ When I get on to the third item on the unordered list, I press TAB on my keyboard to focus on the next focusable element.
+ 
+ 
+ 
+ I press TAB a few times, then I press VoiceOver Command plus U, to open the Form Control Menu. In the menu, I press DOWN ARROW until I hear the “Search Wikipedia” option. When I hear it, I click ENTER and the screen reader focuses on the form field. In the form field, I press TAB to navigate to the navigation section.
+ 
+ 
+ 
+ Pros &amp; Cons
+ 
+ 
+ Pros:
+ 
+ 
+ 
+ VoiceOver is easy to use and learn.VoiceOver’s commands are intuitive.Free tool that comes installed in every macOS device.
+ 
+ 
+ 
+ Cons:
+ 
+ 
+ 
+ VoiceOver is also not available on Windows, which limits its users.VoiceOver is not an app and can only be updated when Apple releases macOS update.
+ 
+ 
+ Key Takeaways
+ 
+ 
+ A screen reader is an important accessibility tool for people with no or limited vision. Screen readers allow people to use the computer for daily tasks.
+ 
+ 
+ 
+ There are many screen reader softwares available. In this article I compared JAWS, NVDA, and VoiceOver.
+ 
+ 
+ 
+ Here is a comparison chart overview of the three screen readers:
+ 
+ 
+ 
+ JAWSNVDAVoiceOverOperating SystemWindowsWindowsmacOSPrice$90 – $1695FreeFree# of users30%50%6%Ease of UseHardEasyEasy
+ 
+ 
+ 
+ I found that for basic screen reader testing, most screen readers follow a similar keystroke pattern and knowledge from one screen reader can be used for others.
+ 
+ 
+ 
+ All screen readers have their pros and cons. Ultimately, it’s up to user preference and also the operating system they use to determine which screen reader software is best for them.
+ 
+ 
+ 
+ Previously: “Small Tweaks That Can Make a Huge Impact on Your Website’s Accessibility” (2018), and “Why, How, and When to Use Semantic HTML and ARIA” (2019), “15 Things to Improve Your Website Accessibility” (2020), “5 Accessibility Quick Wins You Can Implement Today” (2022).
+ 
+ Comparing JAWS, NVDA, and VoiceOver originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
+     <entry>
+       <title>iShadeed’s Container Queries Lab</title>
+         <link href="https://css-tricks.com/ishadeeds-container-queries-lab/"/>
+       <updated>2022-09-01T14:29:27.000Z</updated>
+       <content type="text">Ahmad Shadeed got an early jump on container queries and has a growing collection of examples based on everyday patterns.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ And, if you missed it, his latest post on container queries does a wonderful job covering how they work since landing in Chrome 105 this month (we’ll see them in Safari 16 soon). Some choice highlights and takeaways:
+ 
+ 
+ 
+ Containers are defined with the container-type property. Previous demos and proposals had been using contain instead.Container queries are very much like the media queries we’ve been writing all along to target the viewport size. So, rather than something like @media (min-width: 600px) {}, we have @container (min-width: 600px) {}. That should make converting many of those media queries to container queries fairly straightfoward, minus the work of figuring out the new breakpoint values.We can name containers to help distinguish them in our code (e.g. container-name: blockquote).
+ 
+ 
+ 
+ Great job, Ahmad! And thanks for sharing!
+ To Shared Link — Permalink on CSS-Tricks
+ iShadeed’s Container Queries Lab originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Interpolating Numeric CSS Variables</title>
          <link href="https://css-tricks.com/interpolating-numeric-css-variables/"/>
@@ -23,6 +429,10 @@
  
  
  And we can declare them on any element:
+ 
+ 
+ 
+ 
  
  
  
