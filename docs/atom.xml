@@ -4,10 +4,218 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-05T02:27:26.961Z</updated>
+   <updated>2022-09-06T02:32:24.799Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Flutter For Front-End Web Developers</title>
+         <link href="https://css-tricks.com/flutter-for-front-end-web-developers/"/>
+       <updated>2022-09-05T20:10:24.000Z</updated>
+       <content type="text">I started as a front-end web developer and then became a Flutter developer. I think there were some concepts that helped me adopt Flutter easier. There were also some new concepts that were different.
+ 
+ 
+ 
+ In this article, I want to share my experience and inspire anyone feeling paralyzed with choosing one ecosystem over the other by showing how concepts transfer over and any new concepts are learnable.
+ 
+ 
+ 
+ 
+ 
+ 
+ Concepts That Transferred Over
+ 
+ 
+ This section shows places where front-end web development and Flutter resemble. It explains skills that you already have that are an advantage to you if you start Flutter.
+ 
+ 
+ 1. Implementing User Interfaces (UIs)
+ 
+ 
+ To implement a given UI in front-end web, you compose HTML elements and style them with CSS. To implement UIs in Flutter, you compose widgets and style them with properties.
+ 
+ 
+ 
+ Like CSS, the Color class in Dart works with “rgba” and “hex”. Also like CSS, Flutter uses pixels for space and size units.
+ 
+ 
+ 
+ In Flutter, we have Dart classes and enums for almost all CSS properties and their values. For example:
+ 
+ 
+ 
+ BorderRadiusBoxShadowFontWeightOpacityPadding…
+ 
+ 
+ 
+ Flutter also has Column and Row widgets. These are the Flutter equivalent for display: flex in CSS. To configure justify-content and align-items styles, you use MainAxisAlignment and CrossAxisAlignment properties. To adjust the flex-grow style, wrap the affected child(ren) widget(s) of the Column/Row, in an Expanded or Flexible.
+ 
+ 
+ 
+ For the advanced UIs, Flutter has the CustomPaint class – it is to Flutter what the Canvas API is to web development. CustomPaint gives you a painter to draw any UI as you wish. You will usually use CustomPaint when you want something that is really complex. Also, CustomPaint is the go-to way when a combination of widgets doesn’t work.
+ 
+ 
+ 2. Developing For Multiple Screen Resolutions
+ 
+ 
+ Websites run on browsers and mobile apps run on devices. As such, while developing for either platform, you have to keep the platform in mind. Each platform implements the same features (camera, location, notifications, etc.) in different ways.
+ 
+ 
+ 
+ As a web developer, you think about your website’s responsiveness. You use media queries to handle what your website looks like in smaller and wider screens.
+ 
+ 
+ 
+ Coming over from mobile web development to Flutter, you have the MediaQuery helper class. The MediaQuery class gives you the current device orientation (landscape or portrait). It also gives you the current viewport size, the devicePixelRatio, among other device info. Together, these values give you insights about the mobile device’s configuration. You can use them to change what your mobile app looks like at various screen sizes.
+ 
+ 
+ 3. Working with Debuggers, Editors, and Command Line Tools
+ 
+ 
+ Desktop browsers have developer tools. These tools include an inspector, a console, a network monitor, etc. These tools improve the web development process. Flutter too has its own DevTools. It has its widget inspector, debugger, network monitor, among other features.
+ 
+ 
+ 
+ IDE support is also similar. Visual Studio Code is one of the most popular IDE for web development. There are many web-related extensions for VS Code. Flutter too supports VS Code. So while transitioning, you don’t need to change IDE. There are Dart and Flutter extensions for VS Code. Flutter also works well with Android Studio. Both Android Studio and VS Code support Flutter DevTools. These IDE integrations make Flutter tooling complete.
+ 
+ 
+ 
+ Most front-end JavaScript frameworks come with their command-line interface (CLI). For example: Angular CLI, Create React App, Vue CLI, etc. Flutter also comes with an exclusive CLI. The Flutter CLI permits you to build, create, and develop Angular projects. It has commands for analyzing and testing Flutter projects.
+ 
+ 
+ Concepts That Were New
+ 
+ 
+ This section talks about Flutter-specific concepts that are easier or non-existent in web development. It explains ideas you should keep in mind as you enter Flutter.
+ 
+ 
+ How To Handle Scrolling
+ 
+ 
+ When developing for the web, default scrolling behavior is handled by web browsers. Yet, you are free to customize scrolling with CSS (using overflow).
+ 
+ 
+ 
+ This is not the case in Flutter. Widget groups don’t scroll by default. When you sense that widget groups might overflow, you have to proactively configure scrolling.
+ 
+ 
+ 
+ In Flutter, you configure scrolling by using peculiar widgets that permit scrolling. For example: ListView, SingleChildScrollView, CustomScrollView, etc. These scrollable widgets give you great control over scrolling. With CustomScrollView, you can configure expert and complex scroll mechanisms within the application.
+ 
+ 
+ 
+ On Flutter’s side, using ScrollViews is inevitable. Android and iOS have ScrollView and UIScrollView to handle scrolling. Flutter needs a way to unify the rendering and developer experience by using its ScrollViews, too.
+ 
+ 
+ 
+ It may help to stop thinking about the flow of document structure and instead consider the application as an open canvas for a device’s native painting mechanisms.
+ 
+ 
+ 2. Setting Up Your Development Environment
+ 
+ 
+ To create the simplest website, you can create a file with a .html extension and open it in a browser. Flutter is not that simple. To use Flutter, you need to have installed the Flutter SDK and have configured Flutter for a test device. So if you want to code Flutter for Android, you need to set up the Android SDK. You will also need to configure at least one Android device (an Android Emulator or a physical device).
+ 
+ 
+ 
+ This is the same case for Apple devices (iOS and macOS). After installing Flutter on a Mac, you still need to set up Xcode before going further. You will also need at least an iOS simulator or an iPhone to test Flutter on iOS. Flutter for desktop is also a considerable setup. On Windows, you need to set up the Windows Development SDK with Visual Studio (not VS Code). On Linux, you will install more packages.
+ 
+ 
+ 
+ Without extra setup, Flutter works on browsers. As a result, you could overlook the extra setup for target devices. In most cases, you would use Flutter for mobile app development. Hence, you would want to setup at least Android or iOS. Flutter comes with the flutter doctor command. This command reports the status of your development setup. That way, you know what to work on, in the setup, if need be.
+ 
+ 
+ 
+ This doesn’t mean that development in Flutter is slow. Flutter comes with a powerful engine. The flutter run command permits hot-reloading to the test device while coding. But then you will need to press R to actually hot-reload. This is not an issue. Flutter’s VS Code extension permits auto-hot-reload on file changes.
+ 
+ 
+ 3. Packaging and Deployment
+ 
+ 
+ Deploying websites is cheaper and easier compared to deploying mobile applications. When you deploy websites, you access them through domain names. These domain names are usually renewed annually. However, they are optional.
+ 
+ 
+ 
+ Today, many platforms offer free hosting.
+ 
+ 
+ 
+ For example: DigitalOcean gives you a free subdomain on .ondigitalocean.com.
+ 
+ 
+ 
+ You can use these domains if you are building a documentation website. You can also use them when you are not worried about branding.
+ 
+ 
+ 
+ In Flutter’s world with mobile applications, you usually in most cases deploy your app to two places.
+ 
+ 
+ 
+ App Store (for iOS devices)Google Play (for Android devices)
+ 
+ 
+ 
+ You have to register a developer account on each of these platforms. Registering a developer account requires a fee or subscription and identity verification.
+ 
+ 
+ 
+ For App Store, you need to enroll for the Apple Developer program. You need to maintain an annual subscription of $99. For Google Play, you need to make a one-time $25 payment for the account.
+ 
+ 
+ 
+ These stores review every app reviewed before it goes live.
+ 
+ 
+ 
+ Also bear in mind that users don’t easily consume app updates. Users must explicitly update installed applications. This is in contrast to the web where everyone just gets to see the latest deployed version of a website.
+ 
+ 
+ 
+ Managing deployed applications is relatively more demanding than managing deployed websites. However, this shouldn’t scare you. After all, there are millions of apps deployed on either stores so you can add yours, too.
+ 
+ 
+ Additional Thoughts On Flutter
+ 
+ 
+ Flutter is a cross-platform tool to build desktop, mobile, or web applications. Flutter apps are pixel-perfect. Flutter paints the same UI on each app irrespective of the target platform. This is because each Flutter app contains the Flutter engine. This engine renders the Flutter UI code. Flutter provides a canvas for each device and allows you to paint as you want. The engine communicates with the target platform to handle events and interactions.
+ 
+ 
+ 
+ Flutter is efficient. It has high-performance levels. This is because it is built with Dart and it leverages Dart’s features.
+ 
+ 
+ 
+ With these many benefits, Flutter is a good choice for many applications. Cross-platform apps save money and time during production and maintenance. However, Flutter (and cross-platform solutions) might not be an optimum choice in some cases.
+ 
+ 
+ 
+ Don’t use Flutter if you want users to use platform developer tools with your application. Platform developer tools here mean device-specific tools like Android developer options. It also includes browser developer tools.
+ 
+ 
+ 
+ Don’t use Flutter for web if you expect browser extensions to interact with the website.
+ 
+ 
+ 
+ Also, don’t use Flutter for content-heavy websites.
+ 
+ 
+ Conclusion
+ 
+ 
+ This was a review of skills that carry over from front-end web development to working with Flutter. We also discussed app development concepts that you have to learn as a web developer.
+ 
+ 
+ 
+ Flutter is simpler for web developers because they both involve implementing UIs. If you start Flutter, you will find out that it gives you a good developer experience. Give Flutter a try! Use it to build mobile apps and of course, showcase what you build.
+ 
+ 
+ 
+ Cheers!
+ 
+ Flutter For Front-End Web Developers originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Behind the CSScenes, September 2022</title>
          <link href="https://css-tricks.com/behind-the-csscenes-sept2022/"/>
@@ -370,7 +578,7 @@
  
  
  
- JAWSNVDAVoiceOverOperating SystemWindowsWindowsmacOSPrice$90 – $1695FreeFree# of users30%50%6%Ease of UseHardEasyEasy
+ JAWSNVDAVoiceOverOperating SystemWindowsWindowsmacOSPrice$90 – $1695FreeFree# of users50%30%6%Ease of Use (subjective)HardEasyEasy
  
  
  
