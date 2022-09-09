@@ -4,10 +4,193 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-08T02:28:15.469Z</updated>
+   <updated>2022-09-09T02:30:17.583Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>What’s New With Forms in 2022?</title>
+         <link href="https://css-tricks.com/whats-new-with-forms-in-2022/"/>
+       <updated>2022-09-08T13:12:51.000Z</updated>
+       <content type="text">Browsers are constantly adding new HTML, JavaScript and CSS features. Here are some useful additions to working with forms that you might have missed…
+ 
+ 
+ 
+ 
+ 
+ 
+ requestSubmit()
+ 
+ 
+ Safari 16 will be the final browser to add support for requestSubmit.
+ 
+ 
+ 
+ Before we look at how .requestSubmit() works, let’s remind ourselves how programmatically submitting a form with JavaScript works when using the .submit() method. Submitting a form with submit() does not trigger a submit event. So in the following code, the form is submitted, preventDefault() has no effect, and nothing is logged to the console:
+ 
+ 
+ 
+ const form &#x3D; document.forms[0];
+ form.addEventListener(&#x27;submit&#x27;, function(event) {
+   // code to submit the form goes here
+   event.preventDefault();
+   console.log(&#x27;form submitted!&#x27;);
+ });
+ 
+ document.querySelector(&#x27;.btn&#x27;).addEventListener(&#x27;click&#x27;, function() {
+   form.submit();
+ })
+ 
+ 
+ 
+ .submit() will also ignore any HTML form validation. Given the following markup, the form will be submitted when the input is empty even though the input has a required attribute:
+ 
+ 
+ 
+ &lt;form&gt;   
+   &lt;label for&#x3D;&quot;name&quot;&gt;Name&lt;/label&gt;
+   &lt;input required name&#x3D;&quot;name&quot; id&#x3D;&quot;name&quot; type&#x3D;&quot;text&quot;&gt;
+ &lt;/form&gt;
+ 
+ 
+ 
+ .requestSubmit() is an alternative way to submit a form using JavaScript, but in contrast to .submit(), HTML form validation will prevent the form from being submitted. If all the data entered in the form passes validation, the submit event will be fired, meaning “form submitted!” would be logged to the console in the following example:
+ 
+ 
+ 
+ form.addEventListener(&#x27;submit&#x27;, function(event) {
+   event.preventDefault();
+   console.log(&#x27;form submitted!&#x27;);
+ });
+ 
+ document.querySelector(&#x27;.btn&#x27;).addEventListener(&#x27;click&#x27;, function() {
+   form.requestSubmit();
+ })
+ 
+ 
+ 
+ You could already achieve this by programmatically clicking the form’s submit button, but requestSubmit is perhaps a more elegant solution.
+ 
+ 
+ submitter property of submit event
+ 
+ 
+ The SubmitEvent.submitter property gained full cross-browser support with the release of Safari 15.4. This read-only property specifies the &lt;button&gt; or &lt;input type&#x3D;&quot;submit&quot;&gt; element that caused a form to be submitted.
+ 
+ 
+ 
+ &lt;form&gt;
+   &lt;button name&#x3D;&quot;foo&quot; value&#x3D;&quot;bar&quot; type&#x3D;&quot;submit&quot;&gt;Bar&lt;/button&gt;
+   &lt;button name&#x3D;&quot;foo&quot; value&#x3D;&quot;baz&quot; type&#x3D;&quot;submit&quot;&gt;Baz&lt;/button&gt;
+ &lt;/form&gt;
+ 
+ 
+ 
+ When you have multiple submit buttons or inputs, each with a different value, only the value of the button or input that was clicked on to submit the form will be sent to the server, rather than both values. That’s nothing new. What is new is that the event listener for the submit event now has access to the event.submitter property. You can use this to add a class to the button or input that triggered the form submission, for example, or to obtain its value or any other of its HTML attributes.
+ 
+ 
+ 
+ document.forms[0].addEventListener(&#x27;submit&#x27;, function(event) {
+   event.preventDefault();
+   console.log(event.submitter.value);
+   console.log(event.submitter.formaction);
+   event.submitter.classList.add(&#x27;spinner-animation&#x27;);
+ })
+ 
+ 
+ formdata event
+ 
+ 
+ This isn’t particularly new, but only achieved cross-browser support with the release of Safari 15. The main use case for the formdata event is enabling custom elements to take part in form submissions. Outside of web components, though, it can still be useful.
+ 
+ 
+ 
+ You add a formdata event listener to the form you want to interact with:
+ 
+ 
+ 
+ document.querySelector(&#x27;form&#x27;).addEventListener(&#x27;formdata&#x27;, handleFormdata);
+ 
+ 
+ 
+ The event is fired both by a regular HTML form submission and also by an occurrence of new FormData(). event.formData holds all of the data being submitted.
+ 
+ 
+ 
+ function handleFormdata(event) {
+   for (const entry of event.formData.values()) {
+     console.log(entry);
+   }
+ }
+ 
+ 
+ 
+ The callback function for the formdata event listener runs before the data is sent to the server, giving you a chance to add to or modify the data being sent.
+ 
+ 
+ 
+ function handleFormdata(event) {
+   event.formData.append(&#x27;name&#x27;, &#x27;John&#x27;);
+ }
+ 
+ 
+ 
+ You could have modified or appended the FormData inside the submit event handler but formdata allows you to separate out the logic. It’s also an alternative to using hidden inputs in the markup of your form in cases where you are submitting the form “the old fashioned way” — i.e. relying on the built-in functionality of HTML to submit the form rather than doing it with fetch.
+ 
+ 
+ showPicker() for input elements
+ 
+ 
+ showPicker() has been supported since Chrome 99, Firefox 101, and in the upcoming Safari 16. For an input element whose type attribute is either Date, Month, Week, Time, datetime-local, color, or file, showPicker() provides a programmatic way to display the selection UI. For color and file inputs, it’s always been possible to programmatically show the picker by calling .click on the input:
+ 
+ 
+ 
+ document.querySelector(&#x27;input[type&#x3D;&quot;color&quot;]&#x27;).click();
+ 
+ 
+ 
+ That approach doesn’t work on date inputs, which is why this new API was added. .showPicker() will also work with color and file inputs but there’s no real advantage to using it over .click().
+ 
+ 
+ 
+ 
+ 
+ 
+ Inert attribute
+ 
+ 
+ It’s always been possible to disable multiple inputs at once by wrapping them in a HTML fieldset and disabling the fieldset:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Inert is a new HTML attribute. It isn’t only for forms, but forms are certainly a key use-case. Unlike the disabled attribute, inert can be applied to a form element itself. Everything within the form will be non-focusable and non-clickable. When it comes to assistive technologies, inert is similar to setting aria-hidden&#x3D;&quot;true&quot;. Unlike the disabled attribute, inert does not apply any styling by default, but it’s easy to add your own:
+ 
+ 
+ 
+ form[inert] {
+   opacity: .2;
+ }
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ There’s more to come…
+ 
+ 
+ The big one is styling &lt;select&gt; elements, something developers have wanted for decades. It looks set to finally become a reality sometime soon with the introduction of selectmenu.
+ 
+ 
+ 
+ But that’s it for now! The recent updates bring full browser support to form features we’ve been waiting for, making them prime for production use.
+ 
+ What’s New With Forms in 2022? originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Overlapping Bar Charts</title>
          <link href="https://css-tricks.com/overlapping-bar-charts/"/>
