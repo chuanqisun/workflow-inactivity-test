@@ -4,10 +4,735 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-12T02:34:39.536Z</updated>
+   <updated>2022-09-13T02:30:47.432Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Building Interactive Figma Widgets</title>
+         <link href="https://css-tricks.com/building-interactive-figma-widgets/"/>
+       <updated>2022-09-12T13:05:20.000Z</updated>
+       <content type="text">Figma has always encouraged collaboration between developers and designers. It strives on an endless treasury of community-made plugins. Need 3D elements? There’s a plugin for that. Need abstract SVGs? There’s a plugin for that, too.
+ 
+ 
+ 
+ That said, the design part of Figma has always been relatively static — always working with unmovable rectangles connected to each other through predefined user interactions. But what if I told you that your designs could suddenly come to life — that they could be animated, interactive, and even stateful? Then, what would separate concept from implementation?
+ 
+ 
+ 
+ Figma announced in June that it’s bringing JavaScript-powered widgets to the table. Now, designers have can browse and implement logic-driven components straight in Figma!
+ 
+ 
+ 
+ Say hello to the Widgets API! You want to know what it is and how to use it? That’s exactly what we’re going to do together in this post.
+ 
+ 
+ 
+ 
+ 
+ 
+ Figma widgets open up tons of possibilities
+ 
+ 
+ Imagine that you’re working around the clock with your partner to design a large restaurant application. You’re both already collaborating on the same Figma board; both of you are sharing the exact same document with changes happening on the fly.
+ 
+ 
+ 
+ Surely, you already know that collaboration involves more that just the design process:
+ 
+ 
+ 
+ project management,hosting polls to gather votes,importing and visualizing mock data,and perhaps even playing a multiplayer game to cool-off after many hours of work.
+ 
+ 
+ 
+ We just require one person to manage everything and send-out links to other members of the group. But oh, that’s not very efficient, is it?
+ 
+ 
+ 
+ Well, that’s where widgets come into play. We can conceivably do all of that — yes, everything —without ever leaving Figma.
+ 
+ 
+ 
+ Here are just a few of the ways you might want to use widgets in Figma:
+ 
+ 
+ 
+ Creating tasks for Jira and AsanaCreating issues in GitHubDisplaying Dynamic DataRecording voice memosCreating task listsWasting time Playing Tic-Tac-ToeTracking activitiesCreating timers
+ 
+ 
+ 
+ The list goes on and on. As you can tell, there’s already a plethora of widgets that you can freely use in your documents. In fact, you can add Widgets straight to your board from the Widgets menu (Shift+I).
+ 
+ 
+ 
+ But we’re not here to learn how to use widgets, because that’s easy. Let us do what we do best: we’re gonna create our own Figma widget! This one will be inspired by Chris Coyier’s design quotes website. We’ll take the API, feed it into the widget, then display random design quotes directly in Figma.
+ 
+ 
+ 
+ 
+ 
+ 
+ Here’s what we need
+ 
+ 
+ I don’t like to be the bearer of bad news, but in order to develop widgets, you must be on Windows or Mac. Linux users, I’m sorry, but you’re out of luck. (You could still use a VM if you want to follow along.)
+ 
+ 
+ 
+ We’re gonna download the Figma Desktop application. The simplest way to get started is by generating a widget template, straight from the app.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Let’s create a new board by opening the widgets menu (Shift+ I), switching to the Development tab, and creating a new item.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Following that, Figma will prompt you to name the new widget and decide whether it’s more tailored towards design boards or FigJam boards too. The former option is sufficient for the purposes of this article.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ And the customization doesn’t end here; Figma will also give you the option to start with a pre-made counter widget or an iFrame-enabled alternative that also gives you access to the Canvas and Fetch APIs (as well as all other browser APIs). We’ll go with the simple “Empty” option, but we’ll eventually modify it ourselves to make use of the Fetch API.
+ 
+ 
+ 
+ You’ll then be prompted to save your new widget project to a special directory in your system. Once that’s done, launch your terminal and direct it to that folder. Don’t run any commands yet — we’ll do that later and purposefully get an error with the goal of learning more about the Widgets API.
+ 
+ 
+ Designing the widget
+ 
+ 
+ 
+ 
+ 
+ 
+ We’re pulling the design straight from Chris Coyier’s design quotes website. So, let’s go there and dive into by firing up DevTools.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ The two key shortcuts that I’m using here are Ctrl+Shift+C (or Cmd+Shift+C) to toggle the “Pick element” tool, and Shift+Click to change the color format to HEX code. We’re doing this to learn about the colors, fonts, font weights and font sizes used in Chris’s website. All this information is critical to build a closely-resembling widget in Figma, which will be our next step! You can grab the designed component and use it in your own canvas.
+ 
+ 
+ 
+ I won’t go into much detail here as this article’s main topic is building widgets by writing code. But I can’t stress enough how important it is to take good care of your widgets’ style… CSS-Tricks already has a plethora of design-oriented Figma tutorials; you won’t regret adding them to your reading list.
+ 
+ 
+ Creating the layout for our widget
+ 
+ 
+ With design out of the way, it’s time to take our programming fingers out and start building the gears of our widget.
+ 
+ 
+ 
+ It’s very interesting how Figma translates its design building blocks to React-like components. Frame elements with the auto-layout feature, for example, are represented as the &lt;AutoLayout /&gt; component in code. In addition to that, we’ll be using two more components: &lt;Text /&gt; and &lt;SVG /&gt;.
+ 
+ 
+ 
+ Take a look at my Figma board… I’m precisely asking you to focus on the object tree. It’s what we need to be able to translate our widget design to JSX code.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ As you can see, our design quotes widget demands three components to be imported. That’s a decent number of components considering that the full API only contains eight layer-based nodes. But as you’ll soon see, these modules are more than sufficient to craft all kinds of layouts.
+ 
+ 
+ 
+ // code.tsx
+ const { widget } &#x3D; figma;
+ const { AutoLayout, Text, SVG } &#x3D; widget;
+ 
+ 
+ 
+ And with this, we have all we need to go ahead and build the skeleton of our widget like we would in React:
+ 
+ 
+ 
+ function QuotesWidget() {
+   const quote &#x3D; &#x60;...&#x60;;
+   const author &#x3D; &#x60;...&#x60;;
+ 
+   return (
+     &lt;AutoLayout&gt;
+       &lt;SVG /&gt;
+       &lt;AutoLayout&gt;
+         &lt;Text&gt;{quote}&lt;/Text&gt;
+         &lt;Text&gt;— {author}&lt;/Text&gt;
+       &lt;/AutoLayout&gt;
+       &lt;SVG /&gt;
+     &lt;/AutoLayout&gt;
+   );
+ }
+ 
+ widget.register(QuotesWidget);
+ 
+ 
+ 
+ This code is very confusing, to say the least. Right now, we can’t tell the design layers apart. Thankfully, we’re able to easily solve this issue through the use of the name property.
+ 
+ 
+ 
+ &lt;AutoLayout name&#x3D;{&quot;Quote&quot;}&gt;
+   &lt;SVG name&#x3D;{&quot;LeftQuotationMark&quot;} /&gt;
+   &lt;AutoLayout name&#x3D;{&quot;QuoteContent&quot;}&gt;
+     &lt;Text name&#x3D;{&quot;QuoteText&quot;}&gt;{quote}&lt;/Text&gt;
+     &lt;Text name&#x3D;{&quot;QuoteAuthor&quot;}&gt;— {author}&lt;/Text&gt;
+   &lt;/AutoLayout&gt;
+   &lt;SVG name&#x3D;{&quot;RightQuotationMark&quot;} /&gt;
+ &lt;/AutoLayout&gt;;
+ 
+ 
+ 
+ And, of course, we still can’t see our quotation mark SVGs, so let’s work on fixing that. The &lt;SVG/&gt; component accept a srcproperty that takes the source code for an SVG element. There isn’t much to say on this one, so let’s keep it simple and jump straight back to code:
+ 
+ 
+ 
+ const leftQuotationSvgSrc &#x3D; &#x60;&lt;svg width&#x3D;&quot;117&quot; height&#x3D;&quot;103&quot; viewBox&#x3D;&quot;0 0 117 103&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;&lt;http://www.w3.org/2000/svg&gt;&quot;&gt;
+   // shortened for brevity
+ &lt;/svg&gt;&#x60;;
+ const rightQuotationSvgSrc &#x3D; &#x60;&lt;svg width&#x3D;&quot;118&quot; height&#x3D;&quot;103&quot; viewBox&#x3D;&quot;0 0 118 103&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;&lt;http://www.w3.org/2000/svg&gt;&quot;&gt;
+ // shortened for brevity
+ &lt;/svg&gt;&#x60;;
+ 
+ function QuotesWidget() {
+   return (
+     &lt;SVG name&#x3D;{&quot;LeftQuotationMark&quot;} src&#x3D;{leftQuotationSvgSrc} /&gt;
+     &lt;SVG name&#x3D;{&quot;RightQuotationMark&quot;} src&#x3D;{rightQuotationSvgSrc} /&gt;
+   );
+ }
+ 
+ 
+ 
+ I think we can all agree that everything is much clearer now! When we name things, their purpose suddenly becomes much more obvious to the readers of our code.
+ 
+ 
+ Previewing our widget in real-time
+ 
+ 
+ Figma offers a great developer experience when building widgets, including (but not limited to ) hot-reloading. With this feature, we’re able to code and preview changes to our widget in real-time.
+ 
+ 
+ 
+ Get started by opening the widgets menu (Shift+I), switching to the development tab and clicking or dragging your new widget to the board. Unable to locate your widget? Don’t worry, just click on the three-dot menu and import your widget’s manifest.json file. Yes, that’s all it takes bring it back to existence!
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Wait, did you get an error message at the bottom of your screen?
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ If so, let’s investigate. Click on “Open console” and read what it has to say. If the Open console button is gone, there’s an alternative way to open the debugging console. Click on the Figma logo, jump to the widgets category and reveal the development menu.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ That error is likely due to the fact that we haven’t compiled our TypeScript to JavaScript yet. We can do that in the command line by running npm install and npm run watch. (or yarn and yarn watch ). No errors this time!
+ 
+ 
+ 
+ One more obstacle you might hit is that the widget fails to re-render any time the code is changed. We can easily force our widget to update using the following context menu command: Widgets → Re-render widget.
+ 
+ 
+ 
+ 
+ 
+ 
+ Styling the widget
+ 
+ 
+ As it currently stands, the looks of our widgets are still pretty far from our final goal.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ So how do we style Figma components from code? Maybe with CSS like we would do in a React project? Negative. With Figma widgets, all the styling happens through a set of well-documented props. Lucky for us, these items are named almost identically to their counterparts in Figma.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ We’ll get started by configuring our two &lt;AutoLayout /&gt; components. As you can see in the infographic above, prop names are pretty descriptive of their purpose. This makes it easy for us to jump straight into code and start making some changes. I won’t be showing the whole code again, so please rely on the component names to guide you where the snippets belongs.
+ 
+ 
+ 
+ &lt;AutoLayout
+   name&#x3D;{&quot;Quote&quot;}
+   direction&#x3D;{&quot;horizontal&quot;}
+   verticalAlignItems&#x3D;{&quot;start&quot;}
+   horizontalAlignItems&#x3D;{&quot;center&quot;}
+   spacing&#x3D;{54}
+   padding&#x3D;{{
+     horizontal: 61,
+     vertical: 47,
+   }}
+ &gt;
+   &lt;AutoLayout
+     name&#x3D;{&quot;QuoteContent&quot;}
+     direction&#x3D;{&quot;vertical&quot;}
+     verticalAlignItems&#x3D;{&quot;end&quot;}
+     horizontalAlignItems&#x3D;{&quot;start&quot;}
+     spacing&#x3D;{10}
+     padding&#x3D;{{
+       horizontal: 0,
+       vertical: 0,
+     }}
+   &gt;&lt;/AutoLayout&gt;
+ &lt;/AutoLayout&gt;;
+ 
+ 
+ 
+ We just made a lot of progress! Let’s save and jump back to Figma to see how our widget looks like. Remember how Figma reloads widgets automatically upon new changes?
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ But it’s not quite there yet. We must also add a background color to the root component:
+ 
+ 
+ 
+ &lt;AutoLayout name&#x3D;{&quot;Quote&quot;} fill&#x3D;{&quot;#ffffff&quot;}&gt;
+ 
+ 
+ 
+ Again, take a look at your Figma board and notice how changes can be reflected almost immediately back into the widget.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Let’s move along this guide and style the &lt;Text&gt; components.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ After taking a look at the Widgets API documentation, it’s again clear that property names are almost identical to their counterparts in the Figma app, as can be seen in the infographic above. We’ll also be using values from the last section where we inspected Chris’ website.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ &lt;Text name&#x3D;{&#x27;QuoteText&#x27;}
+   fontFamily&#x3D;{&#x27;Lora&#x27;}
+   fontSize&#x3D;{36}
+   width&#x3D;{700}
+   fill&#x3D;{&#x27;#545454&#x27;}
+   fontWeight&#x3D;{&#x27;normal&#x27;}
+ &gt;{quote}&lt;/Text&gt;
+ 
+ &lt;Text name&#x3D;{&#x27;QuoteAuthor&#x27;}
+   fontFamily&#x3D;{&#x27;Raleway&#x27;}
+   fontSize&#x3D;{26}
+   width&#x3D;{700}
+   fill&#x3D;{&#x27;#16B6DF&#x27;}
+   fontWeight&#x3D;{&#x27;bold&#x27;}
+   textCase&#x3D;{&#x27;upper&#x27;}
+ &gt;— {author}&lt;/Text&gt;
+ 
+ 
+ Adding state to the widget
+ 
+ 
+ Oour widget currently displays the same quote, but we want to pull from the entire pool of quotes at random. We must add state to our widget, which all React developers know is a variable whose change triggers the re-rendering of our component.
+ 
+ 
+ 
+ With Figma, state is created with the useSyncedState hook; it’s pretty much React’s useState, but it requires programmers to specify a unique key. This requirement stems from the fact that Figma must sync our widget’s state across all clients that may be viewing the same design board, but through different computers.
+ 
+ 
+ 
+ const { useSyncedState } &#x3D; widget;
+ 
+ function QuotesWidget() {
+   const [quote, setQuote] &#x3D; useSyncedState(&quot;quote-text&quot;, &quot;&quot;);
+   const [author, setAuthor] &#x3D; useSyncedState(&quot;quote-author&quot;, &quot;&quot;);
+ }
+ 
+ 
+ 
+ That’s all the change that we need for now. In the next section, we’ll figure out how to fetch data from the Internet. Spoiler Alert: it’s not as simple as it seems.
+ 
+ 
+ Fetching data from the network
+ 
+ 
+ Recall when Figma gave us the choice to start with an iFrame-enabled widget. Although we didn’t go with that option, we must still implement some of its features. Let me explain why we can’t simply call fetch() within our widget code.
+ 
+ 
+ 
+ When you use a widget, you are running JavaScript code on your own computer that’s written by someone else. While all widgets are thoroughly reviewed by the Figma staff, it’s still a huge security hole as we all know how much damage can be created by even one line of JavaScript.
+ 
+ 
+ 
+ As a result, Figma cannot simply eval() any widget code written by anonymous programmers. Long story short, the team decided that the best solution was running third-party code in a closely-guarded sandbox environment. And as you might have guessed, browser APIs are unavailable in such an environment.
+ 
+ 
+ 
+ But don’t fret, Figma’s solution to this second problem is &lt;iframe&gt;s. Any HTML code that we write in a file, preferably called ui.html, will have access to all browser APIs. You might be wondering how we can trigger this code from the widget, but we’ll look into that later. Right now, let’s jump back into code:
+ 
+ 
+ 
+ // manifest.json
+ {
+   &quot;ui&quot;: &quot;ui.html&quot;
+ }
+ 
+ 
+ 
+ &lt;!-- ui.html --&gt;
+ &lt;script&gt;
+ window.onmessage &#x3D; async (event) &#x3D;&gt; {
+   if (event.data.pluginMessage.type &#x3D;&#x3D;&#x3D; &#x27;networkRequest&#x27;) {
+     // TODO: fetch data from the server
+ 
+     window.parent.postMessage({
+       pluginMessage: {
+         // TODO: return fetched data
+       }
+     }, &#x27;*&#x27;)
+   }
+ }
+ &lt;/script&gt;
+ 
+ 
+ 
+ That’s the general template for widget-to-iframe communication. Let’s use it to fetch data from the server:
+ 
+ 
+ 
+ &lt;!-- ui.html --&gt;
+ &lt;script&gt;
+ window.onmessage &#x3D; async (event) &#x3D;&gt; {
+   if (event.data.pluginMessage.type &#x3D;&#x3D;&#x3D; &#x27;networkRequest&#x27;) {
+     // Get random number from 0 to 100
+     const randomPage &#x3D; Math.round(Math.random() * 100)
+ 
+     // Get a random quote from the Design Quotes API
+     const res &#x3D; await fetch(&#x60;https://quotesondesign.com/wp-json/wp/v2/posts/?orderby&#x3D;rand&amp;per_page&#x3D;1&amp;page&#x3D;${randomPage}&amp;_fields&#x3D;title,yoast_head_json&#x60;)
+     const data &#x3D; await res.json()
+ 
+     // Extract author name and quote content from response
+     const authorName &#x3D; data[0].title.rendered
+     const quoteContent &#x3D; data[0].yoast_head_json.og_description
+ 
+     window.parent.postMessage({
+       pluginMessage: {
+         authorName,
+         quoteContent
+       }
+     }, &#x27;*&#x27;)
+   }
+ }
+ &lt;/script&gt;
+ 
+ 
+ 
+ We’re leaving out error-handling to keep this simple and to-the-point. Let’s jump back into the widget code and see how we access functions defined in the &lt;iframe&gt;:
+ 
+ 
+ 
+ function fetchData() {
+   return new Promise&lt;void&gt;(resolve &#x3D;&gt; {
+     figma.showUI(__html__, {visible: false})
+     figma.ui.postMessage({type: &#x27;networkRequest&#x27;})
+ 
+     figma.ui.onmessage &#x3D; async ({authorName, quoteContent}) &#x3D;&gt; {
+       setAuthor(authorName)
+       setQuote(quoteContent)
+ 
+       resolve()
+     }
+   })
+ }
+ 
+ 
+ 
+ As you can see, we’re first telling Figma to expose access to our hidden &lt;iframe&gt; and to trigger an event with the name &quot;networkRequest&quot;. We’re handling this event in the ui.html file by checking event.data.pluginMessage.type &#x3D;&#x3D;&#x3D; &#x27;networkRequest&#x27;, and then posting data back to the widget.
+ 
+ 
+ 
+ But nothing is happening yet… We still haven’t called the fetchData() function. If we call it directly in the component function, the following error occurs in the console:
+ 
+ 
+ 
+ Cannot use showUI during widget rendering.
+ 
+ 
+ 
+ Figma is telling us not to call showUI directly in the function body… So, where should we put it? The answer to that is one new hook and one new function: useEffect and waitForTask. You might already have familiarity with useEffect if you’re a React developer, but we’re gonna use it here to fetch data from the server when the widget component mounts.
+ 
+ 
+ 
+ const { useEffect, waitForTask } &#x3D; widget;
+ 
+ function QuotesWidget() {
+   useEffect(() &#x3D;&gt; {
+     waitForTask(fetchData());
+   });
+ }
+ 
+ 
+ 
+ But this will result in yet another “error” where our widget will keep re-rendering with a new quote, forever. This happens because useEffect, by definition, triggers again whenever the widget’s state changes, nay when we call fetchData. And while there’s a technique to only call useEffect once in React, it does not work on Figma’s implementation. From Figma’s docs:
+ 
+ 
+ 
+ Because of How Widgets Run, useEffect should handle being called multiple times with the same state.
+ 
+ 
+ 
+ Thankfully, there’s a simple workaround that we can take advantage of and call useEffect only once when the component first mounts, and it’s by checking whether or not the state’s values are still empty:
+ 
+ 
+ 
+ function QuotesWidget() {
+   useEffect(() &#x3D;&gt; {
+     if (!author.length &amp; !quote.length) {
+       waitForTask(fetchData());
+     }
+   });
+ }
+ 
+ 
+ 
+ You might run into a scary “memory access out of bounds” error. It’s quite common to see in plugin and widget development. Just restart Figma and it won’t be there anymore.
+ 
+ 
+ 
+ You might have noticed that sometimes, the quote text contains weird characters.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ These are Unicode characters and we must properly format them in code:
+ 
+ 
+ 
+ &lt;!-- ui.html --&gt;
+ &lt;script&gt;
+ window.onmessage &#x3D; async (event) &#x3D;&gt; {
+   // ...
+   const quoteContent &#x3D; decodeEntities(data[0].yoast_head_json.og_description);
+ };
+ 
+ // &lt;https://stackoverflow.com/a/9609450&gt;
+ var decodeEntities &#x3D; (function () {
+   // this prevents any overhead from creating the object each time
+   var element &#x3D; document.createElement(&quot;div&quot;);
+ 
+   function decodeHTMLEntities(str) {
+     if (str &amp;&amp; typeof str &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
+       // strip script/html tags
+       str &#x3D; str.replace(/&lt;script[^&gt;]*&gt;([\\\\S\\\\s]*?)&lt;\\\\/script&gt;/gim, &quot;&quot;);
+       str &#x3D; str.replace(/&lt;\\\\/?\\\\w(?:[^&quot;&#x27;&gt;]|&quot;[^&quot;]*&quot;|&#x27;[^&#x27;]*&#x27;)*&gt;/gim, &quot;&quot;);
+       element.innerHTML &#x3D; str;
+       str &#x3D; element.textContent;
+       element.textContent &#x3D; &quot;&quot;;
+     }
+ 
+     return str;
+   }
+ 
+   return decodeHTMLEntities;
+ })();
+ &lt;/script&gt;
+ 
+ 
+ 
+ And voilà, our widget fetched a brand new design quote every single time it’s added to the design board.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Adding a property menu to our widget
+ 
+ 
+ While our widget fetches a fresh quote upon instantiation, it would be much more practical if we could do this process again but without deleting it. This section will be short as the solution is quite remarkable. With property menus, we can add interactivity to our widget with a single call to the usePropertyMenu hook.
+ 
+ 
+ 
+ Credit: Figma Docs.
+ 
+ 
+ 
+ const { usePropertyMenu } &#x3D; widget;
+ 
+ function QuotesWidget() {
+   usePropertyMenu(
+     [
+       {
+         itemType: &quot;action&quot;,
+         propertyName: &quot;generate&quot;,
+ 	tooltip: &quot;Generate&quot;,
+         icon: &#x60;&lt;svg width&#x3D;&quot;22&quot; height&#x3D;&quot;15&quot; viewBox&#x3D;&quot;0 0 22 15&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;&lt;http://www.w3.org/2000/svg&gt;&quot;&gt;
+           &lt;!-- Shortened for brevity --&gt;
+         &lt;/svg&gt;&#x60;,
+       },
+     ],
+     () &#x3D;&gt; fetchData()
+   );
+ }
+ 
+ 
+ 
+ With one simple hook we’re able to create a button that appears near our widget when it’s selected. That was the last piece that we needed to add in order to complete this project.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Publishing our widget to the public
+ 
+ 
+ There’s not much use in building a widget if, well, no one uses it. And while Figma grants organizations with the option to launch private widgets for internal use, it’s much more common to release these little programs to the world.
+ 
+ 
+ 
+ Figma has a delicate widget review process that may take up 5 to 10 business days. And while the design quotes widget we built together is already in the widget library, I will still demonstrate how it got there. Please don’t attempt to re-publish this widget again as that will only result in removal. But if you gave it some significant alterations, go ahead and share your own widget with the community!
+ 
+ 
+ 
+ Get started by clicking the widgets menu (Shift+I) and switching to the Development tab to view our widget. Click on the three-dots menu and press Publish.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Figma will prompt you to enter some details about your widget, such as a title, description, and some tags. We’ll also need a 128×128 icon image and a 1920×960 banner image.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ After importing all these assets, we still need a screenshot of our widget. Close the publishing modal (don’t worry, you won’t lose your data) and right-click on the widget to reveal an interesting context menu. Find the Copy/Paste ascategory and select Copy as PNG.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ With that done, let’s go back to the publishing modal and paste the widget’s screenshot:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Scroll down and finally publish your modal. Celebrate! 🎉
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Figma will reach out to you in a couple of days about the status of your modal’s review. In the case of a rejection, you’ll be given the opportunity to make changes and submit again.
+ 
+ 
+ Conclusion
+ 
+ 
+ We just built a Figma widget from scratch! There are many things not covered here, such as click events, input forms, and much more. You can dig into the full source code for the widget in this GitHub repo.
+ 
+ 
+ 
+ To those who aspire to take their Figma skills to greater levels, I suggest exploring the Widgets community and using what catches your eye as inspiration. Keep building more widgets, keep sharpening your React skills, and before you even realize it, you’ll be teaching me how to do all this.
+ 
+ 
+ Further resources
+ 
+ 
+ I had to refer to lots of documentation while I was making this widget. I thought I’d share what I found to help the most.
+ 
+ 
+ Build more widgets:
+ 
+ 
+ Best practices for building widgetsOfficial Figma widget examples, with code
+ 
+ 
+ Learn widgets in greater depth:
+ 
+ 
+ All widget hooksAll widget componentsHow widgets run behind the scenes
+ 
+ 
+ Widgets vs. plugins
+ 
+ 
+ Widgets vs PluginsIntroduction to Figma PluginsHow plugins run behind the scenes
+ 
+ Building Interactive Figma Widgets originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>How I Made a Pure CSS Puzzle Game</title>
          <link href="https://css-tricks.com/how-i-made-a-pure-css-puzzle-game/"/>
