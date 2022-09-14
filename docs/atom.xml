@@ -4,10 +4,383 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-13T02:30:47.432Z</updated>
+   <updated>2022-09-14T02:29:11.577Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>WebKit Features in Safari 16.0</title>
+         <link href="https://css-tricks.com/webkit-features-in-safari-16-0/"/>
+       <updated>2022-09-13T16:14:13.000Z</updated>
+       <content type="text">Whew boy, Safari 16 is officially out in the wild and it packs in a bunch of features, some new and exciting (Subgrid! Container Queries! Font Palettes!) and others we’ve been waiting on for better cross-browser support (Motion Path! Overscroll Behavior! AVIF!). I imagine Jen Simmons typing cheerfully writing out all of the new goodies in the roundup announcement.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Source: WebKit.org
+ 
+ 
+ 
+ Just gonna drop in the new CSS features from the release notes:
+ 
+ 
+ 
+ Added size queries support for Container Queries. Chrome started supporting it in Version 105, so all we need is Firefox to join the party to get The Big Three™ covered.Added support for Container Query Units. These units go hand-in-hand with Container Queries. Once again, we need Firefox.Added support for Subgrid. Now it’s Safari and Firefox with support coverage. The good news is that Chrome is currently developing it as well.Added support for animatable Grids. Very cool! Chrome has always had some implementation of this and Firefox started supporting it back in 2019.Added support for Offset Path. This is also known as Motion Path, and we’ve had broad browser support since 2020. It’s nice to see Safari on board.Added support for Overscroll Behavior. Now we can modify “scroll chaining” and overflow affordances with the overscroll-behavior property.Added support for text-align-last. Now we’re all set with cross-browser support for this property!Added support for the resolution media query. All set here as well!
+ 
+ 
+ 
+ There are quite a few nice updates to Safari’s developer tools, too. We’ve got a Flexbox inspector, a Timelines tab (with an experimental screenshots timeline), and Container Queries info, to name a few. There’s a full 32-minute video that walks through everything, too.
+ 
+ 
+ 
+ I thought Safari 15 was a pretty killer release, but 16 is pretty epic in comparison. I know there’s a “Safari is the new Internet Explorer” vibe in some circles, but I’m happy to see big jumps like this and appreciate all the forward momentum. Go Safari Team!
+ To Shared Link — Permalink on CSS-Tricks
+ WebKit Features in Safari 16.0 originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
+     <entry>
+       <title>The Basics of Remix</title>
+         <link href="https://css-tricks.com/the-basics-of-remix/"/>
+       <updated>2022-09-13T12:59:46.000Z</updated>
+       <content type="text">You’ve probably heard a lot of hype around one of the newest kids on the framework block, Remix. It may be surprising that it got its start back in 2019, but it was originally only available as a subscription-based premium framework. In 2021, the founders raised seed funding and open sourced the framework to let users start using Remix for free. The floodgates opened and everyone seems to be talking about it, good or bad. Let’s dive in and look at some of the basics of Remix.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Remix is a server “edge” first JavaScript framework. It uses React, at least for now, for the front end and prioritizes server-side rendering the application on the edge. Platforms can take the server-side code and run it as serverless or edge functions making it cheaper than a traditional server and putting it closer to your users. The Remix founders like to call it a “center stack” framework because it adapts the requests and responses made between the server and the client for the platform it is being run on.
+ 
+ 
+ 
+ 
+ 
+ 
+ Deploying Remix
+ 
+ 
+ Because Remix requires a server, let’s talk about how you can deploy it. Remix does not provide the server itself — you bring the server — allowing it to be run in any Node.js or Deno environment, including Netlify Edge and DigitalOcean’s App Platform. Remix itself is a compiler, a program that translates the requests for the platform it is running on. This process uses esbuild to create handlers for the requests to the server. The HTTP handlers it uses are built on the Web Fetch API and are ran on the server by adapting them for the platform they will be deployed to.
+ 
+ 
+ Remix stacks
+ 
+ 
+ Remix stacks are projects that have some common tools that come preconfigured for you. There are three official stacks that are maintained by the Remix team and they are all named after musical genres. There is also a number of community Remix stacks including the K-Pop Stack created by the Templates Team at Netlify. This stack is a powerhouse and includes a Supabase database and authentication, Tailwind for styling, Cypress end-to-end testing, Prettier code formatting, ESLint linting, and TypeScript static typing. Check out Tara  Manicsic’s post on deploying the K-Pop Stack.
+ 
+ 
+ Caching routes
+ 
+ 
+ Even though Remix requires a server, it can still take advantage of the Jamstack benefits by caching routes. A static site or static site generation (SSG) is when all of your content is rendered at build time and stays static until another rebuild. The content is pre-generated and can be put on a CDN. This provides many benefits and speedy site loads for the end user. However, Remix does not do typical SSG like other popular React frameworks, including Next.js and Gatsby. To get the some of the benefits of SSG, you can use the native Cache-Control HTTP header in a Remix headers function to cache a particular route or directly in the root.tsx file.
+ 
+ 
+ 
+ [[headers]]
+   for &#x3D; &quot;/build/*&quot;
+   [headers.values]
+     &quot;Cache-Control&quot; &#x3D; &quot;public, max-age&#x3D;31536000, s-maxage&#x3D;31536000&quot;
+ 
+ 
+ 
+ Then add in your headers function where you want it. This caches for one hour:
+ 
+ 
+ 
+ export function headers() {
+   return {
+     &quot;Cache-Control&quot;: &quot;public, s-maxage&#x3D;360&quot;,
+   };
+ };
+ 
+ 
+ Remixing routing
+ 
+ 
+ A lot of frameworks have leaned into routing based on file systems. This is a technique where a designated folder is used to define routes for your application. They typically have special syntax for declaring dynamic routes and endpoints. The biggest difference currently between Remix and other popular frameworks is the ability to use nested routing.
+ 
+ 
+ 
+ Every Remix app starts with the root.tsx file. This is where the entire base of the app is rendered. You’ll find some of the common HTML layout here like the &lt;html&gt; tag, the &lt;head&gt; tag, and then the &lt;body&gt; tag with the components needed to render the app. The one thing to point out here is the &lt;Scripts&gt; component is what enables JavaScript on the site; some things will work without it, but not everything. The root.tsx file acts as a parent layout for everything inside of the routes directory, everything in routes is rendered where the &lt;Outlet/&gt; component is in root.tsx. This is the base of nested routing in Remix.
+ 
+ 
+ Nested routing
+ 
+ 
+ Not only was Remix founded by some of the team from React Router, it also uses React Router. In fact, they are bringing some of the good things about Remix back to React Router. A complex problem that the maintainers of Next.js and SvelteKit are trying to solve right now is nested routing.
+ 
+ 
+ 
+ Nested routing is unlike traditional routing. Where a new route would take a user to a new page, each nested route is a separate section of the same page. It allows for separation of concerns by keeping business logic associated with only the files that need it. Remix is able to handle errors localized to only the section of the page the nested route is at. The other routes on the page are still usable and the route that broke can provide relevant context to the error without the entire page crashing.
+ 
+ 
+ 
+ Remix does this when a root file in app/routes is named the same as a directory of files that will load inside of the base file. The root file becomes a layout for the files in the directory by using an &lt;Outlet /&gt; component to tell Remix where to load the other routes.
+ 
+ 
+ Outlet component
+ 
+ 
+ The &lt;Outlet /&gt; Component is a signal to Remix for where it should render content for nested routes. It’s put in the file at the root of the app/routes directory with the same name as the nested routes. The following code goes in a app/routes/about.tsx file and includes the outlet for the files inside app/routes/about folder:
+ 
+ 
+ 
+ import { Outlet } from &quot;@remix-run/react&quot;;
+ 
+ export default function About() {
+   return (
+     &lt;&gt;
+       &lt;section&gt;
+         I am the parent layout. I will be on any page inside of my named directory.
+       &lt;/section&gt;
+       { /* All of my children, the files in the named directory, will go here. */ }
+       &lt;Outlet /&gt;
+     &lt;/&gt;
+   )
+ }
+ 
+ 
+ Folder structure
+ 
+ 
+ Any file in the app/routes/ directory becomes a route at the URL of its name. A directory can also be added with an index.tsx file.
+ 
+ 
+ 
+ app/
+ ├── routes/
+ │   │
+ │   └── blog
+ |   |   ├── index.tsx ## The /blog route
+ │   └── about.tsx  ## The /about route
+ │   ├── index.tsx  ## The / or home route
+ └── root.tsx
+ 
+ 
+ 
+ If a route has the same name as a directory, the named file becomes a layout file for the files inside the directory and the layout file needs an Outlet component to place the nested route in.
+ 
+ 
+ 
+ app/
+ ├── routes/
+ │   │
+ │   └── about
+ │   │   ├── index.tsx
+ │   ├── about.tsx ## this is a layout for /about/index.tsx
+ │   ├── index.tsx
+ └── root.tsx
+ 
+ 
+ 
+ Layouts can also be created by prefixing them with a double underscore (__).
+ 
+ 
+ 
+ app/
+ ├── routes/
+ │   │
+ │   └── about
+ │   │   ├── index.tsx
+ │   ├── index.tsx
+ │   ├── about.tsx
+ │   ├── __blog.tsx ## this is also a layout
+ └── root.tsx
+ 
+ 
+ 
+ https://your-url.com/about will still render the app/routes/about.tsx file, but will also render whatever is in app/routes/about/index.tsx where the Outlet component is in the markup of app/routes/about.tsx.
+ 
+ 
+ Dynamic Routes
+ 
+ 
+ A dynamic route is a route that changes based on information in the url. That may be a name of a blog post or a customer id, but no matter what it is the $ syntax added to the front of the route signals to Remix that it is dynamic. The name doesn’t matter other than the $ prefix.
+ 
+ 
+ 
+ app/
+ ├── routes/
+ │   │
+ │   └── about
+ │   │   ├── $id.tsx
+ │   │   ├── index.tsx
+ │   ├── about.tsx ## this is a layout for /about/index.tsx
+ │   ├── index.tsx
+ └── root.tsx
+ 
+ 
+ Fetch that data!
+ 
+ 
+ Since Remix renders all of its data on the server, you don’t see a lot of the things that have become the standard of a React app, like useState() and useEffect() hooks, in Remix. There is less need for client-side state since it has already been evaluated on the server.
+ 
+ 
+ 
+ It also doesn’t matter what type of server you use for fetching data. Since Remix sits between the request and response and translates it appropriately, you can use the standard Web Fetch API. Remix does this in a loader function that only runs on the server and uses the useLoaderData() hook to render the data in the component. Here’s an example using the Cat as a Service API to render a random cat image.
+ 
+ 
+ 
+ import { Outlet, useLoaderData } from &#x27;@remix-run/react&#x27;
+ 
+ export async function loader() {
+   const response &#x3D; await fetch(&#x27;&lt;https://cataas.com/cat?json&#x3D;true&gt;&#x27;)
+   const data &#x3D; await response.json()
+   return {
+     data
+   }
+ }
+ 
+ export default function AboutLayout() {
+   const cat &#x3D; useLoaderData&lt;typeof loader&gt;()
+   return (
+     &lt;&gt;
+       &lt;img
+         src&#x3D;{&#x60;https://cataas.com/cat/${cat}&#x60;}
+         alt&#x3D;&quot;A random cat.&quot;
+       /&gt;
+       &lt;Outlet /&gt;
+     &lt;/&gt;
+   )
+ }
+ 
+ 
+ Route parameters
+ 
+ 
+ In dynamic routes, routes prefixed with $ need to be able to access the URL parameter to handle that data that should be rendered. The loader function has access to these through a params argument.
+ 
+ 
+ 
+ import { useLoaderData } from &#x27;@remix-run/react&#x27;
+ import type { LoaderArgs } from &#x27;@remix-run/node&#x27;
+ 
+ export async function loader({ params }: LoaderArgs) {
+   return {
+       params
+   }
+ }
+ 
+ export default function AboutLayout() {
+   const { params } &#x3D; useLoaderData&lt;typeof loader&gt;()
+   return &lt;p&gt;The url parameter is {params.tag}.&lt;/p&gt;
+ }
+ 
+ 
+ Other Remix functions
+ 
+ 
+ Remix has a few other helper functions that add extra functionality to normal HTML elements and attributes in the route module API. Each route can define its own of these types of functions.
+ 
+ 
+ Action function
+ 
+ 
+ An action function allows you to add extra functionality to a form action using the standard web FormData API.
+ 
+ 
+ 
+ export async function action({ request }) {
+   const body &#x3D; await request.formData();
+   const todo &#x3D; await fakeCreateTodo({
+       title: body.get(&quot;title&quot;),
+   });
+   return redirect(&#x60;/todos/${todo.id}&#x60;);
+ }
+ 
+ 
+ Headers function
+ 
+ 
+ Any HTTP standard headers can go in a headers function. Because each route can have a header, to avoid conflicts with nested routes, the deepest route — or the URL with the most forward slashes (/) — wins. You can also get the headers passed through, actionHeaders, loaderHeaders, or parentHeaders
+ 
+ 
+ 
+ export function headers({
+   actionHeaders,
+   loaderHeaders,
+   parentHeaders,
+ }) {
+   return {
+ &quot;Cache-Control&quot;: loaderHeaders.get(&quot;Cache-Control&quot;),
+   };
+ }
+ 
+ 
+ Meta function
+ 
+ 
+ This function will set the meta tags for the HTML document. One is set in the root.tsx file by default, but they can be updated for each route.
+ 
+ 
+ 
+ export function meta() {
+   return {
+     title: &quot;Your page title&quot;,
+     description: &quot;A new description for each route.&quot;,
+   };
+ };
+ 
+ 
+ Links function
+ 
+ 
+ HTML link elements live in the &lt;head&gt; tag of an HTML document and they import CSS, among other things. The links function, not to be confused with the &lt;Link /&gt; component, allows you to only import things in the routes that need them. So, for example, CSS files can be scoped and only imported on the routes that need those specific files. The link elements are returned from a links() function as an array of objects and can either be a HtmlLinkDescriptor from the link API or a PageLinkDescriptor that can prefetch the data for a page.
+ 
+ 
+ 
+ export function links() {
+   return [
+     // add a favicon
+     {
+       rel: &quot;icon&quot;,
+       href: &quot;/favicon.png&quot;,
+       type: &quot;image/png&quot;,
+     },
+     // add an external stylesheet
+     {
+       rel: &quot;stylesheet&quot;,
+       href: &quot;&lt;https://example.com/some/styles.css&gt;&quot;,
+       crossOrigin: &quot;true&quot;,
+     },
+     // add a local stylesheet,
+     { rel: &quot;stylesheet&quot;, href: stylesHref },
+ 
+     // prefetch a page&#x27;s data
+     { page: &quot;/about/community&quot; }
+   ]
+ }
+ 
+ 
+ Linking between routes
+ 
+ 
+ Remix provides a component to go between the different routes in your app called &lt;Link/&gt;. To get client-side routing, use the &lt;Link to&#x3D;&quot;&quot;&gt;Name&lt;/Link&gt; component instead of &lt;a href&#x3D;&quot;&quot;&gt;Name&lt;/a&gt;. The &lt;Link /&gt; component also takes a prop of prefetch with accepts none by default, intent to prefetch the data if Remix detects the user hovers or focuses the link, or render which will fetch the route’s data as soon as the link is rendered.
+ 
+ 
+ 
+ import { Link } from &quot;@remix-run/react&quot;;
+ 
+ export default function Nav() {
+   return (
+     &lt;nav&gt;
+       &lt;Link to&#x3D;&quot;/&quot;&gt;Home&lt;/Link&gt;{&quot; &quot;}
+       &lt;Link to&#x3D;&quot;/about&quot;&gt;About&lt;/Link&gt;{&quot; &quot;}
+       &lt;Link to&#x3D;&quot;/about/community&quot; prefetch&#x3D;&quot;intent&quot;&gt;Community&lt;/Link&gt;
+     &lt;/nav&gt;
+   );
+ }
+ 
+ 
+ Next steps
+ 
+ 
+ Now you know the basics of Remix and you’re ready to get started actually building applications, right? Remix provides a Jokes app and a Blog tutorial to get you started implementing this basic knowledge. You can also start from scratch and create a brand new Remix app. Or if you are ready to dive in, give the K-Pop Stack a try. I have really enjoyed my time with Remix and love the focus on web standards and bringing it back to the basics. Now it’s your turn to start creating!
+ 
+ The Basics of Remix originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Building Interactive Figma Widgets</title>
          <link href="https://css-tricks.com/building-interactive-figma-widgets/"/>
