@@ -4,10 +4,170 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-14T02:29:11.577Z</updated>
+   <updated>2022-09-15T02:37:19.317Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>When is it OK to Disable Text Selection?</title>
+         <link href="https://css-tricks.com/when-is-it-ok-to-disable-text-selection/"/>
+       <updated>2022-09-14T13:03:04.000Z</updated>
+       <content type="text">Using CSS, it’s possible to prevent users from selecting text within an element using user-select: none. Now, it’s understandable why doing so might be considered “controversial”. I mean, should we be disabling standard user behaviors? Generally speaking, no, we shouldn’t be doing that. But does disabling text selection have some legitimate (albeit rare) use-cases? I think so.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ In this article we’ll explore these use cases and take a look at how we can use user-select: none to improve (not hinder) user experiences. It’s also worth nothing that the user-select property has other values besides none that can be used to alter the behavior of text selection rather than disable it completely, and another value that even enforces text selection, so we’ll also take a look at those.
+ 
+ 
+ Possible user-select values
+ 
+ 
+ Let’s kick things off by running through the different user-select values and what they do.
+ 
+ 
+ 
+ Applying user-select: none; to an element means that its text content and nested text content won’t be functionally selectable or visually selectable (i.e. ::selection won’t work). If you were to make a selection that contained some non-selectable content, the non-selectable content would be omitted from the selection, so it’s fairly well implemented. And the support is great.
+ 
+ 
+ This browser support data is from Caniuse, which has more detail. A number indicates that browser supports the feature at that version and up.DesktopChromeFirefoxIEEdgeSafari4*2*10*12*3.1*Mobile / TabletAndroid ChromeAndroid FirefoxAndroidiOS Safari1051042.1*3.2*
+ 
+ 
+ 
+ Adversely, user-select: text makes the content selectable. You’d use this value to overwrite user-select: none.
+ 
+ 
+ 
+ user-select: contain is an interesting one. Applying it means that if a selection begins within the element then it must end within it too, containing it. This oddly doesn’t apply when the selection begins before the element, however, which is probably why no browser currently supports it. (Internet Explorer and earlier versions of Microsoft Edge previously supported it under the guise of user-select: element.)
+ 
+ 
+ 
+ With user-select: all, selecting part of the element’s content results in all of it being selected automatically. It’s all or nothing, which is very uncompromising but useful in circumstances where users are more likely to copy content to their clipboard (e.g. sharing and embedding links, code snippets, etc.). Instead of double-clicking, users will only need to click once for the content to auto-select.
+ 
+ 
+ 
+ Be careful, though, since this isn’t always the feature you think it is. What if users only want to select part of the content (e.g. only the font name part of a Google Fonts snippet or one part of a code snippet)? It’s still better to handle ”copy to clipboard” using JavaScript in many scenarios.
+ 
+ 
+ 
+ A better application of user-select: all is to ensure that quotes are copied entirely and accurately.
+ 
+ 
+ 
+ The behavior of user-select: auto (the initial value of user-select) depends on the element and how it’s used. You can find out more about this in our almanac.
+ 
+ 
+ 
+ Now let’s turn to exploring use cases for user-select: none…
+ 
+ 
+ Stripping non-text from the selection
+ 
+ 
+ When you’re copying content from a web page, it’s probably from an article or some other type of long-form content, right? You probably don’t want your selection to include images, emoji (which can sometimes copy as text, e.g. “:thinkingface:”), and other things that you might expect to find wrapped in an &lt;aside&gt; element (e.g. in-article calls to action, ads, or something else that’s not part of the main content).
+ 
+ 
+ 
+ To prevent something from being included in selections, make sure that it’s wrapped in an HTML element and then apply user-select: none to it:
+ 
+ 
+ 
+ &lt;p&gt;lorem &lt;span style&#x3D;&quot;user-select: none&quot;&gt;🤔&lt;/span&gt; ipsum&lt;/p&gt;
+ 
+ &lt;aside style&#x3D;&quot;user-select: none&quot;&gt;
+   &lt;h1&gt;Heading&lt;/h1&gt;
+   &lt;p&gt;Paragraph&lt;/p&gt;
+   &lt;a&gt;Call to action&lt;/a&gt;
+ &lt;/aside&gt;
+ 
+ 
+ 
+ In scenarios like this, we’re not disabling selection, but rather optimizing it. It’s also worth mentioning that selecting doesn’t necessarily mean copying — many readers (including myself) like to select content as they read it so that they can remember where they are (like a bookmark), another reason to optimize rather than disable completely.
+ 
+ 
+ Preventing accidental selection
+ 
+ 
+ Apply user-select: none to links that look like buttons (e.g. &lt;a href&#x3D;&quot;/whatever&quot; class&#x3D;&quot;button&quot;&gt;Click Me!&lt;/a&gt;).
+ 
+ 
+ 
+ It’s not possible to select the text content of a &lt;button&gt; or &lt;input type&#x3D;&quot;submit&quot;&gt; because, well, why would you? However, this behavior doesn’t apply to links because traditionally they form part of a paragraph that should be selectable.
+ 
+ 
+ 
+ Fair enough.
+ 
+ 
+ 
+ We could argue that making links look like buttons is an anti-pattern, but whatever. It’s not breaking the internet, is it? That ship has sailed anyway, so if you’re using links designed to look like buttons then they should mimic the behavior of buttons, not just for consistency but to prevent users from accidentally selecting the content instead of triggering the interaction.
+ 
+ 
+ 
+ I’m certainly prone to selecting things accidentally since I use my laptop in bed more than I care to admit. Plus, there are several medical conditions that can affect control and coordination, turning an intended click into an unintended drag/selection, so there are accessibility concerns that can be addressed with user-select too.
+ 
+ 
+ 
+ Interactions that require dragging (intentionally) do exist too of course (e.g. in browser games), but these are uncommon. Still, it just shows that user-select does in fact have quite a few use-cases.
+ 
+ 
+ Avoiding paywalled content theft
+ 
+ 
+ Paywalled content gets a lot of hate, but if you feel that you need to protect your content, it’s your content — nobody has the right steal it just because they don’t believe they should pay for it.
+ 
+ 
+ 
+ If you do want to go down this route, there are many ways to make it more difficult for users to bypass paywalls (or similarly, copy copyrighted content such as the published work of others).
+ 
+ 
+ 
+ Blurring the content with CSS:
+ 
+ 
+ 
+ article { filter: blur(&lt;radius&gt;); }
+ 
+ 
+ 
+ Disabling the keyboard shortcuts for DevTools:
+ 
+ 
+ 
+ document.addEventListener(&quot;keydown&quot;, function (e) {
+   if (e.keyCode &#x3D;&#x3D; 123) e.preventDefault();
+   else if ((e.ctrlKey || e.metaKey) &amp;&amp; e.altKey &amp;&amp; e.keyCode &#x3D;&#x3D; 73) e.preventDefault();
+   else if ((e.ctrlKey || e.metaKey) &amp;&amp; e.altKey &amp;&amp; e.keyCode &#x3D;&#x3D; 74) e.preventDefault();
+   else if ((e.ctrlKey || e.metaKey) &amp;&amp; e.altKey &amp;&amp; e.keyCode &#x3D;&#x3D; 85) e.preventDefault();
+ });
+ 
+ 
+ 
+ Disabling access to DevTools via the context menu by disabling the context menu itself:
+ 
+ 
+ 
+ document.addEventListener(&quot;contextmenu&quot;, e &#x3D;&gt; e.preventDefault())
+ 
+ 
+ 
+ And of course, to prevent users from copying the content when they’re not allowed to read it at the source, applying user-select: none:
+ 
+ 
+ 
+ &lt;article style&#x3D;&quot;user-select: none&quot;&gt;
+ 
+ 
+ Any other use cases?
+ 
+ 
+ Those are the three use cases I could think of for preventing text selection. Several others crossed my mind, but they all seemed like a stretch. But what about you? Have you had to disable text selection on anything? I’d like to know!
+ 
+ When is it OK to Disable Text Selection? originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>WebKit Features in Safari 16.0</title>
          <link href="https://css-tricks.com/webkit-features-in-safari-16-0/"/>
