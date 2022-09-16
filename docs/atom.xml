@@ -4,10 +4,212 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-15T02:37:19.317Z</updated>
+   <updated>2022-09-16T02:37:16.435Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>More Details on &#x60;details&#x60;</title>
+         <link href="https://css-tricks.com/more-details-on-details/"/>
+       <updated>2022-09-15T13:12:40.000Z</updated>
+       <content type="text">A lot of chatter around the ol’ &lt;details&gt; and &lt;summary&gt; elements lately! I saw Lea Verou recently tweet an observation about the element’s display behavior and that sorta splintered into more observations and usage notes from folks, including a revived discussion on whether &lt;summary&gt; should be allowed to contain interactive elements or not.
+ 
+ 
+ 
+ There are a lot of dots to connect and I’ll do my best here to do exactly that.
+ 
+ 
+ 
+ 
+ 
+ 
+ Can we change the display of elements nested in the &lt;details&gt; element?
+ 
+ 
+ 
+ In the app I’m building, I’m using &lt;details&gt; for panels but ran into some sizing weirdness.Flexbox: https://t.co/noZvxAN35GGrid: https://t.co/pis0lPjvXkAt first I thought it was a bug, but all three engines agree. Nothing in the UA stylesheet for &lt;details&gt; seems to explain it.— Lea Verou (@LeaVerou) August 28, 2022
+ 
+ 
+ 
+ 
+ Super weird! If we crack open DevTools, the user agent stylesheet tells us &lt;details&gt; is a displayed as a block element.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Notice the required &lt;summary&gt; element and the two additional &lt;div&gt;s in there. We can override the display, right?
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ What we might expect is that &lt;details&gt; now has an explicit height of 40vh and three rows where the third row takes up the remaining space leftover from the first two. Like this:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Ugh, but the third row doesn’t… do… that.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Apparently what we’re dealing with is a grid container that is unable to apply grid behavior to its grid items. But the HTML spec tells us:
+ 
+ 
+ 
+ The details element is expected to render as a block box. The element is also expected to have an internal shadow tree with two slots.(Emphasis mine)
+ 
+ 
+ 
+ And a little later:
+ 
+ 
+ 
+ The details element’s second slot is expected to have its style attribute set to “display: block; content-visibility: hidden;” when the details element does not have an open attribute. When it does have the open attribute, the style attribute is expected to be removed from the second slot.(Emphasis mine, again)
+ 
+ 
+ 
+ So, the spec says the second slot — the two additional &lt;div&gt;s from the example — are only coerced into being block elements when &lt;details&gt; is closed. When it’s open — &lt;details open&gt; — they should conform to the grid display that overrides the user agent styling… right?
+ 
+ 
+ 
+ That’s the debate. I get that slots are set to display: contents by default, but jamming nested elements into slots and removing the ability to style them seems off. Is it a spec issue that the contents are slots, or a browser issue that we cannot override their display even though they are in the box tree? Smarter people can enlighten me but it seems like an incorrect implementation.
+ 
+ 
+ Is &lt;details&gt; a container or an interactive element?
+ 
+ 
+ Lots of folks are using &lt;details&gt; to toggle menus open and closed. It’s a practice popularized by GitHub.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Seems reasonable. The spec sure allows it:
+ 
+ 
+ 
+ The details element represents a disclosure widget from which the user can obtain additional information or controls.(Emphasis mine)
+ 
+ 
+ 
+ Alright, so we might expect that &lt;details&gt; is the container (it has an implicit role&#x3D;group) and &lt;summary&gt; is an interactive element that sets the container’s open state. Makes sense since &lt;summary&gt; has an implcit button role in some contexts (but no corresponding WAI-ARIA role).
+ 
+ 
+ 
+ But Melanie Sumner did some digging that not only seems to contradict that, but leads to the conclusion that using &lt;details&gt; as a menu probably ain’t the best thing. See what happens when &lt;details&gt; is rendered without the &lt;summary&gt; element:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ It does exactly what the spec suggests when it’s missing a &lt;summary&gt; — it makes its own:
+ 
+ 
+ 
+ The first summary element child of the element, if any, represents the summary or legend of the details. If there is no child summary element, the user agent should provide its own legend (e.g. “Details”).(Emphasis mine)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Melanie ran that through an HTML validator and — surprise! — it’s invalid:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ So, &lt;details&gt; requires the &lt;summary&gt;. And when &lt;summary&gt; is missing, &lt;details&gt; creates it’s own, though it’s relayed as invalid markup. It’s all hunky-dory and valid when  &lt;summary&gt; is there:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ All of which leads to a new question: why is &lt;summary&gt; given an implcit button role when &lt;details&gt; is what appears to be the interactive element? Perhaps this is another case where the browser implementation is incorrect? Then again, the spec does categorize both as interactive elements. You can see how utterly confusing all of this becomes.
+ 
+ 
+ 
+ Either way, Melanie’s ultimate conclusion that we ought to avoid using &lt;details&gt; for menus is based on how assistive tech reads and announces &lt;details&gt; that contain interactive elements. The element is announced, but there is no mention of interactive controls beyond that until you, er, interact with &lt;details&gt;. Only then will something like a list of links be announced.
+ 
+ 
+ 
+ Besides, content inside a collapsed &lt;details&gt; is excluded from in-page searching (except in Chromium browsers, which can access the collapsed content at the time of writing), making things even more difficult to find.
+ 
+ 
+ Should &lt;summary&gt; allow interactive elements?
+ 
+ 
+ That’s the question posed in this open thread. The idea is that something like this would be invalid:
+ 
+ 
+ 
+ &lt;details&gt;
+   &lt;summary&gt;&lt;a href&#x3D;&quot;...&quot;&gt;Link element&lt;/a&gt;&lt;/summary&gt;
+ &lt;/details&gt;
+ 
+ &lt;!-- or --&gt;
+ 
+ &lt;details&gt;
+   &lt;summary&gt;&lt;input&gt;&lt;/summary&gt;
+ &lt;/details&gt;
+ 
+ 
+ 
+ Scott O’Hara sums up nicely why this is an issue:
+ 
+ 
+ 
+ The link is not discoverable at all to JAWS when navigating with its virtual cursor. If navigating to the summary element via the Tab key, JAWS announces “example text, button” as the name and role of the element. If hitting Tab key again, JAWS again announces “example text, button” even though keyboard focus is on the link.[…]There is more I could go on about with the various problems different AT have with the content model for summary… but that would just extend this comment out beyond what is necessary. tldr; the summary content model produces very inconsistent and sometimes just flat out broken experiences for people using AT.
+ 
+ 
+ 
+ Scott opened tickets to correct this behavior in Chromium and WebKit. Thanks, Scott!
+ 
+ 
+ 
+ Yet, it’s valid HTML:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Scott goes further in a separate blog post. For example, he explains how slapping role&#x3D;button on &lt;summary&gt; might seem like a reasonable fix to ensure it is consistently announced by assistive tech. That would also settle the debate over whether &lt;summary&gt; should allow interactive elements because buttons cannot contain interactive elements. The only problem is that Safari then treats &lt;summary&gt; as a standard button, which loses its expanded and collapsed states. So, the correct role is announced, but now its state is not. 🙃
+ 
+ 
+ Where do we go now?
+ 
+ 
+ Are you scared to use &lt;details&gt;/&lt;summary&gt; with all of these issues and inconsistencies? I sure am, but only insofar as to make sure that what’s in it provides the right sort of experience and expectations for users.
+ 
+ 
+ 
+ I’m just glad these conversations are happening and that they’re taking place in the open. Because of that, you can comment on Scott’s three proposed solutions for how the content model for &lt;summary&gt; is defined, upvote his tickets, and report your own issues and use cases while you’re at it. Hopefully, the better we understand how the elements are used and what we expect them to do, the better they are implemented.
+ 
+ More Details on &#x60;details&#x60; originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>When is it OK to Disable Text Selection?</title>
          <link href="https://css-tricks.com/when-is-it-ok-to-disable-text-selection/"/>
@@ -37,7 +239,7 @@
  
  
  
- Adversely, user-select: text makes the content selectable. You’d use this value to overwrite user-select: none.
+ Conversely, user-select: text makes the content selectable. You’d use this value to overwrite user-select: none.
  
  
  
