@@ -4,10 +4,276 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-19T02:35:43.883Z</updated>
+   <updated>2022-09-20T02:26:37.891Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Making a Real-Time Clock With a Conic Gradient Face</title>
+         <link href="https://css-tricks.com/making-a-real-time-clock-with-a-conic-gradient-face/"/>
+       <updated>2022-09-19T12:58:09.000Z</updated>
+       <content type="text">Gradients have been a part of the CSS spectrum for quite some time now. We see a lot of radial and linear gradients in a lot of projects, but there is one type of gradient that seems to be a bit lonely: the conic gradient. We’re going to make a watch face using this type of gradient.
+ 
+ 
+ 
+ 
+ 
+ 
+ Working with conic gradients
+ 
+ 
+ What we’re making consists of a gradient with color transitions rotated around a center point and can have multiple color values. For this clock to work, we will also be using the angle value of a conic gradient which defines the rotation or starting point. The angle is defined by using a from value.
+ 
+ 
+ 
+ background-image: conic-gradient(from 45deg, #6e7dab, #5762d5);
+ 
+ 
+ 
+ What is interesting about this, is that a starting angle can have a negative value in CSS, which will come in handy later.
+ 
+ 
+ 
+ A simple elegant example of a conical gradient:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ Building our basic clock
+ 
+ 
+ Let’s start by adding some HTML for the clock and the hands:
+ 
+ 
+ 
+ Let’s create some default styling for our clock. For this to work properly, we will update CSS variables with JavaScript later on, so let’s scope these variables inside our .clock selector. For easy tweaking, let’s add the colors of the hands as well.
+ 
+ 
+ 
+ .clock {
+   /* general clock vars */
+   --hour-hand-color: #000;
+   --hour-hand-degrees: 0deg;
+   --minute-hand-color: #000;
+   --minute-hand-degrees: 0deg;
+   --second-hand-color: hotpink;
+   --second-hand-degrees: 0deg;
+ 
+   position: relative;
+   min-width: 320px;
+   width: 25vw;
+   height: 25vw;
+   min-height: 320px;
+   border-radius: 50%;
+   margin: 0 auto;
+   border: 7px solid #000;
+ }
+ 
+ /* clock hands */
+ .hand {
+   position: absolute;
+   left: 50%;
+   bottom: 50%;
+   height: 45%;
+   width: 4px;
+   margin-left: -2px;
+   background: var(--second-hand-color);
+   border-radius: 6px;
+   transform-origin: bottom center;
+   transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+ }
+ .second-hand {
+   transform: rotate(var(--second-hand-degrees));
+ }
+ .hour-hand {
+   height: 35%;
+   border-radius: 40px;
+   background-color: var(--hour-hand-color);
+   transform: rotate(var(--hour-hand-degrees));
+ }
+ .minute-hand {
+   height: 50%;
+   background: var(--minute-hand-color);
+   transform: rotate(var(--minute-hand-degrees));
+ }
+ 
+ 
+ 
+ This sets us up with the general styling we need for the clock. We’ve set transform-origin on the hands so that they properly rotate around the face of the clock. There are also a few custom properties in there to set angles on the hands that we’ll update with JavaScript to get the timing just right so that each hand maps to seconds, minutes, and hours accordingly.
+ 
+ 
+ 
+ Here’s what we have so far:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Alright, let’s move on to updating those custom properties!
+ 
+ 
+ Adding the JavaScript for our basic clock
+ 
+ 
+ First off, we’re going to target our clock and create a function:
+ 
+ 
+ 
+ const clock &#x3D; document.getElementById(&quot;clock&quot;);
+ function setDate() {
+   // Code to set the current time and hand angles.
+ }
+ setDate();
+ 
+ 
+ 
+ Inside of our function we’re going to fetch the current time using the Date() function to calculate the correct angle of the hands:
+ 
+ 
+ 
+ const now &#x3D; new Date();
+ const secondsAngle &#x3D; now.getSeconds() * 6; 
+ const minsAngle &#x3D; now.getMinutes() * 6 + secondsAngle / 60;
+ const hourAngle &#x3D; ((now.getHours() % 12) / 12) * 360 + minsAngle / 12;
+ 
+ 
+ 
+ Here is how this calculation works:
+ 
+ 
+ 
+ Seconds: We take 60 seconds and multiply it by 6, which happens to be 360, the perfect number of angles in a full circle.Minutes: Same as seconds, but now we add the seconds angle and divide it by 60 to increase the angle just a little bit within the minute for a more accurate result.Hours: First, we calculate the remainder of the hour and divide it by 12. Then we divide that remainder by 12 again to get a decimal value we can multiply by 360. For example, when we’re at the 23rd hour, 23 / 12 &#x3D; remain 11. Divide this by 12 and we get 0.916 which then gets multiplied by 360 for a grand total of 330. Here, we will do the same thing we did with the minutes and add the minutes angle, divided by 12, for a more accurate result.
+ 
+ 
+ 
+ Now that we have our angles, the only thing left to do is to update the variables of our clock by adding the following at the end of our function:
+ 
+ 
+ 
+ clock.style.setProperty(&quot;--second-hand-degrees&quot;, secondsAngle + &quot;deg&quot;);
+ clock.style.setProperty(&quot;--minute-hand-degrees&quot;, minsAngle + &quot;deg&quot;);
+ clock.style.setProperty(&quot;--hour-hand-degrees&quot;, hourAngle + &quot;deg&quot;);
+ 
+ 
+ 
+ Last, but not least, we will trigger the function with an interval of a second to get a working clock:
+ 
+ 
+ 
+ const clock &#x3D; document.getElementById(&quot;clock&quot;);
+ function setDate() {
+   // etc.
+ }
+ // Tick tick tick
+ setInterval(setDate, 1000);
+ setDate();
+ 
+ 
+ 
+ See the working demo of our basic clock:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ Applying this to a conical gradient
+ 
+ 
+ OK, so the hands of our clock are working. What we really want is to map them to a conical gradient that updates as the time changes. You may have seen the same effect if you have an Apple Watch with the “Gradient” face active:
+ 
+ 
+ 
+ Credit: Macworld
+ 
+ 
+ 
+ To do this, let’s start by updating our .clock element with a conic gradient and two custom properties that control the starting and ending angles :
+ 
+ 
+ 
+ .clock {
+   /* same as before */
+ 
+   /* conic gradient vars */
+   --start: 0deg;
+   --end: 0deg;
+ 
+   /* same as before */
+ 
+   background: 
+     conic-gradient(
+       from var(--start),
+       rgb(255 255 255) 2deg,
+       rgb(0 0 0 / 0.5) var(--end),
+       rgb(255 255 255) 2deg,
+       rgb(0 0 0 / 0.7)
+   );
+ }
+ 
+ 
+ 
+ You can play around with this a bit to style it just the way you like it. I added some extra colors in the gradient to my liking, but as long as you have a starting point and an ending point, you’re good to go.
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Next up, we will update our setDate() function so that it updates the variables for our starting and ending points on the conic gradient. The starting point will be our seconds hand, which is easy to find because it will be the same as the angle of our minutes. To make this end at the hours hand, we should make our ending point the same as the hourAngle variable in the script, but subtract our starting point from it.
+ 
+ 
+ 
+ let startPosition &#x3D; minsAngle;
+ let endPosition &#x3D; hourAngle - minsAngle;
+ 
+ 
+ 
+ Now we can update our variables with JavaScript again:
+ 
+ 
+ 
+ clock.style.setProperty(&quot;--start&quot;, startPosition + &quot;deg&quot;);
+ clock.style.setProperty(&quot;--end&quot;, endPosition + &quot;deg&quot;);
+ 
+ 
+ 
+ It looks like we could be done at this point, but there is a catch! This calculation works fine as long as the minutes hand has a smaller angle than the hours hand. Our conic gradient will get messy the moment when the minutes hand has moved past it. To fix this, we will use a negative value as a starting point. Luckily, it’s easy to spot when this happens. Before updating our variables we’ll add the following:
+ 
+ 
+ 
+ if (minsAngle &gt; hourAngle) {
+   startPosition &#x3D; minsAngle - 360;
+   endPosition &#x3D; hourAngle - startPosition;
+ }
+ 
+ 
+ 
+ By subtracting 360 from our minutes angle, we are able to set a negative value for our startposition variable. Because of this negative starting point, our end position should be updated by the hour angle, subtracted by the starting position.
+ 
+ 
+ 
+ There we go — now the hour and minute hands are set to gradient angles:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ That’s it! But don’t let that stop you from taking this even further. Create your own styles and share them with me in the comments so I can check them out.. Here is a little inspiration to get you going:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ Making a Real-Time Clock With a Conic Gradient Face originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>More Details on &#x60;details&#x60;</title>
          <link href="https://css-tricks.com/more-details-on-details/"/>
