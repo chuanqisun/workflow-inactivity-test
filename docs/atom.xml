@@ -4,10 +4,158 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-20T02:26:37.891Z</updated>
+   <updated>2022-09-21T02:36:44.355Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>CSS Checkerboard Background… But With Rounded Corners and Hover Styles</title>
+         <link href="https://css-tricks.com/css-checkerboard-background-but-with-rounded-corners-and-hover-styles/"/>
+       <updated>2022-09-20T13:19:24.000Z</updated>
+       <content type="text">On one hand, creating simple checkered backgrounds with CSS is easy. On the other hand, though, unless we are one of the CSS-gradient-ninjas, we are kind of stuck with basic patterns.
+ 
+ 
+ 
+ At least that’s what I thought while staring at the checkered background on my screen and trying to round those corners of the squares just a little…until I remembered my favorite bullet point glyph — ✦ — and figured that if only I could place it over every intersection in the pattern, I’ll surely get the design I want.
+ 
+ 
+ 
+ Turns out it’s possible! Here’s the proof.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Let’s start with the basic pattern:
+ 
+ 
+ 
+ &lt;div&gt;&lt;/div&gt;
+ 
+ 
+ 
+ div {
+  background: 
+   repeating-linear-gradient(
+     to right, transparent, 
+     transparent 50px, 
+     white 50px, 
+     white 55px
+   ),
+   repeating-linear-gradient(
+     to bottom, transparent,  
+     transparent 50px, 
+     white 50px, 
+     white 55px
+   ),
+   linear-gradient(45deg, pink, skyblue);
+   /* more styles */
+ }
+ 
+ 
+ 
+ What that gives us is a repeating background of squares that go from pink to blue with 5px white gaps between them. Each square is fifty pixels wide and transparent. This is created using repeating-linear-gradient, which creates a linear gradient image where the gradient repeats throughout the containing area.
+ 
+ 
+ 
+ In other words, the first gradient in that sequence creates white horizontal stripes and the second gradient creates white vertical stripes. Layered together, they form the checkered pattern, and the third gradient fills in the rest of the space.
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Now we add the star glyph I mentioned earlier, on top of the background pattern. We can do that by including it on the same background property as the gradients while using an encoded SVG for the shape:
+ 
+ 
+ 
+ div {
+   background: 
+     repeat left -17px top -22px/55px 55px
+     url(&quot;data:image/svg+xml,
+     &lt;svg xmlns&#x3D;&#x27;http://www.w3.org/2000/svg&#x27; viewBox&#x3D;&#x27;0 0 35px 35px&#x27;&gt;
+       &lt;foreignObject width&#x3D;&#x27;35px&#x27; height&#x3D;&#x27;35px&#x27;&gt;
+         &lt;div xmlns&#x3D;&#x27;http://www.w3.org/1999/xhtml&#x27; style&#x3D;&#x27;color: white; font-size: 35px&#x27;&gt;✦&lt;/div&gt;
+       &lt;/foreignObject&gt;
+     &lt;/svg&gt;&quot;
+     ), 
+     repeating-linear-gradient(
+       to right, transparent,
+       transparent 50px,
+       white 50px,
+       white 55px
+     ),
+     repeating-linear-gradient(
+       to bottom, transparent,
+       transparent 50px,
+       white 50px,
+       white 55px
+     ),
+     linear-gradient(45deg, pink, skyblue);
+   /* more style */
+ }
+ 
+ 
+ 
+ Let’s break that down. The first keyword, repeat, denotes that this is a repeating background image. Followed by that is the position and size of each repeating unit, respectively (left -17px top -22px/55px 55px). This offset position is based on the glyph and pattern’s size. You’ll see below how the glyph size is given. The offset is added to re-position the repeating glyph exactly over each intersection in the checkered pattern.
+ 
+ 
+ 
+ The SVG has an HTML &lt;div&gt; carrying the glyph. Notice that I declared a font-size on it. That ultimately determines the border radius of the squares in the checkerboard pattern — the bigger the glyph, the more rounded the squares. The unrolled SVG from the data URL looks like this:
+ 
+ 
+ 
+ &lt;svg xmlns&#x3D;&#x27;http://www.w3.org/2000/svg&#x27; viewBox&#x3D;&#x27;0 0 35px 35px&#x27;&gt;
+   &lt;foreignObject width&#x3D;&#x27;35px&#x27; height&#x3D;&#x27;35px&#x27;&gt;
+     &lt;div xmlns&#x3D;&#x27;http://www.w3.org/1999/xhtml&#x27; style&#x3D;&#x27;color:white;font-size:35px&#x27;&gt;✦&lt;/div&gt;
+   &lt;/foreignObject&gt;
+ &lt;/svg&gt;
+ 
+ 
+ 
+ Now that a CSS pattern is established, let’s add a :hover effect where the glyph is removed and the white lines are made slightly translucent by using rgb() color values with alpha transparency.
+ 
+ 
+ 
+ div:hover {
+   background:
+     repeating-linear-gradient(
+       to right, transparent,
+       transparent 50px,
+       rgb(255 255 255 / 0.5) 50px,
+       rgb(255 255 255 / 0.5) 55px
+     ),
+     repeating-linear-gradient(
+       to bottom, transparent,
+       transparent 50px,
+       rgb(255 255 255 / 0.5) 50px,
+       rgb(255 255 255 / 0.5) 55px
+     ),
+   linear-gradient(45deg, pink, skyblue);
+   box-shadow: 10px 10px 20px pink;
+ }
+ 
+ 
+ 
+ There we go! Now, not only do we have our rounded corners, but we also have more control control over the pattern for effects like this:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ Again, this whole exercise was an attempt to get a grid of squares in a checkerboard pattern that supports rounded corners, a background gradient that serves as an overlay across the pattern, and interactive styles. I think this accomplishes the task quite well, but I’m also interested in how you might’ve approached it. Let me know in the comments!
+ 
+ CSS Checkerboard Background… But With Rounded Corners and Hover Styles originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Making a Real-Time Clock With a Conic Gradient Face</title>
          <link href="https://css-tricks.com/making-a-real-time-clock-with-a-conic-gradient-face/"/>
