@@ -4,10 +4,62 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-21T02:36:44.355Z</updated>
+   <updated>2022-09-22T02:26:17.625Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>CSS Rules vs. CSS Rulesets</title>
+         <link href="https://css-tricks.com/css-rules-vs-css-rulesets/"/>
+       <updated>2022-09-21T21:53:44.000Z</updated>
+       <content type="text">The latest spec:
+ 
+ 
+ 
+ A style rule is a qualified rule that associates a selector list with a list of property declarations and possibly a list of nested rules. They are also called rule sets in CSS2.
+ 
+ 
+ 
+ Louis Lazaris:
+ 
+ 
+ 
+ As the above quote from W3C indicates, it seems like the W3C considers “rule set” to be a bit of an outdated term, preferring the term “style rule” (or possibly “rule” for short).
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ I never noticed that! “Rule set” is so gosh darned branded on my brain that it’s gonan take losing a lot of muscle memory to start using “style rule” instead. I didn’t see a specific note in the spec’s Changes section, but you can see the change in the table of contents between versions:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Louis nicely sums up the parts of a style rule as well:
+ 
+ 
+ 
+ /* Everything below is a style rule (or rule set, or just rule) */
+ section { /* Everything between the braces is a declaration block */
+   margin: 0 20px; /* This line is an individual declaration */
+   color: #888; /* Another declaration */
+ }
+ 
+ 
+ 
+ I know nothing of the context and, at first, I was gonna poo-poo the change, but “style rule” really makes sense the more I sit with it. If the property:value pairs are declarations that sit in a declaration block, then we’ve got something less like a set of rules and more like one rule that defines the styles for a selector with a block of style declarations. 👌
+ 
+ 
+ 
+ Once again, naming things is hard.
+ To Shared Link — Permalink on CSS-Tricks
+ CSS Rules vs. CSS Rulesets originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>CSS Checkerboard Background… But With Rounded Corners and Hover Styles</title>
          <link href="https://css-tricks.com/css-checkerboard-background-but-with-rounded-corners-and-hover-styles/"/>
