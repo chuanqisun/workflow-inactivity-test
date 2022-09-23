@@ -4,10 +4,350 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-22T02:26:17.625Z</updated>
+   <updated>2022-09-23T02:31:57.254Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>The Web is Good Now</title>
+         <link href="https://css-tricks.com/the-web-is-good-now/"/>
+       <updated>2022-09-22T22:07:22.000Z</updated>
+       <content type="text">The video of Chris Coyier’s talk at CascadiaJS 2022 is now available. It’s his first in-person talk in more than two years, so it’s great to see our good friend back on stage slinging gems on what makes the web good these days.
+ 
+ 
+ 
+ Container Queries! WAAPI! Scroll Timelines! offset-path! FLIP! Variable fonts! Fluid type! We really are all-powerful front-end developers these days.
+ 
+ 
+ 
+ Chris really packs a bunch into a 25-minute slot. It feels good to pause for that brief amount of time to reflect on the great new things for building websites and celebrate the fact that we get to use them.
+ 
+ 
+ 
+ And there’s nothing better than watching Chris greet the enture room as a bunch of “web nerds”. 🤓
+ 
+ 
+ 
+ 
+ 
+ 
+ To Shared Link — Permalink on CSS-Tricks
+ The Web is Good Now originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
+     <entry>
+       <title>How I Made an Icon System Out of CSS Custom Properties</title>
+         <link href="https://css-tricks.com/how-i-made-an-icon-system-out-of-css-custom-properties/"/>
+       <updated>2022-09-22T15:17:21.000Z</updated>
+       <content type="text">SVG is the best format for icons on a website, there is no doubt about that. It allows you to have sharp icons no matter the screen pixel density, you can change the styles of the SVG on hover and you can even animate the icons with CSS or JavaScript.
+ 
+ 
+ 
+ There are many ways to include an SVG on a page and each technique has its own advantages and disadvantages. For the last couple of years, I have been using a Sass function to import directly my icons in my CSS and avoid having to mess up my HTML markup.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ I have a Sass list with all the source codes of my icons. Each icon is then encoded into a data URI with a Sass function and stored in a custom property on the root of the page.
+ 
+ 
+ TL;DR
+ 
+ 
+ What I have for you here is a Sass function that creates a SVG icon library directly in your CSS.
+ 
+ 
+ 
+ The SVG source code is compiled with the Sass function that encodes them in data URI and then stores the icons in CSS custom properties. You can then use any icon anywhere in your CSS like as if it was an external image.
+ 
+ 
+ 
+ This is an example pulled straight from the code of my personal site:
+ 
+ 
+ 
+ .c-filters__summary h2:after {
+   content: var(--svg-down-arrow);
+   position: relative;
+   top: 2px;
+   margin-left: auto;
+   animation: closeSummary .25s ease-out;
+ }
+ 
+ 
+ Demo
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ Sass structure
+ 
+ 
+ /* All the icons source codes */
+ $svg-icons: (
+   burger: &#x27;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0...&#x27;
+ );
+ 
+ /* Sass function to encode the icons */
+ @function svg($name) {
+   @return url(&#x27;data:image/svg+xml, #{$encodedSVG} &#x27;);
+ }
+ 
+ /* Store each icon into a custom property */
+ :root {
+   @each $name, $code in $svg-icons {
+     --svg-#{$name}: #{svg($name)};
+   }
+ }
+ 
+ /* Append a burger icon in my button */
+ .menu::after {
+   content: var(--svg-burger);
+ }		
+ 
+ 
+ 
+ This technique has both pros and cons, so please take them into account before implementing this solution on your project:
+ 
+ 
+ Pros
+ 
+ 
+ There are no HTTP requests for the SVG files.All of the icons are stored in one place.If you need to update an icon, you don’t have to go over each HTML templates file.The icons are cached along with your CSS.You can manually edit the source code of the icons.It does not pollute your HTML by adding extra markup.You can still change the color or some aspect of the icon with CSS.
+ 
+ 
+ Cons
+ 
+ 
+ You cannot animate or update a specific part of the SVG with CSS.The more icons you have, the heavier your CSS compiled file will be.
+ 
+ 
+ 
+ I mostly use this technique for icons rather than logos or illustrations. An encoded SVG is always going to be heavier than its original file, so I still load my complex SVG with an external file either with an &lt;img&gt; tag or in my CSS with url(path/to/file.svg).
+ 
+ 
+ Encoding SVG into data URI
+ 
+ 
+ Encoding your SVG as data URIs is not new. In fact Chris Coyier wrote a post about it over 10 years ago to explain how to use this technique and why you should (or should not) use it.
+ 
+ 
+ 
+ There are two ways to use an SVG in your CSS with data URI:
+ 
+ 
+ 
+ As an external image (using background-image,border-image,list-style-image,…)As the content of a pseudo element (e.g. ::before or ::after)
+ 
+ 
+ 
+ Here is a basic example showing how you how to use those two methods:
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ 
+ The main issue with this particular implementation is that you have to convert the SVG manually every time you need a new icon and it is not really pleasant to have this long string of unreadable code in your CSS.
+ 
+ 
+ 
+ This is where Sass comes to the rescue!
+ 
+ 
+ Using a Sass function
+ 
+ 
+ By using Sass, we can make our life simpler by copying the source code of our SVG directly in our codebase, letting Sass encode them properly to avoid any browser error.
+ 
+ 
+ 
+ This solution is mostly inspired by an existing function developed by Threespot Media and available in their repository.
+ 
+ 
+ 
+ Here are the four steps of this technique:
+ 
+ 
+ 
+ Create a variable with all your SVG icons listed.List all the characters that needs to be skipped for a data URI.Implement a function to encode the SVGs to a data URI format.Use your function in your code.
+ 
+ 
+ 1. Icons list
+ 
+ 
+ /**
+ * Add all the icons of your project in this Sass list
+ */
+ $svg-icons: (
+   burger: &#x27;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 24.8 18.92&quot; width&#x3D;&quot;24.8&quot; height&#x3D;&quot;18.92&quot;&gt;&lt;path d&#x3D;&quot;M23.8,9.46H1m22.8,8.46H1M23.8,1H1&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;#000&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-width&#x3D;&quot;2&quot;/&gt;&lt;/svg&gt;&#x27;
+ );
+ 
+ 
+ 2. List of escaped characters
+ 
+ 
+ /**
+ * Characters to escape from SVGs
+ * This list allows you to have inline CSS in your SVG code as well
+ */
+ $fs-escape-chars: (
+   &#x27; &#x27;: &#x27;%20&#x27;,
+   &#x27;\&#x27;&#x27;: &#x27;%22&#x27;,
+   &#x27;&quot;&#x27;: &#x27;%27&#x27;,
+   &#x27;#&#x27;: &#x27;%23&#x27;,
+   &#x27;/&#x27;: &#x27;%2F&#x27;,
+   &#x27;:&#x27;: &#x27;%3A&#x27;,
+   &#x27;(&#x27;: &#x27;%28&#x27;,
+   &#x27;)&#x27;: &#x27;%29&#x27;,
+   &#x27;%&#x27;: &#x27;%25&#x27;,
+   &#x27;&lt;&#x27;: &#x27;%3C&#x27;,
+   &#x27;&gt;&#x27;: &#x27;%3E&#x27;,
+   &#x27;\\&#x27;: &#x27;%5C&#x27;,
+   &#x27;^&#x27;: &#x27;%5E&#x27;,
+   &#x27;{&#x27;: &#x27;%7B&#x27;,
+   &#x27;|&#x27;: &#x27;%7C&#x27;,
+   &#x27;}&#x27;: &#x27;%7D&#x27;,
+ );
+ 
+ 
+ 3. Encode function
+ 
+ 
+ /**
+ * You can call this function by using &#x60;svg(nameOfTheSVG)&#x60;
+ */
+ @function svg($name) {
+   // Check if icon exists
+   @if not map-has-key($svg-icons, $name) {
+     @error &#x27;icon “#{$name}” does not exists in $svg-icons map&#x27;;
+     @return false;
+   }
+ 
+   // Get icon data
+   $icon-map: map-get($svg-icons, $name);
+ 
+   $escaped-string: &#x27;&#x27;;
+   $unquote-icon: unquote($icon-map);
+   // Loop through each character in string
+   @for $i from 1 through str-length($unquote-icon) {
+     $char: str-slice($unquote-icon, $i, $i);
+ 
+     // Check if character is in symbol map
+     $char-lookup: map-get($fs-escape-chars, $char);
+ 
+     // If it is, use escaped version
+     @if $char-lookup !&#x3D; null {
+         $char: $char-lookup;
+     }
+ 
+     // Append character to escaped string
+     $escaped-string: $escaped-string + $char;
+   }
+ 
+   // Return inline SVG data
+   @return url(&#x27;data:image/svg+xml, #{$escaped-string} &#x27;);
+ }		
+ 
+ 
+ 4. Add an SVG in your page
+ 
+ 
+ button {
+   &amp;::after {
+     /* Import inline SVG */
+     content: svg(burger);
+   }
+ }
+ 
+ 
+ 
+ If you have followed those steps, Sass should compile your code properly and output the following:
+ 
+ 
+ 
+ button::after {
+   content: url(&quot;data:image/svg+xml, %3Csvg%20xmlns&#x3D;%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox&#x3D;%270%200%2024.8%2018.92%27%20width&#x3D;%2724.8%27%20height&#x3D;%2718.92%27%3E%3Cpath%20d&#x3D;%27M23.8,9.46H1m22.8,8.46H1M23.8,1H1%27%20fill&#x3D;%27none%27%20stroke&#x3D;%27%23000%27%20stroke-linecap&#x3D;%27round%27%20stroke-width&#x3D;%272%27%2F%3E%3C%2Fsvg%3E &quot;);
+ }		
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ Custom properties
+ 
+ 
+ The now-implemented Sass svg() function works great. But its biggest flaw is that an icon that is needed in multiple places in your code will be duplicated and could increase your compiled CSS file weight by a lot!
+ 
+ 
+ 
+ To avoid this, we can store all our icons into CSS variables and use a reference to the variable instead of outputting the encoded URI every time.
+ 
+ 
+ 
+ We will keep the same code we had before, but this time we will first output all the icons from the Sass list into the root of our webpage:
+ 
+ 
+ 
+ /**
+   * Convert all icons into custom properties
+   * They will be available to any HTML tag since they are attached to the :root
+   */
+ 
+ :root {
+   @each $name, $code in $svg-icons {
+     --svg-#{$name}: #{svg($name)};
+   }
+ }
+ 
+ 
+ 
+ Now, instead of calling the svg() function every time we need an icon, we have to use the variable that was created with the --svg prefix.
+ 
+ 
+ 
+ button::after {
+   /* Import inline SVG */
+   content: var(--svg-burger);
+ }
+ 
+ 
+ Optimizing your SVGs
+ 
+ 
+ This technique does not provide any optimization on the source code of the SVG you are using. Make sure that you don’t leave unnecessary code; otherwise they will be encoded as well and will increase your CSS file size.
+ 
+ 
+ 
+ You can check this great list of tools and information on how to optimize properly your SVG. My favorite tool is Jake Archibald’s SVGOMG — simply drag your file in there and copy the outputted code.
+ 
+ 
+ Bonus: Updating the icon on hover
+ 
+ 
+ With this technique, we cannot select with CSS specific parts of the SVG. For example, there is no way to change the fill color of the icon when the user hovers the button. But there are a few tricks we can use with CSS to still be able to modify the look of our icon.
+ 
+ 
+ 
+ For example, if you have a black icon and you want to have it white on hover, you can use the invert() CSS filter. We can also play with the hue-rotate() filter.
+ 
+ 
+ 
+ CodePen Embed Fallback
+ 
+ 
+ That’s it!
+ 
+ 
+ I hope you find this little helper function handy in your own projects. Let me know what you think of the approach — I’d be interested to know how you’d make this better or tackle it differently!
+ 
+ How I Made an Icon System Out of CSS Custom Properties originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>CSS Rules vs. CSS Rulesets</title>
          <link href="https://css-tricks.com/css-rules-vs-css-rulesets/"/>
