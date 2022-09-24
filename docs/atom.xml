@@ -4,10 +4,431 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-09-23T02:31:57.254Z</updated>
+   <updated>2022-09-24T02:32:34.870Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>How To Customize WordPress Block Theme Cover Templates with Dynamic Post Feature Images</title>
+         <link href="https://css-tricks.com/how-to-customize-wordpress-block-theme-cover-templates-with-dynamic-post-feature-images/"/>
+       <updated>2022-09-23T16:15:19.000Z</updated>
+       <content type="text">If we browse the WordPress theme directory, a majority of themes showcase cover images. It is a feature in popular demand. The cover page trend is true even in the block theme directory screenshots as well.
+ 
+ 
+ 
+ Let’s consider the following example from Twenty Twenty (a classic theme) which includes a cover template that can be used to display both in single post and page, where the post’s featured image displays at the top that stretches across the browser screen, with post title and other desired meta data below. Cover templates allow creating content that stands out from the traditional constraints of displaying content.
+ 
+ 
+ 
+ Screenshot showing a single post with Twenty Twenty cover template.
+ 
+ 
+ 
+ Creating cover templates currently requires writing PHP code as captured here in the Twenty Twenty default theme’s cover template. If we look at the template-parts/content-cover.php file, it contains the code for displaying content when the cover-template is used.
+ 
+ 
+ 
+ Thus, it is not possible to create a customized cover page if you do not possess a deep knowledge of PHP. For many ordinary WordPress users, the only option is to use plugin like Custom Post Type UI as described in this short video.
+ 
+ 
+ 
+ 
+ 
+ 
+ Cover sections in block themes
+ 
+ 
+ Since WordPress 5.8, theme authors could create custom templates (like single post, author, category, and others) with a top hero section using block editor cover block and bundled into their themes with minimal or no code.
+ 
+ 
+ 
+ Before diving into how top large cover sections are created in block themes templates, let’s briefly look at the two block themes Twenty Twenty-Two and Wabi by Rich Tabor (full review here).
+ 
+ 
+ 
+ Screenshot showing cover page thumbnails of Twenty Twenty-Two (left) and Wabi (right) themes.
+ 
+ 
+ 
+ Behind-the-scenes, Twenty Twenty-Two implements a large header by adding a hidden image stored as a pattern in the header-dark-large parts. Whereas, in the Wabi theme, the large header background color in a single post is implemented with accent background colors and a 50px height spacer block (lines: 5-9). The accent colors are managed by the assets/js/accent-colors.js file.
+ 
+ 
+ 
+ Many others chose to create a top cover section by using cover block, which allowed users to change the background color and add a static image from Media Library or upload from media devices – without writing any code. With this approach, images from the post featured image block had to be added manually to each single post if you wanted to have the post featured image as the background image in single posts.
+ 
+ 
+ Cover Blocks with dynamic post featured image
+ 
+ 
+ WordPress 6.0 made available another cool featured image cover blocks feature, which allows use of the featured image of any post or page as the background image in the cover block.
+ 
+ 
+ 
+ In the following short video, Automattic engineers discuss adding featured images to cover blocks with an example from Archeo theme:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ The image block including post featured image block can be further customized using duotone color in theme.json as discussed in this short Connecting The Dots YouTube video (Automattic’s Anne McCarthy).
+ 
+ 
+ 
+ Use case examples (Wei, Bright Mode)
+ 
+ 
+ 
+ If we browse the thumbnail images in the block theme directory, we see a majority of them include large cover header sections. If we dig into their template files, they make use of cover blocks with static image background.
+ 
+ 
+ 
+ Some recently developed themes are using cover blocks with the dynamic post featured image background (e.g., Archeo, Wei, Frost, Bright Mode, etc.). A brief overview of the new feature is available in this short GitHub video.
+ 
+ 
+ 
+ Screenshot showing cover page thumbnails of Wei (left) and Bright-mode (right) themes.
+ 
+ 
+ 
+ Combining dynamic accent colors features of Wabi theme with cover and post featured image blocks, Rich Tabor further expands his creativity in his new Wei theme (full review available here) to display dynamic cover images from a single post.
+ 
+ 
+ 
+ In his Wei announcement post, Rich Tabor writes: “Behind-the-scenes, the single.html template is using a Cover block that leverages the post’s featured image. Then the duotone is applied by the color scheme assigned to the post. This way, just about any image will look fine”.
+ 
+ 
+ 
+ If you would like to dig deeper into the Wei theme’s header cover block and learn how to create your own, here is a short video from Fränk Klein (WP Development Courses) who explains step-by-step how it was created.
+ 
+ 
+ 
+ Similar to the Wei theme, Brian Gardner also makes use of cover block with post featured image block in his recent Bright Mode theme to display standout contents with vibrant colors.
+ 
+ 
+ 
+ Brian told WPTavern: “he loves most about the theme is the way the Cover Block is used on single pages. It pulls the featured image into the Cover block and also offers custom block styles for shadows and full-height options. […] I feel as though this really presents what’s possible with modern WordPress.”
+ 
+ 
+ 
+ For more detail, here is its demo site and full review of Brian’s Bright Mode theme.
+ 
+ 
+ Designing complex layouts with block editor
+ 
+ 
+ Recently, WordPress launched a new block editor designed landing homepage and a download page. The announcement attracted mixed reactions from its readers, including from Matt Mullenweg (Automattic) who commented on the 33-days taken to design and launch such a “simple page”. You can find additional behind the scene discussions here.
+ 
+ 
+ 
+ In response, Jamie Marsland of Pootlepress created this YouTube video where he reproduces a nearly identical homepage in nearly 20 minutes.
+ 
+ 
+ 
+ Commenting on Marsland video, Sarah Gooding of WP Travern writes: “He is what one might describe as a power user with the block editor. He can quickly shuffle rows, columns, and groups around, adjusting padding and margins as necessary, and assign each section the corresponding color for the design. At this point, this is not something most average WordPress users could do.”
+ 
+ 
+ 
+ Though the block editor has come a long way, there are still growing pain points to most theme developers and ordinary users to create and design complex layouts with it.
+ 
+ 
+ Adding enhancement to TT2 Gopher blocks
+ 
+ 
+ In this section, I will walk you through how I added enhancements to the TT2 Gopher Blocks theme that I referenced in my previous article. Inspired by cover blocks from themes that I described earlier, I wanted to add three cover templates (author, category, and single-cover) to the theme.
+ 
+ 
+ 
+ While browsing websites, we notice two types of cover headers. The mostly observed header is cover section blended with the site header (site title and top navigation) into the cover block (e.g., Twenty Twenty, Twenty Twenty-Two, Wei, Wabi, Frost, Bright Mode, etc.). We also find header cover section which is not blended with site header and positioned just underneath, such as this BBC Future website. For TT2 Gopher blocks theme, I opted for the latter.
+ 
+ 
+ Creating cover header patterns
+ 
+ 
+ First, let’s create cover header patterns for author, single, and others (categories, tags) templates using cover blocks. Then we will convert them into patterns (as described here previously) and call the respective header cover patterns into the templates.
+ 
+ 
+ 
+ If you are familiar to working with the block editor, design your header section using cover blocks in the site editor and then convert the cover header code into patterns. However, if you are not familiar with FSE editor, then the easiest way is to copy patterns from the patterns directory in a post, make necessary modification and convert it into a pattern.
+ 
+ 
+ 
+ In my previous CSS-Tricks article, I discussed in detail on creating and using block patterns. Here is a brief overview of the workflow that I am using to create the single post cover header pattern:
+ 
+ 
+ 
+ Single post cover header pattern
+ 
+ 
+ 
+ Step 1: Using FSE interface, let’s create a new blank file and start building block structure as shown on the left panel.
+ 
+ 
+ 
+ Screenshot of the WordPress UI with the Full Site Editor. A block is being assembled with post date, categories, and post title.
+ 
+ 
+ 
+ Alternatively, this could be done in a post or page first, and then copy and paste the markup into a pattern file, later.
+ 
+ 
+ 
+ Step 2: Next, to covert the above markup into a pattern, first we should copy its code markup and paste into a new /patterns/header-single-cover.php in our code editor. We should also add required pattern file header markup (e.g., title, slug, categories, inserter, etc.).
+ 
+ 
+ 
+ Here is the entire code of the /patterns/header-single-cover.php file:
+ 
+ 
+ 
+ &lt;?php
+     /**
+      * Title: Header cover single
+      * Slug: tt2gopher/header-cover-single
+      * Categories: tt2gopher-header
+      * Block Types: core/template-part/header
+      * inserter: yes
+      */
+ ?&gt;
+     &lt;!-- wp:cover {&quot;url&quot;:&quot;https://pd.w.org/2022/08/15062ed5f5707b5c5.85694718-2048x1536.jpg&quot;,&quot;id&quot;:100,&quot;dimRatio&quot;:0,&quot;overlayColor&quot;:&quot;foreground&quot;,&quot;focalPoint&quot;:{&quot;x&quot;:&quot;0.40&quot;,&quot;y&quot;:&quot;0.37&quot;},&quot;minHeight&quot;:50,&quot;minHeightUnit&quot;:&quot;vh&quot;,&quot;isDark&quot;:false,&quot;align&quot;:&quot;full&quot;,&quot;style&quot;:{&quot;color&quot;:{&quot;duotone&quot;:[&quot;#000000&quot;,&quot;#00a5ff&quot;]},&quot;spacing&quot;:{&quot;margin&quot;:{&quot;top&quot;:&quot;0px&quot;,&quot;bottom&quot;:&quot;0px&quot;}}}} --&gt;
+     &lt;div class&#x3D;&quot;wp-block-cover alignfull is-light&quot; style&#x3D;&quot;margin-top:0px;margin-bottom:0px;min-height:50vh&quot;&gt;&lt;span aria-hidden&#x3D;&quot;true&quot; class&#x3D;&quot;wp-block-cover__background has-foreground-background-color has-background-dim-0 has-background-dim&quot;&gt;&lt;/span&gt;&lt;img class&#x3D;&quot;wp-block-cover__image-background wp-image-100&quot; alt&#x3D;&quot;&quot; src&#x3D;&quot;https://pd.w.org/2022/08/15062ed5f5707b5c5.85694718-2048x1536.jpg&quot; style&#x3D;&quot;object-position:40% 37%&quot; data-object-fit&#x3D;&quot;cover&quot; data-object-position&#x3D;&quot;40% 37%&quot;/&gt;&lt;div class&#x3D;&quot;wp-block-cover__inner-container&quot;&gt;&lt;!-- wp:group {&quot;style&quot;:{&quot;elements&quot;:{&quot;link&quot;:{&quot;color&quot;:{&quot;text&quot;:&quot;var:preset|color|base&quot;}}},&quot;spacing&quot;:{&quot;blockGap&quot;:&quot;10px&quot;}},&quot;textColor&quot;:&quot;base&quot;,&quot;layout&quot;:{&quot;wideSize&quot;:&quot;800px&quot;}} --&gt;
+     &lt;div class&#x3D;&quot;wp-block-group has-base-color has-text-color has-link-color&quot;&gt;&lt;!-- wp:group {&quot;style&quot;:{&quot;spacing&quot;:{&quot;blockGap&quot;:&quot;10px&quot;}},&quot;textColor&quot;:&quot;primary&quot;,&quot;layout&quot;:{&quot;type&quot;:&quot;flex&quot;,&quot;flexWrap&quot;:&quot;nowrap&quot;,&quot;justifyContent&quot;:&quot;center&quot;},&quot;fontSize&quot;:&quot;small&quot;} --&gt;
+     &lt;div class&#x3D;&quot;wp-block-group has-primary-color has-text-color has-small-font-size&quot;&gt;&lt;!-- wp:post-date {&quot;textColor&quot;:&quot;foreground&quot;} /--&gt;
+     
+     &lt;!-- wp:paragraph --&gt;
+     &lt;p&gt;|&lt;/p&gt;
+     &lt;!-- /wp:paragraph --&gt;
+     
+     &lt;!-- wp:post-terms {&quot;term&quot;:&quot;category&quot;,&quot;style&quot;:{&quot;elements&quot;:{&quot;link&quot;:{&quot;color&quot;:{&quot;text&quot;:&quot;var:preset|color|foreground&quot;}}}}} /--&gt;&lt;/div&gt;
+     &lt;!-- /wp:group --&gt;
+     
+     &lt;!-- wp:post-title {&quot;textAlign&quot;:&quot;center&quot;,&quot;level&quot;:1,&quot;style&quot;:{&quot;typography&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontWeight&quot;:&quot;400&quot;}},&quot;textColor&quot;:&quot;foreground&quot;,&quot;fontSize&quot;:&quot;max-60&quot;} /--&gt;&lt;/div&gt;
+     &lt;!-- /wp:group --&gt;&lt;/div&gt;&lt;/div&gt;
+     &lt;!-- /wp:cover --&gt;
+ 
+ 
+ 
+ Step 3: For this demo, I have used this image from photos directory as a filler background image, and applied the Midnight duotone color. To use post featured image dynamically, we should add &quot;useFeaturedImage&quot;:true in the cover block by replacing the above filler image link just before the &quot;dimRatio&quot;:50 such that the line 10 should look like the following:
+ 
+ 
+ 
+ &lt;!-- wp:cover {&quot;useFeaturedImage&quot;:true,&quot;dimRatio&quot;:0,&quot;overlayColor&quot;:&quot;foreground&quot;,&quot;focalPoint&quot;:{&quot;x&quot;:&quot;0.40&quot;,&quot;y&quot;:&quot;0.37&quot;},&quot;minHeight&quot;:50,&quot;minHeightUnit&quot;:&quot;vh&quot;,&quot;isDark&quot;:false,&quot;align&quot;:&quot;full&quot;,&quot;style&quot;:{&quot;color&quot;:{&quot;duotone&quot;:[&quot;#000000&quot;,&quot;#00a5ff&quot;]},&quot;spacing&quot;:{&quot;margin&quot;:{&quot;top&quot;:&quot;0px&quot;,&quot;bottom&quot;:&quot;0px&quot;}}}} --&gt;
+ 
+ 
+ 
+ Alternatively, the filler image could also be changed by clicking Replace and selecting Use featured image option:
+ 
+ 
+ 
+ Screenshot of the WordPress UI with ‘Replace’ and ‘Use featured image’ selected.
+ 
+ 
+ 
+ Now, the header cover patterns should be visible in the patterns inserter panel for use anywhere in the templates, posts, and pages.
+ 
+ 
+ 
+ Archive cover headers
+ 
+ 
+ 
+ Inspired by this WP Tavern post and a step-by-step walkthrough to create an author template header, I wanted to create a similar cover header and add to TT2 Gopher theme, too.
+ 
+ 
+ 
+ First, let’s create the archive cover header pattern for author.html the template as well, following the above workflow. In this case, I am creating this in a new blank page, by adding blocks (as shown below in list view):
+ 
+ 
+ 
+ Screenshot of the WordPress UI for an Author page using a single post header cover.
+ 
+ 
+ 
+ In the background for the cover, I used the same image used in the single post header cover.
+ 
+ 
+ 
+ Because we would like to display a short author biography on the author block, a biographical statement should also be added to the user profile page, or else a blank space will be displayed in the front-end.
+ 
+ 
+ 
+ The following is the markup code of the header-author-cover, that we will use pattern, in the next step:
+ 
+ 
+ 
+     &lt;!-- wp:cover {&quot;url&quot;:&quot;https://pd.w.org/2022/03/8256241eff74ef542.61868565.jpeg&quot;,&quot;id&quot;:226,&quot;dimRatio&quot;:10,&quot;focalPoint&quot;:{&quot;x&quot;:&quot;0.50&quot;,&quot;y&quot;:&quot;0.75&quot;},&quot;minHeight&quot;:200,&quot;minHeightUnit&quot;:&quot;px&quot;,&quot;isDark&quot;:false,&quot;align&quot;:&quot;full&quot;,&quot;style&quot;:{&quot;color&quot;:{&quot;duotone&quot;:[&quot;#000000&quot;,&quot;#00a5ff&quot;]}}} --&gt;
+     &lt;div class&#x3D;&quot;wp-block-cover alignfull is-light&quot; style&#x3D;&quot;min-height:200px&quot;&gt;&lt;span aria-hidden&#x3D;&quot;true&quot; class&#x3D;&quot;wp-block-cover__background has-background-dim-10 has-background-dim&quot;&gt;&lt;/span&gt;&lt;img class&#x3D;&quot;wp-block-cover__image-background wp-image-226&quot; alt&#x3D;&quot;&quot; src&#x3D;&quot;https://pd.w.org/2022/03/8256241eff74ef542.61868565.jpeg&quot; style&#x3D;&quot;object-position:50% 75%&quot; data-object-fit&#x3D;&quot;cover&quot; data-object-position&#x3D;&quot;50% 75%&quot;/&gt;&lt;div class&#x3D;&quot;wp-block-cover__inner-container&quot;&gt;&lt;!-- wp:group {&quot;layout&quot;:{&quot;inherit&quot;:true}} --&gt;
+     &lt;div class&#x3D;&quot;wp-block-group&quot;&gt;&lt;!-- wp:group {&quot;style&quot;:{&quot;spacing&quot;:{&quot;padding&quot;:{&quot;top&quot;:&quot;1rem&quot;,&quot;right&quot;:&quot;2rem&quot;,&quot;bottom&quot;:&quot;1rem&quot;,&quot;left&quot;:&quot;2rem&quot;}}},&quot;layout&quot;:{&quot;type&quot;:&quot;flex&quot;,&quot;flexWrap&quot;:&quot;nowrap&quot;}} --&gt;
+     &lt;div class&#x3D;&quot;wp-block-group&quot; style&#x3D;&quot;padding-top:1rem;padding-right:2rem;padding-bottom:1rem;padding-left:2rem&quot;&gt;&lt;!-- wp:avatar {&quot;size&quot;:70,&quot;isLink&quot;:true,&quot;align&quot;:&quot;right&quot;,&quot;style&quot;:{&quot;border&quot;:{&quot;radius&quot;:&quot;9999px&quot;}}} /--&gt;
+     
+     &lt;!-- wp:group --&gt;
+     &lt;div class&#x3D;&quot;wp-block-group&quot;&gt;&lt;!-- wp:group {&quot;style&quot;:{&quot;spacing&quot;:{&quot;blockGap&quot;:&quot;6px&quot;}},&quot;layout&quot;:{&quot;type&quot;:&quot;flex&quot;},&quot;fontSize&quot;:&quot;large&quot;} --&gt;
+     &lt;div class&#x3D;&quot;wp-block-group has-large-font-size&quot;&gt;&lt;!-- wp:paragraph {&quot;textColor&quot;:&quot;foreground&quot;,&quot;fontSize&quot;:&quot;large&quot;} --&gt;
+     &lt;p class&#x3D;&quot;has-foreground-color has-text-color has-large-font-size&quot;&gt;Published by:&lt;/p&gt;
+     &lt;!-- /wp:paragraph --&gt;
+     
+     &lt;!-- wp:post-author-name {&quot;isLink&quot;:true,&quot;style&quot;:{&quot;typography&quot;:{&quot;fontStyle&quot;:&quot;large&quot;,&quot;fontWeight&quot;:&quot;600&quot;},&quot;elements&quot;:{&quot;link&quot;:{&quot;color&quot;:{&quot;text&quot;:&quot;var:preset|color|background&quot;}}}},&quot;textColor&quot;:&quot;foreground&quot;} /--&gt;&lt;/div&gt;
+     &lt;!-- /wp:group --&gt;
+     
+     &lt;!-- wp:post-author-biography {&quot;textColor&quot;:&quot;foreground&quot;,&quot;fontSize&quot;:&quot;small&quot;} /--&gt;
+     
+     &lt;!-- wp:separator {&quot;backgroundColor&quot;:&quot;foreground&quot;} --&gt;
+     &lt;hr class&#x3D;&quot;wp-block-separator has-text-color has-foreground-color has-alpha-channel-opacity has-foreground-background-color has-background&quot;/&gt;
+     &lt;!-- /wp:separator --&gt;&lt;/div&gt;
+     &lt;!-- /wp:group --&gt;&lt;/div&gt;
+     &lt;!-- /wp:group --&gt;&lt;/div&gt;
+     &lt;!-- /wp:group --&gt;&lt;/div&gt;&lt;/div&gt;
+     &lt;!-- /wp:cover --&gt;
+ 
+ 
+ 
+ To covert the markup into a header-author-cover pattern, we should add the required pattern file header markup as described earlier. By editing the header-author-cover.php pattern, we can create similar header covers for tags, taxonomy, and other custom templates.
+ 
+ 
+ 
+ The header-category-cover.php pattern for my category.html template is available on GitHub.
+ 
+ 
+ Creating Templates with header cover blocks
+ 
+ 
+ WordPress 6.0 and the recent Gutenberg 13.7 extended template creating features into the block editor, thus making it possible for many WordPress users, without deep knowledge of coding, to create their customized templates.
+ 
+ 
+ 
+ For more detailed information and use cases, here is a thorough customization note by Justin Tadlock.
+ 
+ 
+ 
+ Block editor allows creating various types of templates, including cover templates. Let’s briefly overview how combining cover block and post featured image block with new template UI makes easy to create various types of cover custom templates even with no or low coding skills.
+ 
+ 
+ 
+ Screenshot of the WordPress UI displaying available templates provided by TT2 Gopher Blocks – Single, Page, Index, Home, 404, Blank, and Archive.
+ 
+ 
+ 
+ Creating templates has been made much easier with Gutenberg 13.7. How to create block templates with codes and in site editor is described in the Theme handbook and in my previous article.
+ 
+ 
+ 
+ Author template with cover block
+ 
+ 
+ 
+ Top (header section) markup of the author.html template is shown below (line 6):
+ 
+ 
+ 
+     &lt;!-- wp:template-part {&quot;slug&quot;:&quot;header-small-dark&quot;,&quot;theme&quot;:&quot;TT2-GOPHER-V2&quot;,&quot;tagName&quot;:&quot;header&quot;} /--&gt;
+     
+     &lt;!-- wp:group {&quot;tagName&quot;:&quot;main&quot;,&quot;style&quot;:{&quot;spacing&quot;:{&quot;margin&quot;:{&quot;top&quot;:&quot;0&quot;,&quot;bottom&quot;:&quot;0px&quot;},&quot;padding&quot;:{&quot;bottom&quot;:&quot;80px&quot;},&quot;blockGap&quot;:&quot;0px&quot;}},&quot;className&quot;:&quot;site-content&quot;} --&gt;
+     &lt;main class&#x3D;&quot;wp-block-group site-content&quot; style&#x3D;&quot;margin-top:0;margin-bottom:0px;padding-bottom:80px&quot;&gt;
+     
+         &lt;!-- wp:pattern {&quot;slug&quot;:&quot;tt2gopher/header-author-cover&quot;} /--&gt;
+     
+     ...
+     ...
+     ...
+     &lt;!-- /wp:group --&gt;
+     ...
+ 
+ 
+ 
+ Here are screenshots of cover headers for the author.html and category.html templates:
+ 
+ 
+ 
+ Screenshot of Author Page header (left) with author name, avatar, and biography. And screenshot of Category Page header (right).
+ 
+ 
+ 
+ The entire code for both templates is available on GitHub.
+ 
+ 
+ 
+ Single post with cover block
+ 
+ 
+ 
+ To display cover block in our single post, we have to call the header-cover-single pattern below the header section (line 3):
+ 
+ 
+ 
+     &lt;!-- wp:template-part {&quot;slug&quot;:&quot;header-small-dark&quot;,&quot;tagName&quot;:&quot;header&quot;} /--&gt;
+     
+      &lt;!-- wp:pattern {&quot;slug&quot;:&quot;tt2gopher/header-cover-single&quot;} /--&gt;
+     
+     &lt;!-- wp:spacer {&quot;height&quot;:32} --&gt;
+     &lt;div style&#x3D;&quot;height:32px&quot; aria-hidden&#x3D;&quot;true&quot; class&#x3D;&quot;wp-block-spacer&quot;&gt;&lt;/div&gt;
+     &lt;!-- /wp:spacer --&gt;
+     ....
+     ....
+     ....
+ 
+ 
+ 
+ Here is a screen capture showing the front-end view of the single post with the header cover section:
+ 
+ 
+ 
+ Screenshot of TT2 Gopher Blocks Single Post with Header Cover Section Pattern.
+ 
+ 
+ 
+ The entire single-cover.html template is available on GitHub.
+ 
+ 
+ 
+ You can find additional step-by-step walkthrough tutorials on creating a hero header post section and using post featured image background cover blocks on WP Tavern and Full Site Editing website.
+ 
+ 
+ 
+ There you have it!
+ 
+ 
+ Helpful Resources
+ 
+ Featured image cover block
+ 
+ 
+ Post Featured Image Block (WordPress Support)Using the Post Featured Image with the Cover Block YouTube (Dave on WP)Cover Block Step by Step tutorial (WordPress Support)Featured Cover Blocks and the Future of Binding Data to Generic WordPress Blocks (WP Tavern)Custom Single Post Layouts with WordPress Gutenberg (Pootlepress)Makes cover block dynamic and adds featured image binding #39658 (GitHub)
+ 
+ 
+ Blog posts
+ 
+ 
+ Featured Cover Blocks and the Future of Binding Data to Generic WordPress Blocks (WPTavern)Making an Impression: How To Build a Post Hero Header With Blocks (WPTavern)Core Editor Improvement: Deeper customization with more template options (Make WordPress Core)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Even though the block themes, in general, are getting lots of pushback from WordPress community members, in my opinion, they are the future of WordPress, too. With block themes, amateur theme authors, without the deep coding skills and mastery of PHP and JavaScript languages, can now create themes with complex layouts with a hero cover section as described in this article combined with patterns and style variations.
+ 
+ 
+ 
+ As an early Gutenberg user, I couldn’t be more excited with the new theming tools like create block theme plugin and others which allow theme authors to achieve the following directly from block editor UI without writing any code:
+ 
+ 
+ 
+ (i) create(ii) overwrite theme files and export(iii) generate blank or a child theme, and(iv) modify and save style variation of the current theme
+ 
+ 
+ 
+ Additionally, the recent iterations of the Gutenberg plugin allow enabling fluid typography and layout alignments and other stylistic controls using only theme.json file without JavaScript and a line of CSS rules.
+ 
+ 
+ 
+ Thank you for reading and share your comments and thoughts below!
+ 
+ How To Customize WordPress Block Theme Cover Templates with Dynamic Post Feature Images originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>The Web is Good Now</title>
          <link href="https://css-tricks.com/the-web-is-good-now/"/>
