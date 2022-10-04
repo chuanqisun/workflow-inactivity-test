@@ -4,7 +4,7 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-10-03T02:03:53.336Z</updated>
+   <updated>2022-10-04T02:14:05.821Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
@@ -426,7 +426,7 @@
  
  
  
- $schema defines the schema formatting used to validate the content in the file. It sounds like a required thing, but it’s totally optional as it allows supporting code editors to validate the syntax and provide other additional affordances, like tooltip hints and auto-completion.apiVersion refers to which version of the Block API the plugin uses. Today, Version 2 is the latest.name is a required unique string that helps identify the plugin. Notice that I’ve prefixed this with css-tricks/ which I’m using as a namespace to help avoid conflicts with other plugins that might have the same name. You might choose to use something like your initials instead (e.g. as/block-example).version is something WordPress suggests using as a cache-busting mechanism when new versions are released.title is the other required field, and it sets the name that’s used wherever the plugin is displayed.category groups the block with other blocks and displays them together in the Block Editor. Current existing categories include text, media, design, widgets, theme, and embed, and you can even create custom categories.icon lets you choose something from the Dashicons library to visually represent your block in the Block Editor. I’m using the format-quote icon](https://developer.wordpress.org/resource/dashicons/#format-quote) since we’re making our own pullquote sort of thing in this example. It’s nice we can leverage existing icons rather than having to create our own, though that’s certainly possible.editorScript is where the main JavaScript file, index.js, lives.
+ $schema defines the schema formatting used to validate the content in the file. It sounds like a required thing, but it’s totally optional as it allows supporting code editors to validate the syntax and provide other additional affordances, like tooltip hints and auto-completion.apiVersion refers to which version of the Block API the plugin uses. Today, Version 2 is the latest.name is a required unique string that helps identify the plugin. Notice that I’ve prefixed this with css-tricks/ which I’m using as a namespace to help avoid conflicts with other plugins that might have the same name. You might choose to use something like your initials instead (e.g. as/block-example).version is something WordPress suggests using as a cache-busting mechanism when new versions are released.title is the other required field, and it sets the name that’s used wherever the plugin is displayed.category groups the block with other blocks and displays them together in the Block Editor. Current existing categories include text, media, design, widgets, theme, and embed, and you can even create custom categories.icon lets you choose something from the Dashicons library to visually represent your block in the Block Editor. I’m using the format-quote icon since we’re making our own pullquote sort of thing in this example. It’s nice we can leverage existing icons rather than having to create our own, though that’s certainly possible.editorScript is where the main JavaScript file, index.js, lives.
  
  
  Register the block
@@ -524,6 +524,10 @@
  
  
  We can compile this by running npm run build in the command line. After that, we have access to a block called “Block Example” in the Block Editor:
+ 
+ 
+ 
+ 
  
  
  
