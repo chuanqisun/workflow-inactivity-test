@@ -4,10 +4,264 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-10-05T02:15:24.516Z</updated>
+   <updated>2022-10-06T02:07:17.059Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>Using Web Components With Next (or Any SSR Framework)</title>
+         <link href="https://css-tricks.com/using-web-components-with-next-or-any-ssr-framework/"/>
+       <updated>2022-10-05T13:05:43.000Z</updated>
+       <content type="text">In my previous post we looked at Shoelace, which is a component library with a full suite of UX components that are beautiful, accessible, and — perhaps unexpectedly — built with Web Components. This means they can be used with any JavaScript framework. While React’s Web Component interoperability is, at present, less than ideal, there are workarounds.
+ 
+ 
+ 
+ But one serious shortcoming of Web Components is their current lack of support for server-side rendering (SSR). There is something called the Declarative Shadow DOM (DSD) in the works, but current support for it is pretty minimal, and it actually requires buy-in from your web server to emit special markup for the DSD. There’s currently work being done for Next.js that I look forward to seeing. But for this post, we’ll look at how to manage Web Components from any SSR framework, like Next.js, today.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ We’ll wind up doing a non-trivial amount of manual work, and slightly hurting our page’s startup performance in the process. We’ll then look at how to minimize these performance costs. But make no mistake: this solution is not without tradeoffs, so don’t expect otherwise. Always measure and profile.
+ 
+ 
+ The problem
+ 
+ 
+ Before we dive in, let’s take a moment and actually explain the problem. Why don’t Web Components work well with server-side rendering?
+ 
+ 
+ 
+ Application frameworks like Next.js take React code and run it through an API to essentially “stringify” it, meaning it turns your components into plain HTML. So the React component tree will render on the server hosting the web app, and that HTML will be sent down with the rest of the web app’s HTML document to your user’s browser. Along with this HTML are some &lt;script&gt; tags that load React, along with the code for all your React components. When a browser processes these &lt;script&gt; tags, React will re-render the component tree, and match things up with the SSR’d HTML that was sent down. At this point, all of the effects will start running, the event handlers will wire up, and the state will actually… contain state. It’s at this point that the web app becomes interactive. The process of re-processing your component tree on the client, and wiring everything up is called hydration.
+ 
+ 
+ 
+ So, what does this have to do with Web Components? Well, when you render something, say the same Shoelace &lt;sl-tab-group&gt; component we visited last time:
+ 
+ 
+ 
+ &lt;sl-tab-group ref&#x3D;&quot;{tabsRef}&quot;&gt;
+   &lt;sl-tab slot&#x3D;&quot;nav&quot; panel&#x3D;&quot;general&quot;&gt; General &lt;/sl-tab&gt;
+   &lt;sl-tab slot&#x3D;&quot;nav&quot; panel&#x3D;&quot;custom&quot;&gt; Custom &lt;/sl-tab&gt;
+   &lt;sl-tab slot&#x3D;&quot;nav&quot; panel&#x3D;&quot;advanced&quot;&gt; Advanced &lt;/sl-tab&gt;
+   &lt;sl-tab slot&#x3D;&quot;nav&quot; panel&#x3D;&quot;disabled&quot; disabled&gt; Disabled &lt;/sl-tab&gt;
+ 
+   &lt;sl-tab-panel name&#x3D;&quot;general&quot;&gt;This is the general tab panel.&lt;/sl-tab-panel&gt;
+   &lt;sl-tab-panel name&#x3D;&quot;custom&quot;&gt;This is the custom tab panel.&lt;/sl-tab-panel&gt;
+   &lt;sl-tab-panel name&#x3D;&quot;advanced&quot;&gt;This is the advanced tab panel.&lt;/sl-tab-panel&gt;
+   &lt;sl-tab-panel name&#x3D;&quot;disabled&quot;&gt;This is a disabled tab panel.&lt;/sl-tab-panel&gt;
+ &lt;/sl-tab-group&gt;
+ 
+ 
+ 
+ …React (or honestly any JavaScript framework) will see those tags and simply pass them along. React (or Svelte, or Solid) are not responsible for turning those tags into nicely-formatted tabs. The code for that is tucked away inside of whatever code you have that defines those Web Components. In our case, that code is in the Shoelace library, but the code can be anywhere. What’s important is when the code runs.
+ 
+ 
+ 
+ Normally, the code registering these Web Components will be pulled into your application’s normal code via a JavaScript import. That means this code will wind up in your JavaScript bundle and execute during hydration which means that, between your user first seeing the SSR’d HTML and hydration happening, these tabs (or any Web Component for that matter) will not render the correct content. Then, when hydration happens, the proper content will display, likely causing the content around these Web Components to move around and fit the properly formatted content. This is known as a flash of unstyled content, or FOUC. In theory, you could stick markup in between all of those &lt;sl-tab-xyz&gt; tags to match the finished output, but this is all but impossible in practice, especially for a third-party component library like Shoelace.
+ 
+ 
+ Moving our Web Component registration code
+ 
+ 
+ So the problem is that the code to make Web Components do what they need to do won’t actually run until hydration occurs. For this post, we’ll look at running that code sooner; immediately, in fact. We’ll look at custom bundling our Web Component code, and manually adding a script directly to our document’s &lt;head&gt; so it runs immediately, and blocks the rest of the document until it does. This is normally a terrible thing to do. The whole point of server-side rendering is to not block our page from processing until our JavaScript has processed. But once done, it means that, as the document is initially rendering our HTML from the server, the Web Components will be registered and will both immediately and synchronously emit the right content.
+ 
+ 
+ 
+ In our case, we’re just looking to run our Web Component registration code in a blocking script. This code isn’t huge, and we’ll look to significantly lessen the performance hit by adding some cache headers to help with subsequent visits. This isn’t a perfect solution. The first time a user browses your page will always block while that script file is loaded. Subsequent visits will cache nicely, but this tradeoff might not be feasible for you — e-commerce, anyone? Anyway, profile, measure, and make the right decision for your app. Besides, in the future it’s entirely possible Next.js will fully support DSD and Web Components.
+ 
+ 
+ Getting started
+ 
+ 
+ All of the code we’ll be looking at is in this GitHub repo and deployed here with Vercel. The web app renders some Shoelace components along with text that changes color and content upon hydration. You should be able to see the text change to “Hydrated,” with the Shoelace components already rendering properly.
+ 
+ 
+ Custom bundling Web Component code
+ 
+ 
+ Our first step is to create a single JavaScript module that imports all of our Web Component definitions. For the Shoelace components I’m using, my code looks like this:
+ 
+ 
+ 
+ import { setDefaultAnimation } from &quot;@shoelace-style/shoelace/dist/utilities/animation-registry&quot;;
+ 
+ import &quot;@shoelace-style/shoelace/dist/components/tab/tab.js&quot;;
+ import &quot;@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js&quot;;
+ import &quot;@shoelace-style/shoelace/dist/components/tab-group/tab-group.js&quot;;
+ 
+ import &quot;@shoelace-style/shoelace/dist/components/dialog/dialog.js&quot;;
+ 
+ setDefaultAnimation(&quot;dialog.show&quot;, {
+   keyframes: [
+     { opacity: 0, transform: &quot;translate3d(0px, -20px, 0px)&quot; },
+     { opacity: 1, transform: &quot;translate3d(0px, 0px, 0px)&quot; },
+   ],
+   options: { duration: 250, easing: &quot;cubic-bezier(0.785, 0.135, 0.150, 0.860)&quot; },
+ });
+ setDefaultAnimation(&quot;dialog.hide&quot;, {
+   keyframes: [
+     { opacity: 1, transform: &quot;translate3d(0px, 0px, 0px)&quot; },
+     { opacity: 0, transform: &quot;translate3d(0px, 20px, 0px)&quot; },
+   ],
+   options: { duration: 250, easing: &quot;cubic-bezier(0.785, 0.135, 0.150, 0.860)&quot; },
+ });
+ 
+ 
+ 
+ It loads the definitions for the &lt;sl-tab-group&gt; and &lt;sl-dialog&gt; components, and overrides some default animations for the dialog. Simple enough. But the interesting piece here is getting this code into our application. We cannot simply import this module. If we did that, it’d get bundled into our normal JavaScript bundles and run during hydration. This would cause the FOUC we’re trying to avoid.
+ 
+ 
+ 
+ While Next.js does have a number of webpack hooks to custom bundle things, I’ll use Vite instead. First, install it with npm i vite and then create a vite.config.js file. Mine looks like this:
+ 
+ 
+ 
+ import { defineConfig } from &quot;vite&quot;;
+ import path from &quot;path&quot;;
+ 
+ export default defineConfig({
+   build: {
+     outDir: path.join(__dirname, &quot;./shoelace-dir&quot;),
+     lib: {
+       name: &quot;shoelace&quot;,
+       entry: &quot;./src/shoelace-bundle.js&quot;,
+       formats: [&quot;umd&quot;],
+       fileName: () &#x3D;&gt; &quot;shoelace-bundle.js&quot;,
+     },
+     rollupOptions: {
+       output: {
+         entryFileNames: &#x60;[name]-[hash].js&#x60;,
+       },
+     },
+   },
+ });
+ 
+ 
+ 
+ This will build a bundle file with our Web Component definitions in the shoelace-dir folder. Let’s move it over to the public folder so that Next.js will serve it. And we should also keep track of the exact name of the file, with the hash on the end of it. Here’s a Node script that moves the file and writes a JavaScript module that exports a simple constant with the name of the bundle file (this will come in handy shortly):
+ 
+ 
+ 
+ const fs &#x3D; require(&quot;fs&quot;);
+ const path &#x3D; require(&quot;path&quot;);
+ 
+ const shoelaceOutputPath &#x3D; path.join(process.cwd(), &quot;shoelace-dir&quot;);
+ const publicShoelacePath &#x3D; path.join(process.cwd(), &quot;public&quot;, &quot;shoelace&quot;);
+ 
+ const files &#x3D; fs.readdirSync(shoelaceOutputPath);
+ 
+ const shoelaceBundleFile &#x3D; files.find(name &#x3D;&gt; /^shoelace-bundle/.test(name));
+ 
+ fs.rmSync(publicShoelacePath, { force: true, recursive: true });
+ 
+ fs.mkdirSync(publicShoelacePath, { recursive: true });
+ fs.renameSync(path.join(shoelaceOutputPath, shoelaceBundleFile), path.join(publicShoelacePath, shoelaceBundleFile));
+ fs.rmSync(shoelaceOutputPath, { force: true, recursive: true });
+ 
+ fs.writeFileSync(path.join(process.cwd(), &quot;util&quot;, &quot;shoelace-bundle-info.js&quot;), &#x60;export const shoelacePath &#x3D; &quot;/shoelace/${shoelaceBundleFile}&quot;;&#x60;);
+ 
+ 
+ 
+ Here’s a companion npm script:
+ 
+ 
+ 
+ &quot;bundle-shoelace&quot;: &quot;vite build &amp;&amp; node util/process-shoelace-bundle&quot;,
+ 
+ 
+ 
+ That should work. For me, util/shoelace-bundle-info.js now exists, and looks like this:
+ 
+ 
+ 
+ export const shoelacePath &#x3D; &quot;/shoelace/shoelace-bundle-a6f19317.js&quot;;
+ 
+ 
+ Loading the script
+ 
+ 
+ Let’s go into the Next.js \_document.js file and pull in the name of our Web Component bundle file:
+ 
+ 
+ 
+ import { shoelacePath } from &quot;../util/shoelace-bundle-info&quot;;
+ 
+ 
+ 
+ Then we manually render a &lt;script&gt; tag in the &lt;head&gt;. Here’s what my entire _document.js file looks like:
+ 
+ 
+ 
+ import { Html, Head, Main, NextScript } from &quot;next/document&quot;;
+ import { shoelacePath } from &quot;../util/shoelace-bundle-info&quot;;
+ 
+ export default function Document() {
+   return (
+     &lt;Html&gt;
+       &lt;Head&gt;
+         &lt;script src&#x3D;{shoelacePath}&gt;&lt;/script&gt;
+       &lt;/Head&gt;
+       &lt;body&gt;
+         &lt;Main /&gt;
+         &lt;NextScript /&gt;
+       &lt;/body&gt;
+     &lt;/Html&gt;
+   );
+ }
+ 
+ 
+ 
+ And that should work! Our Shoelace registration will load in a blocking script and be available immediately as our page processes the initial HTML.
+ 
+ 
+ Improving performance
+ 
+ 
+ We could leave things as they are but let’s add caching for our Shoelace bundle. We’ll tell Next.js to make these Shoelace bundles cacheable by adding the following entry to our Next.js config file:
+ 
+ 
+ 
+ async headers() {
+   return [
+     {
+       source: &quot;/shoelace/shoelace-bundle-:hash.js&quot;,
+       headers: [
+         {
+           key: &quot;Cache-Control&quot;,
+           value: &quot;public,max-age&#x3D;31536000,immutable&quot;,
+         },
+       ],
+     },
+   ];
+ }
+ 
+ 
+ 
+ Now, on subsequent browses to our site, we see the Shoelace bundle caching nicely!
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ If our Shoelace bundle ever changes, the file name will change (via the :hash portion from the source property above), the browser will find that it does not have that file cached, and will simply request it fresh from the network.
+ 
+ 
+ Wrapping up
+ 
+ 
+ This may have seemed like a lot of manual work; and it was. It’s unfortunate Web Components don’t offer better out-of-the-box support for server-side rendering.
+ 
+ 
+ 
+ But we shouldn’t forget the benefits they provide: it’s nice being able to use quality UX components that aren’t tied to a specific framework. It’s aldo nice being able to experiment with brand new frameworks, like Solid, without needing to find (or hack together) some sort of tab, modal, autocomplete, or whatever component.
+ 
+ Using Web Components With Next (or Any SSR Framework) originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>State of CSS 2022 Survey Now Open</title>
          <link href="https://css-tricks.com/state-of-css-2022-survey-now-open/"/>
