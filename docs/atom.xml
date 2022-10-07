@@ -4,10 +4,265 @@
  
    <title>osmosfeed starter test 3</title>
    <link href="https://chuanqisun.github.io/workflow-inactivity-test/"/>
-   <updated>2022-10-06T02:07:17.059Z</updated>
+   <updated>2022-10-07T02:24:49.407Z</updated>
    <id>https://chuanqisun.github.io/workflow-inactivity-test/</id>
    <generator uri="https://github.com/osmoscraft/osmosfeed" version="0.0.14">osmosfeed</generator>
  
+     <entry>
+       <title>How to Safely Share Your Email Address on a Website</title>
+         <link href="https://css-tricks.com/how-to-safely-share-your-email-address-on-a-website/"/>
+       <updated>2022-10-06T12:54:53.000Z</updated>
+       <content type="text">Spammers are a huge deal nowadays. If you want to share your contact information without getting overwhelmed by spam email you need a solution. I run into this problem a few months ago. While I was researching how to solve it, I found different interesting solutions. Only one of them was perfect for my needs.
+ 
+ 
+ 
+ In this article, I am going to show you how to easily protect your email address from spam bots with multiple solutions. It’s up to you to decide what technique fits your needs.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Table of contents
+ 
+ 
+ 
+ The traditional case
+ The HTML approach
+ The HTML &amp; CSS approach
+ The JavaScript approach
+ The embedded form approach
+ Conclusion
+ 
+ 
+ The traditional case
+ 
+ 
+ Let’s say that you have a website. You want to share your contact details, and you don’t want to share only your social links. The email address must be there. Easy, right? You type something like this:
+ 
+ 
+ 
+ &lt;a href&#x3D;&quot;mailto:email@address.com&quot;&gt;Send me an Email&lt;/a&gt;
+ 
+ 
+ 
+ And then you style it according to your tastes.
+ 
+ 
+ 
+ Well, even if this solution works, it has a problem. It makes your email address available to literally everyone, including website crawlers and all sorts of spam bots. This means that your inbox can be flooded with tons of unwanted rubbish like promotional offers or even some phishing campaign.
+ 
+ 
+ 
+ We are looking for a compromise. We want to make it hard for bots to get our email addresses, but as simple as possible for normal users.
+ 
+ 
+ 
+ The solution is obfuscation.
+ 
+ 
+ 
+ Obfuscation is the practice of making something difficult to understand. This strategy is used with source code for multiple reasons. One of them is hiding the purpose of the source code to make tampering or reverse-engineering more difficult. We will first look at different solutions that are all based on the idea of obfuscation.
+ 
+ 
+ The HTML approach
+ 
+ 
+ We can think of bots as software that browse the web and crawl through web pages. Once a bot obtains an HTML document, it interprets the content in it and extracts information. This extraction process is called web scraping. If a bot is looking for a pattern that matches the email format, we can try to disguise it by using a different format. For example, we could use HTML comments:
+ 
+ 
+ 
+ &lt;p&gt;If you want to get in touch, please drop me an email at&lt;!-- fhetydagzzzgjds --&gt; email@&lt;!-- sdfjsdhfkjypcs --&gt;addr&lt;!-- asjoxp --&gt;ess.com&lt;/p&gt;
+ 
+ 
+ 
+ It looks messy, but the user will see the email address like this:
+ 
+ 
+ 
+ If you want to get in touch, please drop me an email at email@address.com
+ 
+ 
+ 
+ Pros:
+ 
+ 
+ 
+ Easy to set up.It works with JavaScript disabled.It can be read by assistive technology.
+ 
+ 
+ 
+ Cons:
+ 
+ 
+ 
+ Spam bots can skip known sequences like comments.It doesn’t work with a mailto: link.
+ 
+ 
+ The HTML &amp; CSS approach
+ 
+ 
+ What if we use the styling power of CSS to remove some content placed only to fool spam bots? Let’s say that we have the same content as before, but this time we place a span element inside:
+ 
+ 
+ 
+ &lt;p&gt;If you want to get in touch, please drop me an email at &lt;span class&#x3D;&quot;blockspam&quot; aria-hidden&#x3D;&quot;true&quot;&gt;PLEASE GO AWAY!&lt;/span&gt; email@&lt;!-- sdfjsdhfkjypcs --&gt;address.com&lt;/p&gt;.
+ 
+ 
+ 
+ Then, we use the following CSS style rule:
+ 
+ 
+ 
+ span.blockspam {
+   display: none;
+ }
+ 
+ 
+ 
+ The final user will only see this:
+ 
+ 
+ 
+ If you want to get in touch, please drop me an email at email@address.com.
+ 
+ 
+ 
+ …which is the content we truly care about.
+ 
+ 
+ 
+ Pros:
+ 
+ 
+ 
+ It works with JavaScript disabled.It’s more difficult for bots to get the email address.It can be read by assistive technology.
+ 
+ 
+ 
+ Con:
+ 
+ 
+ 
+ It doesn’t work with a mailto: link.
+ 
+ 
+ The JavaScript approach
+ 
+ 
+ In this example, we use JavaScript to make our email address unreadable. Then, when the page is loaded, JavaScript makes the email address readable again. This way, our users can get the email address.
+ 
+ 
+ 
+ The easiest solution uses the Base64 encoding algorithm to decode the email address. First, we need to encode the email address in Base64. We can use some websites like Base64Encode.org to do this. Type in your email address like this:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Then, click the button to encode. With these few lines of JavaScript we decode the email address and set the href attribute in the HTML link:
+ 
+ 
+ 
+ var encEmail &#x3D; &quot;ZW1haWxAYWRkcmVzcy5jb20&#x3D;&quot;;
+ const form &#x3D; document.getElementById(&quot;contact&quot;);
+ form.setAttribute(&quot;href&quot;, &quot;mailto:&quot;.concat(atob(encEmail)));
+ 
+ 
+ 
+ Then we have to make sure the email link includes id&#x3D;&quot;contact&quot; in the markup, like this:
+ 
+ 
+ 
+ &lt;a id&#x3D;&quot;contact&quot; href&#x3D;&quot;&quot;&gt;Send me an Email&lt;/a&gt;
+ 
+ 
+ 
+ We are using the atob method to decode a string of Base64-encoded data. An alternative is to use some basic encryption algorithm like the Caesar cipher, which is fairly straightforward to implement in JavaScript.
+ 
+ 
+ 
+ Pros:
+ 
+ 
+ 
+ It’s more complicated for bots to get the email address, especially if you use an encryption algorithm.It works with a mailto: link.It can be read by assistive technology.
+ 
+ 
+ 
+ Con:
+ 
+ 
+ 
+ JavaScript must be enabled on the browser, otherwise, the link will be empty.
+ 
+ 
+ The embedded form approach
+ 
+ 
+ Contact forms are everywhere. You certainly have used one of them at least once. If you want a way for people to directly contact you, one of the possible solutions is implementing a contact form service on your website.
+ 
+ 
+ 
+ Formspree is one example of service which provides you all the benefits of a contact form without worrying about server-side code. Wufoo is too. In fact, here is a bunch you can consider for handling contact form submissions for you.
+ 
+ 
+ 
+ The first step to using any form service is to sign up and create an account. Pricing varies, of course, as do the features offered between services. But one thing most of them do is provide you with an HTML snippet to embed a form you create into any website or app. Here’s an example I pulled straight from a form I created in my Formspring account
+ 
+ 
+ 
+ &lt;form action&#x3D;&quot;https://formspree.io/f/[my-key]&quot; method&#x3D;&quot;POST&quot;&gt;
+   &lt;label&gt; Your email:
+     &lt;input type&#x3D;&quot;email&quot; name&#x3D;&quot;email&quot; /&gt;
+   &lt;/label&gt;
+   &lt;label&gt; Your message:
+     &lt;textarea name&#x3D;&quot;message&quot;&gt;&lt;/textarea&gt;
+   &lt;/label&gt;
+   &lt;!-- honeypot spam filtering --&gt;
+   &lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;_gotcha&quot; style&#x3D;&quot;display:none&quot; /&gt;
+   &lt;button type&#x3D;&quot;submit&quot;&gt;Send&lt;/button&gt;
+ &lt;/form&gt;
+ 
+ 
+ 
+ In the first line, you should customize action based on your endpoint. This form quite basic, but you can add as many fields as you wish.
+ 
+ 
+ 
+ Notice the hidden input tag on line 9. This input tag helps you filter the submissions made by regular users and bots. In fact, if Formspree’s back-end sees a submission with that input filled, it will discard it. A regular user wouldn’t do that, so it must be a bot.
+ 
+ 
+ 
+ Pros:
+ 
+ 
+ 
+ Your email address is safe since it is not public.It works with Javascript disabled.
+ 
+ 
+ 
+ Con:
+ 
+ 
+ 
+ Relies on a third-party service (which may be a pro, depending on your needs)
+ 
+ 
+ 
+ There is one other disadvantage to this solution but I left it out of the list since it’s quite subjective and it depends on your use case. With this solution, you are not sharing your email address. You are giving people a way to contact you. What if people want to email you? What if people are looking for your email address, and they don’t want a contact form? A contact form may be a heavy-handed solution in that sort of situation.
+ 
+ 
+ Conclusion
+ 
+ 
+ We reached the end! In this tutorial, we talked about different solutions to the problem of online email sharing. We walked through different ideas, involving HTML code, JavaScript and even some online services like Formspree to build contact forms. At the end of this tutorial, you should be aware of all the pros and cons of the strategies shown. Now, it’s up to you to pick up the most suitable one for the your specific use case.
+ 
+ How to Safely Share Your Email Address on a Website originally published on CSS-Tricks, which is part of the DigitalOcean family. You should get the newsletter.</content>
+     </entry>
      <entry>
        <title>Using Web Components With Next (or Any SSR Framework)</title>
          <link href="https://css-tricks.com/using-web-components-with-next-or-any-ssr-framework/"/>
@@ -1670,7 +1925,7 @@
  }
  
  
- This browser support data is from Caniuse, which has more detail. A number indicates that browser supports the feature at that version and up.DesktopChromeFirefoxIEEdgeSafari109*89No105*TPMobile / TabletAndroid ChromeAndroid FirefoxAndroidiOS Safari105*104105*16.1
+ This browser support data is from Caniuse, which has more detail. A number indicates that browser supports the feature at that version and up.DesktopChromeFirefoxIEEdgeSafari109*89No106*TPMobile / TabletAndroid ChromeAndroid FirefoxAndroidiOS Safari105*104105*16.1
  
  
  Use animated WebP
